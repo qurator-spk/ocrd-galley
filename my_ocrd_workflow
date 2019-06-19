@@ -73,12 +73,24 @@ page_validate_xml() {
   done
 }
 
+page_fix_image_references() {
+  # Make image references relative to the PAGE XML file. The rest of OCR-D probably isn't going to like it, but it
+  # is a. correct and b. makes PAGE Viewer open the image file automatically.
+  filegrp=$1
+
+  local file
+  for file in `ocrd workspace find -G $filegrp`; do
+    sed -i 's#imageFilename="OCR-D-IMG#imageFilename="../OCR-D-IMG#g' $file
+  done
+}
+
 
 do_fontident
 do_linesegmentation
 do_ocr
-page_fix_xml      OCR-D-OCR-TESS
-page_validate_xml OCR-D-OCR-TESS  # This also makes sure PAGE Viewer can open it
+page_fix_xml              OCR-D-OCR-TESS
+page_validate_xml         OCR-D-OCR-TESS  # This also makes sure PAGE Viewer can open it
+page_fix_image_references OCR-D-OCR-TESS
 
 
 # XXX Multiple calls create multiple identical mets:agent elements
