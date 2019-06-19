@@ -33,9 +33,12 @@ do_fontident() {
 
 do_linesegmentation() {
   remove_filegrp OCR-D-SEG-LINE mets.xml
-  ocrd-tesserocr-segment-line -l DEBUG \
+  ocrd-ocropy-segment -l DEBUG \
     -m mets.xml -I OCR-D-IMG -O OCR-D-SEG-LINE
   #ocrd workspace validate mets.xml
+
+  # XXX ocrd-tesserocr-segment-line does not seem to produce any line segmentation
+  # XXX mv {ocrd-ocropy-segment,-line}
 }
 
 do_ocr() {
