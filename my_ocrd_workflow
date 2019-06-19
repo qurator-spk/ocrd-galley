@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -e  # Abort on error
+set -x
+
+
+remove_filegrp() {
+  filegrp_use=$1
+  mets=$2
+
+  xmlstarlet ed --inplace \
+    -N mets=http://www.loc.gov/METS/ \
+    -d "//mets:fileGrp[@USE='$filegrp_use']" $mets
+}
+
+
+remove_filegrp OCR-D-FONTIDENT mets.xml
+ocrd-typegroups-classifier -l DEBUG -m mets.xml -I OCR-D-IMG -O OCR-D-FONTIDENT -p <(echo '{"network": "/home/mike/devel/OCR-D/monorepo/ocrd_typegroups_classifier/ocrd_typegroups_classifier/models/classifier.tgc", "stride":143}')
+# XXX does DEFAULT have any meaning? /buerger_gedichte_1778.ocrd does not have
+#     any DEFAULT, yet -I DEFAULT seems to work for ocrd-typegroups-classifier
+#ocrd workspace validate mets.xml
+# XXX <error>Unspecified USE category 'FONTIDENT' in fileGrp 'OCR-D-FONTIDENT'</error>
+# XXX <error>File 'OCR-D-FONTIDENT_OCR-D-IMG_0002' does not manifest any physical page.</error>
+# XXX <notice>Won't download remote image <OCR-D-IMG/OCR-D-IMG_0002></notice>
+
+remove_filegrp OCR-D-SEG-LINE mets.xml
+ocrd-tesserocr-segment-line -l DEBUG -m mets.xml -I OCR-D-IMG -O OCR-D-SEG-LINE
+#ocrd workspace validate mets.xml
