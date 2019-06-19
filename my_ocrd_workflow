@@ -43,5 +43,6 @@ do_fontident
 do_linesegmentation
 
 
+# XXX Multiple calls create multiple identical mets:agent elements
 
 # vim:tw=120:
