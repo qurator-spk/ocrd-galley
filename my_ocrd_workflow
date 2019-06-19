@@ -1,7 +1,11 @@
 #!/bin/bash
+LOG_LEVEL='INFO'
+
 
 set -e  # Abort on error
-set -x
+if [ "$LOG_LEVEL" = "DEBUG" -o "$LOG_LEVEL" = "TRACE" ]; then
+  set -x
+fi
 
 
 remove_filegrp() {
@@ -20,9 +24,10 @@ do_fontident() {
     "stride":143
   }'
   remove_filegrp OCR-D-FONTIDENT mets.xml
-  ocrd-typegroups-classifier -l DEBUG \
+  ocrd-typegroups-classifier -l $LOG_LEVEL \
     -m mets.xml -I OCR-D-IMG -O OCR-D-FONTIDENT \
     -p <(echo $ocrd_typegroups_classifier_parameters)
+  # XXX Check if ocrd-typegroups-classifier uses the whole image
   # XXX does DEFAULT have any meaning? /buerger_gedichte_1778.ocrd does not have
   #     any DEFAULT, yet -I DEFAULT seems to work for ocrd-typegroups-classifier
   #ocrd workspace validate mets.xml
@@ -33,7 +38,7 @@ do_fontident() {
 
 do_linesegmentation() {
   remove_filegrp OCR-D-SEG-LINE mets.xml
-  ocrd-ocropy-segment -l DEBUG \
+  ocrd-ocropy-segment -l $LOG_LEVEL \
     -m mets.xml -I OCR-D-IMG -O OCR-D-SEG-LINE
   #ocrd workspace validate mets.xml
 
@@ -48,7 +53,7 @@ do_linesegmentation() {
 do_ocr() {
   ocrd_tesserocr_recognize_parameters='{ "model": "eng" }'  # TODO mods:language + fontident → model
   remove_filegrp OCR-D-OCR-TESS mets.xml
-  ocrd-tesserocr-recognize -l DEBUG \
+  ocrd-tesserocr-recognize -l $LOG_LEVEL \
     -m mets.xml -I OCR-D-SEG-LINE -O OCR-D-OCR-TESS \
     -p <(echo $ocrd_tesserocr_recognize_parameters)
   #ocrd workspace validate mets.xml
@@ -94,6 +99,5 @@ page_fix_image_references OCR-D-OCR-TESS
 
 
 # XXX Multiple calls create multiple identical mets:agent elements
-# XXX Global -l DEBUG
 
 # vim:tw=120:
