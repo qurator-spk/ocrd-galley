@@ -54,11 +54,13 @@ do_ocr() {
   #ocrd workspace validate mets.xml
 }
 
+
 do_fontident
 do_linesegmentation
 do_ocr
 
 
 # XXX Multiple calls create multiple identical mets:agent elements
+# XXX Global -l DEBUG
 
 # vim:tw=120:
