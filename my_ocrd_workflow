@@ -54,6 +54,16 @@ do_ocr() {
   #ocrd workspace validate mets.xml
 }
 
+page_fix_xml() {
+  # XXX core does not produce valid XML https://github.com/OCR-D/core/issues/242
+  filegrp=$1
+
+  local file
+  for file in `ocrd workspace find -G $filegrp`; do
+    sed -i 's#pagecontent/2017-07-15#pagecontent/2018-07-15#g' $file
+  done
+}
+
 page_validate_xml() {
   filegrp=$1
 
@@ -67,6 +77,7 @@ page_validate_xml() {
 do_fontident
 do_linesegmentation
 do_ocr
+page_fix_xml      OCR-D-OCR-TESS
 page_validate_xml OCR-D-OCR-TESS  # This also makes sure PAGE Viewer can open it
 
 
