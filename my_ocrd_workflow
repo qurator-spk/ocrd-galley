@@ -37,6 +37,10 @@ do_linesegmentation() {
     -m mets.xml -I OCR-D-IMG -O OCR-D-SEG-LINE
   #ocrd workspace validate mets.xml
 
+  # XXX This leaves copies of the images at the top level of the workspace, because it "downloads" the "remote" files.
+  #     Clean it up.
+  find . -maxdepth 1 -name "OCR-D-IMG*" -type f -exec rm -v {} \;
+
   # XXX ocrd-tesserocr-segment-line does not seem to produce any line segmentation
   # XXX mv {ocrd-ocropy-segment,-line}
 }
