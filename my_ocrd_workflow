@@ -14,8 +14,15 @@ remove_filegrp() {
 }
 
 
+ocrd_typegroups_classifier_parameters='
+{
+  "network": "/home/mike/devel/OCR-D/monorepo/ocrd_typegroups_classifier/ocrd_typegroups_classifier/models/classifier.tgc",
+  "stride":143
+}'
 remove_filegrp OCR-D-FONTIDENT mets.xml
-ocrd-typegroups-classifier -l DEBUG -m mets.xml -I OCR-D-IMG -O OCR-D-FONTIDENT -p <(echo '{"network": "/home/mike/devel/OCR-D/monorepo/ocrd_typegroups_classifier/ocrd_typegroups_classifier/models/classifier.tgc", "stride":143}')
+ocrd-typegroups-classifier -l DEBUG \
+  -m mets.xml -I OCR-D-IMG -O OCR-D-FONTIDENT \
+  -p <(echo $ocrd_typegroups_classifier_parameters)
 # XXX does DEFAULT have any meaning? /buerger_gedichte_1778.ocrd does not have
 #     any DEFAULT, yet -I DEFAULT seems to work for ocrd-typegroups-classifier
 #ocrd workspace validate mets.xml
@@ -24,5 +31,9 @@ ocrd-typegroups-classifier -l DEBUG -m mets.xml -I OCR-D-IMG -O OCR-D-FONTIDENT 
 # XXX <notice>Won't download remote image <OCR-D-IMG/OCR-D-IMG_0002></notice>
 
 remove_filegrp OCR-D-SEG-LINE mets.xml
-ocrd-tesserocr-segment-line -l DEBUG -m mets.xml -I OCR-D-IMG -O OCR-D-SEG-LINE
+ocrd-tesserocr-segment-line -l DEBUG \
+  -m mets.xml -I OCR-D-IMG -O OCR-D-SEG-LINE
 #ocrd workspace validate mets.xml
+
+
+# vim:tw=120:
