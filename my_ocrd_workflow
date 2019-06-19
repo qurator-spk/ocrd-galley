@@ -54,10 +54,20 @@ do_ocr() {
   #ocrd workspace validate mets.xml
 }
 
+page_validate_xml() {
+  filegrp=$1
+
+  local file
+  for file in `ocrd workspace find -G $filegrp`; do
+    xmllint --noout --schema `dirname $0`/xsd/pagecontent.2018-07-15.xsd $file
+  done
+}
+
 
 do_fontident
 do_linesegmentation
 do_ocr
+page_validate_xml OCR-D-OCR-TESS  # This also makes sure PAGE Viewer can open it
 
 
 # XXX Multiple calls create multiple identical mets:agent elements
