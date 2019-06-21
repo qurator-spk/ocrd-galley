@@ -1,5 +1,5 @@
 #!/bin/bash
-LOG_LEVEL='INFO'
+LOG_LEVEL='DEBUG'
 
 
 set -e  # Abort on error
