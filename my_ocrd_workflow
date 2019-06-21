@@ -51,6 +51,7 @@ do_linesegmentation() {
 
   # XXX ocrd-tesserocr-segment-line does not seem to produce any line segmentation
   # XXX mv {ocrd-ocropy-segment,-line}
+  # XXX ocrd-ocropy-segment throws an exception for buerger_gedichte_1778.ocrd
 }
 
 do_ocr() {
