@@ -15,6 +15,9 @@ remove_filegrp() {
   xmlstarlet ed --inplace \
     -N mets=http://www.loc.gov/METS/ \
     -d "//mets:fileGrp[@USE='$filegrp_use']" $mets
+
+  # XXX See also https://github.com/OCR-D/core/issues/245
+  # XXX This should also delete the files (after checking if they are indeed inside the workspace) and the directory
 }
 
 do_fontident() {
