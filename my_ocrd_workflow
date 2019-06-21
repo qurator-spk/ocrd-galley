@@ -61,6 +61,8 @@ do_ocr() {
     -m mets.xml -I OCR-D-SEG-LINE -O OCR-D-OCR-TESS \
     -p <(echo $ocrd_tesserocr_recognize_parameters)
   #ocrd workspace validate mets.xml
+  # XXX <error>INCONSISTENCY in TextRegion ID 'dummy'
+  #     (The whitespace is different)
 }
 
 page_fix_xml() {
