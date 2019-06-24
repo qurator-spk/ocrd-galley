@@ -1,0 +1,2 @@
+#!/bin/sh
+podman run -it --mount type=bind,src="$(pwd)",target=/data --privileged=true my_ocrd_workflow
