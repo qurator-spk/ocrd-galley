@@ -63,6 +63,7 @@ do_ocr() {
   #ocrd workspace validate mets.xml
   # XXX <error>INCONSISTENCY in TextRegion ID 'dummy'
   #     (The whitespace is different)
+  # XXX does ocrd_tesserocr use the LSTM engine?
 }
 
 page_fix_xml() {
