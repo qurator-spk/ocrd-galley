@@ -27,11 +27,12 @@ do_binarization() {
 }
 
 do_fontident() {
-  ocrd_typegroups_classifier_parameters='
+  network=`python3 -c "import ocrd_typegroups_classifier, os; print(os.path.join(os.path.dirname(ocrd_typegroups_classifier.__file__), 'models', 'classifier.tgc'))"`
+  ocrd_typegroups_classifier_parameters="
   {
-    "network": "/home/mike/devel/OCR-D/monorepo/ocrd_typegroups_classifier/ocrd_typegroups_classifier/models/classifier.tgc",
-    "stride":143
-  }'
+    \"network\": \"$network\",
+    \"stride\":  143
+  }"
   remove_filegrp OCR-D-FONTIDENT mets.xml
   ocrd-typegroups-classifier -l $LOG_LEVEL \
     -m mets.xml -I OCR-D-IMG -O OCR-D-FONTIDENT \
