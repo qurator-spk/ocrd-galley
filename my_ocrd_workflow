@@ -97,6 +97,7 @@ page_fix_image_references() {
 }
 
 
+# TODO Binarization
 do_fontident
 do_linesegmentation
 do_ocr
