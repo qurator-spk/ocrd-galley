@@ -20,6 +20,12 @@ remove_filegrp() {
   # XXX This should also delete the files (after checking if they are indeed inside the workspace) and the directory
 }
 
+do_binarization() {
+  remove_filegrp OCR-D-IMG-BIN mets.xml
+  ocrd-kraken-binarize -l $LOG_LEVEL \
+    -m mets.xml -I OCR-D-IMG -O OCR-D-IMG-BIN
+}
+
 do_fontident() {
   ocrd_typegroups_classifier_parameters='
   {
@@ -43,12 +49,12 @@ do_linesegmentation() {
   remove_filegrp OCR-D-SEG-REGION mets.xml
   remove_filegrp OCR-D-SEG-LINE mets.xml
   #ocrd-ocropy-segment -l $LOG_LEVEL \
-  #  -m mets.xml -I OCR-D-IMG -O OCR-D-SEG-LINE
+  #  -m mets.xml -I OCR-D-IMG-BIN -O OCR-D-SEG-LINE
   # XXX ocrd-ocropy-segment throws an exception for buerger_gedichte_1778.ocrd
   #ocrd workspace validate mets.xml
 
   ocrd-tesserocr-segment-region -l $LOG_LEVEL \
-    -m mets.xml -I OCR-D-IMG -O OCR-D-SEG-REGION
+    -m mets.xml -I OCR-D-IMG-BIN -O OCR-D-SEG-REGION
   #ocrd workspace validate mets.xml
   ocrd-tesserocr-segment-line -l $LOG_LEVEL \
     -m mets.xml -I OCR-D-SEG-REGION -O OCR-D-SEG-LINE
@@ -103,8 +109,9 @@ page_fix_image_references() {
 }
 
 
-# TODO Binarization
 do_fontident
+
+do_binarization
 do_linesegmentation
 do_ocr
 page_fix_xml              OCR-D-OCR-TESS
