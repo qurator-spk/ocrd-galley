@@ -1,5 +1,4 @@
-# XXX use official release when https://github.com/OCR-D/core/pull/250 is merged:
-git+https://github.com/mikegerber/core.git@f385c5fc428fd27a48910ddf047241df19c6b378#subdirectory=ocrd_models&egg=ocrd-models
+ocrd >= 1.0.0b10
 
 git+https://github.com/seuretm/ocrd_typegroups_classifier.git
 
