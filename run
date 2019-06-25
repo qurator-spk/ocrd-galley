@@ -1,2 +1,3 @@
 #!/bin/sh
+# XXX Do not run privileged, use udica instead
 podman run -it --rm --mount type=bind,src="$(pwd)",target=/data --privileged=true my_ocrd_workflow
