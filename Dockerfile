@@ -15,8 +15,7 @@ RUN apt-get update && \
     apt-get clean
 
 COPY requirements.txt /tmp
-RUN pip3 install --no-cache-dir ocrd-utils && \
-    pip3 install --no-cache-dir -r /tmp/requirements.txt
+RUN pip3 install --no-cache-dir -r /tmp/requirements.txt
 
 COPY my_ocrd_workflow /usr/bin
 COPY xsd              /usr/bin/xsd
