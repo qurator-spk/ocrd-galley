@@ -139,6 +139,4 @@ page_validate_xml         OCR-D-OCR-TESS
 page_fix_image_references OCR-D-OCR-TESS
 
 
-# XXX Multiple calls create multiple identical mets:agent elements
-
 # vim:tw=120:
