@@ -70,10 +70,6 @@ do_linesegmentation() {
     -m mets.xml -I OCR-D-SEG-REGION -O OCR-D-SEG-LINE
   #ocrd workspace validate mets.xml
   # XXX compare ocrd-tesserocr-segment* vs tesseract native
-
-  # XXX This leaves copies of the images at the top level of the workspace, because it "downloads" the "remote" files.
-  #     Clean it up. (Maybe only affects ocrd-ocropy-segment)
-  find . -maxdepth 1 -name "OCR-D-IMG*" -type f -exec rm -v {} \;
 }
 
 do_ocr() {
