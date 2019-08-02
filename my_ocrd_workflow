@@ -95,7 +95,8 @@ page_fix_xml() {
 
   local file
   for file in `ocrd workspace find -G $filegrp`; do
-    sed -i 's#pagecontent/2017-07-15#pagecontent/2018-07-15#g' $file
+    sed -i 's#pagecontent/2017-07-15#pagecontent/2019-07-15#g' $file
+    sed -i 's#pagecontent/2018-07-15#pagecontent/2019-07-15#g' $file
   done
 }
 
@@ -106,7 +107,7 @@ page_validate_xml() {
 
   local file
   for file in `ocrd workspace find -G $filegrp`; do
-    xmllint --noout --schema `dirname $0`/xsd/pagecontent.2018-07-15.xsd $file
+    xmllint --noout --schema `dirname $0`/xsd/pagecontent.2019-07-15.xsd $file
   done
 }
 
