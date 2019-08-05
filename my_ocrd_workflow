@@ -106,8 +106,21 @@ page_fix_image_references() {
   done
 }
 
+page_workaround_remove_conf() {
+  # XXX Work around https://github.com/OCR-D/core/issues/269
 
-do_fontident
+  filegrp=$1
+
+  local file
+  for file in `ocrd workspace find -G $filegrp`; do
+    xmlstarlet ed --inplace \
+    -N 'page=http://schema.primaresearch.org/PAGE/gts/pagecontent/2019-07-15' \
+    -d '//page:TextEquiv/@conf' $file
+  done
+}
+
+
+# XXX do_fontident
 
 do_binarization
 do_validate
@@ -119,9 +132,9 @@ do_validate
 
 do_ocr
 page_validate_xml         OCR-D-OCR-TESS
+page_workaround_remove_conf OCR-D-OCR-TESS
 do_validate
 
 page_fix_image_references OCR-D-OCR-TESS
-
 
 # vim:tw=120:
