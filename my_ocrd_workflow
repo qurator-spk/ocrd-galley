@@ -22,6 +22,11 @@ remove_filegrp() {
   # XXX This should also delete the files (after checking if they are indeed inside the workspace) and the directory
 }
 
+do_validate() {
+  ocrd workspace validate --page-strictness lax mets.xml
+  # XXX ocrd-tesserocr INCONSISTENCY in TextRegion → use "--page-strictness lax" for now
+}
+
 do_binarization() {
   # Binarize the images
 
@@ -47,10 +52,6 @@ do_fontident() {
   # XXX Check if ocrd-typegroups-classifier uses the whole image
   # XXX does DEFAULT have any meaning? /buerger_gedichte_1778.ocrd does not have
   #     any DEFAULT, yet -I DEFAULT seems to work for ocrd-typegroups-classifier
-  #ocrd workspace validate mets.xml
-  # XXX <error>Unspecified USE category 'FONTIDENT' in fileGrp 'OCR-D-FONTIDENT'</error>
-  # XXX <error>File 'OCR-D-FONTIDENT_OCR-D-IMG_0002' does not manifest any physical page.</error>
-  # XXX <notice>Won't download remote image <OCR-D-IMG/OCR-D-IMG_0002></notice>
 }
 
 do_linesegmentation() {
@@ -61,14 +62,12 @@ do_linesegmentation() {
   #ocrd-ocropy-segment -l $LOG_LEVEL \
   #  -m mets.xml -I OCR-D-IMG-BIN -O OCR-D-SEG-LINE
   # XXX ocrd-ocropy-segment throws an exception for buerger_gedichte_1778.ocrd
-  #ocrd workspace validate mets.xml
 
   ocrd-tesserocr-segment-region -l $LOG_LEVEL \
     -m mets.xml -I OCR-D-IMG-BIN -O OCR-D-SEG-REGION
-  #ocrd workspace validate mets.xml
   ocrd-tesserocr-segment-line -l $LOG_LEVEL \
     -m mets.xml -I OCR-D-SEG-REGION -O OCR-D-SEG-LINE
-  #ocrd workspace validate mets.xml
+
   # XXX compare ocrd-tesserocr-segment* vs tesseract native
 }
 
@@ -80,9 +79,6 @@ do_ocr() {
   ocrd-tesserocr-recognize -l $LOG_LEVEL \
     -m mets.xml -I OCR-D-SEG-LINE -O OCR-D-OCR-TESS \
     -p <(echo $ocrd_tesserocr_recognize_parameters)
-  #ocrd workspace validate mets.xml
-  # XXX <error>INCONSISTENCY in TextRegion ID 'dummy'
-  #     (The whitespace is different)
 }
 
 page_fix_xml() {
@@ -129,10 +125,17 @@ page_fix_image_references() {
 do_fontident
 
 do_binarization
+do_validate
+
 do_linesegmentation
+page_validate_xml         OCR-D-SEG-REGION
+page_validate_xml         OCR-D-SEG-LINE
+do_validate
+
 do_ocr
-page_fix_xml              OCR-D-OCR-TESS
-page_validate_xml         OCR-D-OCR-TESS
+do_validate
+
+page_fix_xml              OCR-D-OCR-TESS  # XXX is it necessary anymore?
 page_fix_image_references OCR-D-OCR-TESS
 
 
