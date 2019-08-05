@@ -127,15 +127,15 @@ do_binarization
 do_validate
 
 do_linesegmentation
-page_validate_xml         OCR-D-SEG-REGION
-page_validate_xml         OCR-D-SEG-LINE
+page_validate_xml           OCR-D-SEG-REGION
+page_validate_xml           OCR-D-SEG-LINE
 do_validate
 
 do_ocr
-page_validate_xml         OCR-D-OCR-TESS
+page_validate_xml           OCR-D-OCR-TESS
 page_workaround_remove_conf OCR-D-OCR-TESS
 do_validate
 
-page_fix_image_references OCR-D-OCR-TESS
+page_fix_image_references   OCR-D-OCR-TESS
 
 # vim:tw=120:
