@@ -2,6 +2,7 @@ ocrd >= 1.0.0b10
 
 git+https://github.com/seuretm/ocrd_typegroups_classifier.git
 
-ocrd_kraken
+https://github.com/mikegerber/ocrd_kraken/archive/fix/pass-down-page-id.tar.gz # XXX ocrd_kraken >= 0.1.1
+
 tesserocr == 2.3.1  # 2.4.0 fails with Ubuntu 18.04's tesseract
 ocrd_tesserocr
