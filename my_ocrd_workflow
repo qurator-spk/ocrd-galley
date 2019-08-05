@@ -119,6 +119,15 @@ page_workaround_remove_conf() {
   done
 }
 
+page_downgrade_to_2018() {
+  filegrp=$1
+
+  local file
+  for file in `ocrd workspace find -G $filegrp`; do
+    sed -i 's#pagecontent/[0-9-]*#pagecontent/2018-07-15#g' $file
+  done
+}
+
 
 do_fontident
 do_validate
@@ -138,6 +147,10 @@ do_validate
 
 page_fix_image_references   OCR-D-OCR-TESS
 page_validate_xml           OCR-D-OCR-TESS
+do_validate
+
+# As a last step, downgrade to PAGE 2018 to support PAGE Viewer
+page_downgrade_to_2018      OCR-D-OCR-TESS
 do_validate
 
 # vim:tw=120:
