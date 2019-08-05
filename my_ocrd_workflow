@@ -45,9 +45,9 @@ do_fontident() {
     \"stride\":  143
   }"
 
-  remove_filegrp OCR-D-FONTIDENT mets.xml
+  remove_filegrp OCR-D-OCR-FONTIDENT mets.xml
   ocrd-typegroups-classifier -l $LOG_LEVEL \
-    -m mets.xml -I OCR-D-IMG -O OCR-D-FONTIDENT \
+    -m mets.xml -I OCR-D-IMG -O OCR-D-OCR-FONTIDENT \
     -p <(echo $ocrd_typegroups_classifier_parameters)
   # XXX Check if ocrd-typegroups-classifier uses the whole image
   # XXX does DEFAULT have any meaning? /buerger_gedichte_1778.ocrd does not have
