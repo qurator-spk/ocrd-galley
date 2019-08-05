@@ -120,7 +120,8 @@ page_workaround_remove_conf() {
 }
 
 
-# XXX do_fontident
+do_fontident
+do_validate
 
 do_binarization
 do_validate
