@@ -137,5 +137,7 @@ page_workaround_remove_conf OCR-D-OCR-TESS
 do_validate
 
 page_fix_image_references   OCR-D-OCR-TESS
+page_validate_xml           OCR-D-OCR-TESS
+do_validate
 
 # vim:tw=120:
