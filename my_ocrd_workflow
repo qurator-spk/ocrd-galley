@@ -153,4 +153,19 @@ do_validate
 page_downgrade_to_2018      OCR-D-OCR-TESS
 do_validate
 
+
+if ocrd workspace list-group | grep -q OCR-D-GT-PAGE; then
+  for g in `ocrd workspace list-page`; do
+    echo "== $g"
+    gt=`ocrd workspace find -G OCR-D-GT-PAGE -g $g`
+    ocr=`ocrd workspace find -G OCR-D-OCR-TESS -g $g`
+
+    if [ -n "$gt" ]; then
+      python3 /usr/local/ocr-eval/cli.py $gt $ocr
+      mv report.json report-$g.json
+      mv report.html report-$g.html
+    fi
+  done
+fi
+
 # vim:tw=120:

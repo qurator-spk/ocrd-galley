@@ -1,2 +1,2 @@
 #!/bin/sh
-podman build -t my_ocrd_workflow .
+podman build --no-cache -t my_ocrd_workflow .
