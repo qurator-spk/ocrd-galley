@@ -129,8 +129,9 @@ page_downgrade_to_2018() {
 }
 
 
-do_fontident
-do_validate
+# FIXME We have a problem with ocrd_typegroups_classifier's Pillow dependency atm.
+#do_fontident
+#do_validate
 
 do_binarization
 do_validate
