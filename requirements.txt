@@ -6,3 +6,5 @@ https://github.com/mikegerber/ocrd_kraken/archive/fix/pass-down-page-id.tar.gz  
 
 tesserocr == 2.3.1  # 2.4.0 fails with Ubuntu 18.04's tesseract
 ocrd_tesserocr
+
+https://github.com/qurator-spk/dinglehopper/archive/0f056b9.tar.gz

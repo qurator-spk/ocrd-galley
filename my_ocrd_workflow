@@ -155,17 +155,8 @@ do_validate
 
 
 if ocrd workspace list-group | grep -q OCR-D-GT-PAGE; then
-  for g in `ocrd workspace list-page`; do
-    echo "== $g"
-    gt=`ocrd workspace find -G OCR-D-GT-PAGE -g $g`
-    ocr=`ocrd workspace find -G OCR-D-OCR-TESS -g $g`
-
-    if [ -n "$gt" ]; then
-      python3 /usr/local/ocr-eval/cli.py $gt $ocr
-      mv report.json report-$g.json
-      mv report.html report-$g.html
-    fi
-  done
+  remove_filegrp OCR-D-OCR-TESS-EVAL mets.xml
+  ocrd-dinglehopper -m mets.xml -I OCR-D-GT-PAGE,OCR-D-OCR-TESS -O OCR-D-OCR-TESS-EVAL
 fi
 
 # vim:tw=120:
