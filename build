@@ -1,2 +1,2 @@
 #!/bin/sh
-podman build -t my_ocrd_workflow .
+docker build -t my_ocrd_workflow .
