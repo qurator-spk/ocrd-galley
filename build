@@ -1,2 +1,10 @@
 #!/bin/sh
+set -e
+
+(
+  cd data
+  git annex get calamari-models/GT4HistOCR
+  git annex unlock calamari-models/GT4HistOCR  # So they are not symlinks
+)
+
 docker build -t my_ocrd_workflow .
