@@ -149,25 +149,32 @@ page_validate_xml           OCR-D-SEG-REGION
 page_validate_xml           OCR-D-SEG-LINE
 do_validate
 
+
 do_ocr_calamari
 
+
 do_ocr
-page_validate_xml           OCR-D-OCR-TESS
-page_workaround_remove_conf OCR-D-OCR-TESS
-do_validate
-
-page_fix_image_references   OCR-D-OCR-TESS
-page_validate_xml           OCR-D-OCR-TESS
-do_validate
-
-# As a last step, downgrade to PAGE 2018 to support PAGE Viewer
-page_downgrade_to_2018      OCR-D-OCR-TESS
-do_validate
 
 
-if ocrd workspace list-group | grep -q OCR-D-GT-PAGE; then
-  remove_filegrp OCR-D-OCR-TESS-EVAL mets.xml
-  ocrd-dinglehopper -m mets.xml -I OCR-D-GT-PAGE,OCR-D-OCR-TESS -O OCR-D-OCR-TESS-EVAL
-fi
+for ocr_filegrp in OCR-D-OCR-CALAMARI OCR-D-OCR-TESS; do
+
+  page_validate_xml           $ocr_filegrp
+  page_workaround_remove_conf $ocr_filegrp
+  do_validate
+
+  page_fix_image_references   $ocr_filegrp
+  page_validate_xml           $ocr_filegrp
+  do_validate
+
+  # As a last step, downgrade to PAGE 2018 to support PAGE Viewer
+  page_downgrade_to_2018      $ocr_filegrp
+  do_validate
+
+  if ocrd workspace list-group | grep -q OCR-D-GT-PAGE; then
+    remove_filegrp $ocr_filegrp-EVAL mets.xml
+    ocrd-dinglehopper -m mets.xml -I OCR-D-GT-PAGE,$ocr_filegrp -O $ocr_filegrp-EVAL
+  fi
+
+done
 
 # vim:tw=120:
