@@ -11,4 +11,4 @@ ocrd_tesserocr
 setuptools >= 41.0.0  # FIXME tensorboard seems to depend on this, but why do we get an error at runtime?
 https://github.com/mikegerber/ocrd_calamari/archive/250a24d.tar.gz
 
-https://github.com/qurator-spk/dinglehopper/archive/0f056b9.tar.gz
+https://github.com/qurator-spk/dinglehopper/archive/8237b3e.tar.gz
