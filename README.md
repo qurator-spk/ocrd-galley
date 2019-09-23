@@ -3,8 +3,7 @@ My OCR-D workflow
 
 WIP.
 
-It's easiest to use it as a container. `build` and `run` rely on the Podman
-container engine, but should work with s/podman/docker/ too.
+It's easiest to use it as a container.
 
 ~~~
 cd ~/devel/my_ocrd_workflow
