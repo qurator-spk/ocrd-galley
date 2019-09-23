@@ -18,4 +18,4 @@ cd /path/to/some-ocrd-workspace
 
 TODO
 ====
-* How to create a OCR-D workspace?
+* How to *easily* create a OCR-D workspace from an image?
