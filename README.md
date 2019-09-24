@@ -14,8 +14,3 @@ cd ~/devel/my_ocrd_workflow
 cd /path/to/some-ocrd-workspace
 ~/devel/my_ocrd_workflow/run
 ~~~
-
-
-TODO
-====
-* How to *easily* create a OCR-D workspace from an image?
