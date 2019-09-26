@@ -165,7 +165,7 @@ for ocr_filegrp in OCR-D-OCR-CALAMARI OCR-D-OCR-TESS; do
   page_validate_xml           $ocr_filegrp
   do_validate
 
-  # As a last step, downgrade to PAGE 2018 to support PAGE Viewer
+  # Downgrade to PAGE 2018 to support PAGE Viewer
   page_downgrade_to_2018      $ocr_filegrp
   do_validate
 
