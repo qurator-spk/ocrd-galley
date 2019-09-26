@@ -5,7 +5,6 @@ ocrd >= 1.0.0b10
 
 https://github.com/mikegerber/ocrd_kraken/archive/fix/pass-down-page-id.tar.gz  # XXX ocrd_kraken >= 0.1.1
 
-tesserocr == 2.3.1  # 2.4.0 fails with Ubuntu 18.04's tesseract
 ocrd_tesserocr
 
 setuptools >= 41.0.0  # FIXME tensorboard seems to depend on this, but why do we get an error at runtime?
