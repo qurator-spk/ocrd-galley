@@ -133,6 +133,7 @@ page_workaround_remove_conf() {
 }
 
 page_downgrade_to_2018() {
+  # Not used anymore, but kept if needed in the future
   filegrp=$1
 
   local file
@@ -168,10 +169,6 @@ for ocr_filegrp in OCR-D-OCR-CALAMARI OCR-D-OCR-TESS; do
   do_validate
 
   page_validate_xml           $ocr_filegrp
-  do_validate
-
-  # Downgrade to PAGE 2018 to support PAGE Viewer
-  page_downgrade_to_2018      $ocr_filegrp
   do_validate
 
   # XXX This seems to be causing new problems with validation
