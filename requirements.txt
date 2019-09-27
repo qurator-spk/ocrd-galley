@@ -1,7 +1,7 @@
+Pillow==5.4.1  # See https://github.com/OCR-D/core/issues/325
 ocrd >= 1.0.0b19
 
-# FIXME Pulls in Pillow 6 ⇒ dependency conflict with core or something
-# https://github.com/mikegerber/ocrd_typegroups_classifier/archive/fix/pass-down-page-id.tar.gz  # XXX git+https://github.com/seuretm/ocrd_typegroups_classifier.git
+https://github.com/mikegerber/ocrd_typegroups_classifier/archive/fix/pass-down-page-id.tar.gz  # XXX git+https://github.com/seuretm/ocrd_typegroups_classifier.git
 
 https://github.com/mikegerber/ocrd_kraken/archive/fix/pass-down-page-id.tar.gz  # XXX ocrd_kraken >= 0.1.1
 
