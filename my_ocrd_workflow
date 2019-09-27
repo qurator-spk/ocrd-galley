@@ -1,6 +1,5 @@
 #!/bin/bash
-LOG_LEVEL='DEBUG'
-
+LOG_LEVEL=${LOG_LEVEL:-DEBUG}
 
 set -e  # Abort on error
 if [ "$LOG_LEVEL" = "DEBUG" -o "$LOG_LEVEL" = "TRACE" ]; then
