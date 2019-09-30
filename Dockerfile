@@ -54,7 +54,7 @@ COPY requirements.txt /tmp
 RUN pip3 install --no-cache-dir -r /tmp/requirements.txt
 
 COPY my_ocrd_workflow /usr/bin
-COPY xsd              /usr/bin/xsd
+COPY xsd/*            /usr/share/xml/
 
 WORKDIR /data
 CMD ["/usr/bin/my_ocrd_workflow"]

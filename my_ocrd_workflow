@@ -101,7 +101,11 @@ page_validate_xml() {
 
   local file
   for file in `ocrd workspace find -G $filegrp`; do
-    xmllint --noout --schema `dirname $0`/xsd/pagecontent.2019-07-15.xsd $file
+    XSD_DIR=`dirname $0`/xsd
+    if [ ! -d "$XSD_DIR" ]; then
+      XSD_DIR=/usr/share/xml
+    fi
+    xmllint --noout --schema $XSD_DIR/pagecontent.2019-07-15.xsd $file
   done
 }
 
