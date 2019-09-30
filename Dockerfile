@@ -51,7 +51,6 @@ RUN curl -sSL -O https://github.com/tesseract-ocr/tessdata_best/archive/$TESSDAT
 
 
 COPY requirements.txt /tmp
-RUN pip3 install --no-cache-dir Pillow==5.4.1  # XXX Investigate why this is needed
 RUN pip3 install --no-cache-dir -r /tmp/requirements.txt
 
 COPY my_ocrd_workflow /usr/bin

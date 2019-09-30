@@ -145,7 +145,6 @@ page_downgrade_to_2018() {
 
 pip3 list
 
-# FIXME We have a problem with ocrd_typegroups_classifier's Pillow dependency atm.
 #do_fontident
 #do_validate
 
