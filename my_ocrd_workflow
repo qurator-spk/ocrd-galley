@@ -145,11 +145,14 @@ page_downgrade_to_2018() {
 
 pip3 list
 
+
 #do_fontident
 #do_validate
 
+
 do_binarization
 do_validate
+
 
 do_linesegmentation
 page_validate_xml           OCR-D-SEG-REGION
