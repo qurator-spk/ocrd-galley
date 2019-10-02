@@ -79,7 +79,7 @@ do_linesegmentation() {
 do_ocr() {
   # Perform OCR on the segmented lines
 
-  ocrd_tesserocr_recognize_parameters='{ "model": "frk" }'  # TODO mods:language + fontident → model
+  ocrd_tesserocr_recognize_parameters='{ "model": "GT4HistOCR_2000000" }'  # TODO mods:language + fontident → model
   remove_filegrp OCR-D-OCR-TESS mets.xml
   ocrd-tesserocr-recognize -l $LOG_LEVEL \
     -m mets.xml -I OCR-D-SEG-LINE -O OCR-D-OCR-TESS \

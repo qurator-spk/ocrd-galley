@@ -3,8 +3,10 @@ set -e
 
 (
   cd data
-  git annex get calamari-models/GT4HistOCR
-  git annex unlock calamari-models/GT4HistOCR  # So they are not symlinks
+  git annex init
+  git annex upgrade
+  git annex get calamari-models/GT4HistOCR/*.ckpt*
+  git annex get tesseract-models/GT4HistOCR/*.traineddata
 )
 
 docker build -t my_ocrd_workflow .
