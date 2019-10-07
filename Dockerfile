@@ -45,9 +45,9 @@ RUN curl -sSL -O https://github.com/tesseract-ocr/tessdata_best/archive/$TESSDAT
 
 
 # Copy OCR models
-RUN mkdir /var/lib/calamari-models
+RUN mkdir -p /var/lib/calamari-models
 COPY data/calamari-models/GT4HistOCR /var/lib/calamari-models/GT4HistOCR
-RUN mkdir $TESSDATA_PREFIX
+RUN mkdir -p $TESSDATA_PREFIX
 COPY data/tesseract-models/GT4HistOCR/GT4HistOCR_2000000.traineddata $TESSDATA_PREFIX
 
 RUN tesseract --list-langs
