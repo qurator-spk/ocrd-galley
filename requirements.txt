@@ -1,4 +1,6 @@
-Pillow==5.4.1  # See https://github.com/OCR-D/core/issues/325
+tensorflow-gpu < 2.0  # Needed for sbb_text_linedetector
+Pillow==5.4.1         # See https://github.com/OCR-D/core/issues/325
+
 ocrd >= 1.0.0b19
 
 https://github.com/mikegerber/ocrd_typegroups_classifier/archive/fix/pass-down-page-id.tar.gz  # XXX git+https://github.com/seuretm/ocrd_typegroups_classifier.git
@@ -8,5 +10,7 @@ https://github.com/mikegerber/ocrd_kraken/archive/fix/pass-down-page-id.tar.gz  
 ocrd_tesserocr
 
 https://github.com/mikegerber/ocrd_calamari/archive/3e8c1ac.tar.gz
+
+vendor/sbb_textline_detector-b1663f7.tar
 
 https://github.com/qurator-spk/dinglehopper/archive/c305539.tar.gz

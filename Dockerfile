@@ -17,6 +17,8 @@ RUN apt-get update && \
       cmake libgif-dev libjpeg-dev libpng-dev libtiff-dev zlib1g-dev \
 # For clstm on Ubuntu 19.04:
       swig libeigen3-dev libpng-dev libprotobuf-dev \
+# For cv2:
+      libsm6 libxrender1 \
 # XML utils
       libxml2-utils \
       xmlstarlet \
@@ -51,6 +53,11 @@ RUN mkdir -p $TESSDATA_PREFIX
 COPY data/tesseract-models/GT4HistOCR/GT4HistOCR_2000000.traineddata $TESSDATA_PREFIX
 
 RUN tesseract --list-langs
+
+
+# Copy over sbb_textline_detector
+COPY vendor vendor
+COPY data/textline_detection /var/lib/textline_detection
 
 
 COPY requirements.txt /tmp

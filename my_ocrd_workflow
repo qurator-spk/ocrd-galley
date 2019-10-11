@@ -59,7 +59,7 @@ do_fontident() {
   #     any DEFAULT, yet -I DEFAULT seems to work for ocrd-typegroups-classifier
 }
 
-do_linesegmentation() {
+do_linesegmentation_tesserocr() {
   # Segment the lines in the binarized images
 
   remove_filegrp OCR-D-SEG-REGION mets.xml
@@ -74,6 +74,16 @@ do_linesegmentation() {
     -m mets.xml -I OCR-D-SEG-REGION -O OCR-D-SEG-LINE
 
   # XXX compare ocrd-tesserocr-segment* vs tesseract native
+}
+
+do_linesegmentation_sbb() {
+  # Segment the lines in the images
+
+  remove_filegrp OCR-D-SEG-REGION mets.xml
+  remove_filegrp OCR-D-SEG-LINE mets.xml
+  ocrd_sbb_textline_detector -l $LOG_LEVEL \
+    -m mets.xml -I OCR-D-IMG -O OCR-D-SEG-LINE \
+    -p '{"model": "/var/lib/textline_detection"}'
 }
 
 do_ocr() {
@@ -123,16 +133,22 @@ page_fix_image_references() {
   done
 }
 
-page_workaround_remove_conf() {
-  # XXX Work around https://github.com/OCR-D/core/issues/269
+page_fix_image_references_to_bin() {
+  # Make image references point to the binarized images
+  # XXX This is a hack, it is probably better to use alternative images in ocrd_calamari
 
   filegrp=$1
 
   local file
   for file in `ocrd workspace find -G $filegrp`; do
-    xmlstarlet ed --inplace \
-    -N 'page=http://schema.primaresearch.org/PAGE/gts/pagecontent/2019-07-15' \
-    -d '//page:TextEquiv/@conf' $file
+    # Arrays with filenames to the images
+    imgs=(`ocrd workspace find -G OCR-D-IMG`)
+    imgs_bin=(`ocrd workspace find -G OCR-D-IMG-BIN`)
+
+    # Change all image references to point to the corresponding binarized image
+    for i in ${!imgs[@]}; do
+      sed -i "s!imageFilename=.${imgs[$i]}.!imageFilename=\"${imgs_bin[$i]}\"!g" $file
+    done
   done
 }
 
@@ -146,6 +162,14 @@ page_downgrade_to_2018() {
   done
 }
 
+page_upgrade_to_2019() {
+  filegrp=$1
+
+  local file
+  for file in `ocrd workspace find -G $filegrp`; do
+    sed -i 's#pagecontent/[0-9-]*#pagecontent/2019-07-15#g' $file
+  done
+}
 
 pip3 list
 
@@ -158,9 +182,11 @@ do_binarization
 do_validate
 
 
-do_linesegmentation
-page_validate_xml           OCR-D-SEG-REGION
-page_validate_xml           OCR-D-SEG-LINE
+do_linesegmentation_sbb
+page_fix_image_references_to_bin OCR-D-SEG-LINE
+page_upgrade_to_2019             OCR-D-SEG-LINE
+page_validate_xml                OCR-D-SEG-REGION
+page_validate_xml                OCR-D-SEG-LINE
 do_validate
 
 

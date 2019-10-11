@@ -7,6 +7,7 @@ set -e
   git annex upgrade
   git annex get calamari-models/GT4HistOCR/*.ckpt*
   git annex get tesseract-models/GT4HistOCR/*.traineddata
+  git annex get textline_detection/*.h5
 )
 
 docker build -t my_ocrd_workflow .
