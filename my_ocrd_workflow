@@ -199,7 +199,6 @@ do_ocr
 for ocr_filegrp in OCR-D-OCR-CALAMARI OCR-D-OCR-TESS; do
 
   page_validate_xml           $ocr_filegrp
-  page_workaround_remove_conf $ocr_filegrp
   do_validate
 
   page_validate_xml           $ocr_filegrp
