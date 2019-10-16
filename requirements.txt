@@ -11,6 +11,6 @@ ocrd_tesserocr
 
 https://github.com/mikegerber/ocrd_calamari/archive/3e8c1ac.tar.gz
 
-vendor/sbb_textline_detector-b1663f7.tar
+vendor/sbb_textline_detector-c74e22a8.tar
 
 https://github.com/qurator-spk/dinglehopper/archive/c305539.tar.gz
