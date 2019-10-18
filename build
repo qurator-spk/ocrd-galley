@@ -5,9 +5,10 @@ set -e
   cd data
   git annex init
   git annex upgrade
-  git annex get calamari-models/GT4HistOCR/*.ckpt*
-  git annex get tesseract-models/GT4HistOCR/*.traineddata
-  git annex get textline_detection/*.h5
+  for f in "calamari-models/GT4HistOCR/*.ckpt*" "tesseract-models/GT4HistOCR/*.traineddata" "textline_detection/*.h5"; do
+    git annex get $f
+    git annex fsck $f
+  done
 )
 
 docker build -t my_ocrd_workflow .
