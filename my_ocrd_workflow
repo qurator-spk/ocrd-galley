@@ -36,8 +36,9 @@ do_binarization() {
   # Binarize the images
 
   remove_filegrp OCR-D-IMG-BIN mets.xml
-  ocrd-kraken-binarize -l $LOG_LEVEL \
-    -m mets.xml -I OCR-D-IMG -O OCR-D-IMG-BIN
+  ocrd-olena-binarize -l $LOG_LEVEL \
+    -m mets.xml -I OCR-D-IMG -O OCR-D-IMG-BIN \
+    -p <(echo '{"impl": "sauvola-ms-split"}')
 }
 
 do_fontident() {
@@ -143,7 +144,7 @@ page_fix_image_references_to_bin() {
   for file in `ocrd workspace find -G $filegrp`; do
     # Arrays with filenames to the images
     imgs=(`ocrd workspace find -G OCR-D-IMG`)
-    imgs_bin=(`ocrd workspace find -G OCR-D-IMG-BIN`)
+    imgs_bin=(`ocrd workspace find -G OCR-D-IMG-BIN -m image/png`)
 
     # Change all image references to point to the corresponding binarized image
     for i in ${!imgs[@]}; do

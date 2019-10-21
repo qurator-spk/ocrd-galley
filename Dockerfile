@@ -15,11 +15,13 @@ RUN apt-get update && \
       python3-pip \
       git \
 # For leptonica/tesseract:
-      cmake libgif-dev libjpeg-dev libpng-dev libtiff-dev zlib1g-dev \
+      cmake libgif-dev libjpeg-dev libpng-dev libtiff-dev zlib1g-dev libpango1.0-dev \
 # For clstm on Ubuntu 19.04:
       swig libeigen3-dev libpng-dev libprotobuf-dev \
 # For cv2:
       libsm6 libxrender1 \
+# For ocrd_olena:
+      wget graphviz imagemagick libmagick++-dev libgraphicsmagick++1-dev libboost-dev \
 # XML utils
       libxml2-utils \
       xmlstarlet \
@@ -45,6 +47,15 @@ RUN curl -sSL -O https://github.com/tesseract-ocr/tessdata_best/archive/$TESSDAT
     tar xvzf $TESSDATA_BEST_VERSION.tar.gz && \
     mv tessdata_best-$TESSDATA_BEST_VERSION $TESSDATA_PREFIX && \
     rm -rf $TESSDATA_BEST_VERSION.tar.gz
+
+
+# Build ocrd_olena
+RUN curl -sSL -o ocrd_olena.tar.gz https://github.com/OCR-D/ocrd_olena/archive/fde4436.tar.gz && \
+   mkdir ocrd_olena && \
+   tar xvz -C ocrd_olena --strip-components=1 -f ocrd_olena.tar.gz && \
+   cd ocrd_olena && \
+   make install PREFIX=/usr/local && \
+   cd .. && rm -rf ocrd_olena ocrd_olena.tar.gz
 
 
 # Copy OCR models
