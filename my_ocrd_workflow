@@ -22,7 +22,7 @@ remove_filegrp() {
 }
 
 do_validate() {
-  ocrd workspace validate --skip pixel_density --skip imagefilename --page-strictness lax mets.xml
+  ocrd workspace validate --skip pixel_density --page-strictness lax mets.xml
   # XXX ocrd-tesserocr INCONSISTENCY in TextRegion → use "--page-strictness lax" for now
 
   # XXX
