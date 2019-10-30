@@ -1,0 +1,20 @@
+#!/bin/bash
+set -e
+
+vendor_dir=`dirname $0`
+vendor_dir=`python -c "import os, sys; print os.path.abspath(sys.argv[1])" $vendor_dir`
+
+# Delete old tarballs
+rm -f $vendor_dir/sbb_textline_detector-*.tar
+
+# Create new tarball
+pushd .
+cd ~/devel/qurator-mono-repo
+commit=`git rev-parse --short master`
+tarball=sbb_textline_detector-$commit.tar
+tar cf $vendor_dir/$tarball sbb_textline_detector
+popd
+
+# Update requirements.txt
+workdir=$vendor_dir/..
+sed -i "s#vendor/sbb_textline_detector-.*.tar#vendor/$tarball#" $workdir/requirements.txt
