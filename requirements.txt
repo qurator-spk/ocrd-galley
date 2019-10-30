@@ -1,5 +1,4 @@
 tensorflow-gpu < 2.0  # Needed for sbb_text_linedetector
-Pillow==5.4.1         # See https://github.com/OCR-D/core/issues/325
 
 ocrd >= 1.0.0
 
