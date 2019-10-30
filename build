@@ -1,10 +1,29 @@
 #!/bin/sh
+DATA_SUBDIR=data
+
 set -e
+
+if git submodule status $DATA_SUBDIR | grep -q '^-'; then
+  echo "$DATA_SUBDIR/ is not an initialized submodule"; exit 1
+fi
+if ! [ -e $DATA_SUBDIR/.git/annex ]; then
+  echo "$DATA_SUBDIR/ is not a git annex repository"; exit 1
+fi
+if ! (cd $DATA_SUBDIR && git annex version | grep -q 'local repository version: 7'); then
+  echo "$DATA_SUBDIR/ is not a git annex repository version 7"; exit 1
+fi
+if ! (cd $DATA_SUBDIR && git remote | grep -q '^nfs$'); then
+  echo "$DATA_SUBDIR/ has no git remote 'nfs'"; exit 1
+fi
+
+# XXX
+#git submodule update --init
+#(cd data && git annex init --version=7)
+#(cd data && git remote add nfs /path/to/GitNX-Repository/qurator/qurator-data)
+
 
 (
   cd data
-  git annex init
-  git annex upgrade
   for f in "calamari-models/GT4HistOCR/*.ckpt*" "tesseract-models/GT4HistOCR/*.traineddata" "textline_detection/*.h5"; do
     git annex get $f
     git annex fsck $f
