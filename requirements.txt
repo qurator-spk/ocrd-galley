@@ -8,9 +8,9 @@ https://github.com/mikegerber/ocrd_kraken/archive/fix/pass-down-page-id.tar.gz  
 
 ocrd_tesserocr
 
-https://github.com/mikegerber/ocrd_calamari/archive/3e8c1ac.tar.gz
+https://github.com/mikegerber/ocrd_calamari/archive/6949876.tar.gz
 
 
-vendor/sbb_textline_detector-172527b.tar
+vendor/sbb_textline_detector-d905c0b.tar
 
 https://github.com/qurator-spk/dinglehopper/archive/c305539.tar.gz
