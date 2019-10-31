@@ -1,7 +1,22 @@
 #!/bin/sh
+
+
+
 DATA_SUBDIR=data
 
-set -e
+get_from_annex() {
+  annex_get 'calamari-models/GT4HistOCR/*.ckpt*'
+  annex_get 'tesseract-models/GT4HistOCR/*.traineddata'
+  annex_get 'textline_detection/*.h5'
+}
+
+get_from_web() {
+  download_to 'https://file.spk-berlin.de:8443/calamari-models/GT4HistOCR/model.tar.xz'  'calamari-models/GT4HistOCR'
+  download_to 'https://file.spk-berlin.de:8443/tesseract-models/GT4HistOCR/models.tar'   'tesseract-models/GT4HistOCR'
+  download_to 'https://file.spk-berlin.de:8443/textline_detection/models.tar.gz'         'textline_detection'
+}
+
+
 
 check_data_subdir() {
   result=0
@@ -22,28 +37,58 @@ check_data_subdir() {
   return $result
 }
 
-download=0
+suggest_commands() {
+  echo "Suggested commands:"
+  echo
+  echo "git submodule update --init"
+  echo "(cd $DATA_SUBDIR && git annex init --version=7)"
+  echo "(cd $DATA_SUBDIR && git remote add nfs /<... path to ...>/GitNX-Repository/qurator/qurator-data)"
+}
+
+annex_get() {
+  file_pattern="$1"
+
+  (
+    cd data
+    git annex get $file_pattern
+
+    # fsck seems to be necessary to fix the files if we're in a submodule
+    git annex fsck $file_pattern
+  )
+}
+
+
+download_to() {
+  download_source="$1"
+  unpack_to="$2"
+
+  (
+    cd data
+    tmpf=`mktemp 'tmp.XXXXX'`
+    wget -O $tmpf "$download_source"
+    mkdir -p "$unpack_to"
+    # XXX Unpacking relies on tar -a unpacking any tar compression, might not work everywhere?
+    tar -C "$unpack_to" -af $tmpf -xv
+    rm -f $tmpf
+  )
+}
+
+
+set -e
+
+
 if ! check_data_subdir; then
   select choice in "Abort to manually fix $DATA_SUBDIR submodule" "Download data files from the web"; do
     if [ $REPLY = 1 ]; then
-      echo "Suggested commands:"
-      echo
-      echo "git submodule update --init"
-      echo "(cd $DATA_SUBDIR && git annex init --version=7)"
-      echo "(cd $DATA_SUBDIR && git remote add nfs /<... path to ...>/GitNX-Repository/qurator/qurator-data)"
+      suggest_commands
       exit
     else
-      download=1
+      get_from_web
+      break
     fi
   done
 else
-  (
-    cd data
-    for f in "calamari-models/GT4HistOCR/*.ckpt*" "tesseract-models/GT4HistOCR/*.traineddata" "textline_detection/*.h5"; do
-      git annex get $f
-      git annex fsck $f
-    done
-  )
+  get_from_annex
 fi
 
 docker build -t my_ocrd_workflow .
