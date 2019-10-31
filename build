@@ -24,11 +24,13 @@ check_data_subdir() {
 
 download=0
 if ! check_data_subdir; then
-  select choice in "Abort to $DATA_SUBDIR" "Download data files"; do
+  select choice in "Abort to manually fix $DATA_SUBDIR submodule" "Download data files from the web"; do
     if [ $REPLY = 1 ]; then
-      #git submodule update --init
-      #(cd data && git annex init --version=7)
-      #(cd data && git remote add nfs /path/to/GitNX-Repository/qurator/qurator-data)
+      echo "Suggested commands:"
+      echo
+      echo "git submodule update --init"
+      echo "(cd $DATA_SUBDIR && git annex init --version=7)"
+      echo "(cd $DATA_SUBDIR && git remote add nfs /<... path to ...>/GitNX-Repository/qurator/qurator-data)"
       exit
     else
       download=1
