@@ -78,5 +78,10 @@ RUN pip3 install --no-cache-dir -r /tmp/requirements.txt
 COPY my_ocrd_workflow /usr/bin
 COPY xsd/*            /usr/share/xml/
 
+
+RUN pip3 install --no-cache-dir pipdeptree && \
+    pipdeptree -w fail
+
+
 WORKDIR /data
 CMD ["/usr/bin/my_ocrd_workflow"]
