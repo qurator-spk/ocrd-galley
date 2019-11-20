@@ -120,20 +120,6 @@ page_validate_xml() {
   done
 }
 
-page_fix_image_references() {
-  # Make image references relative to the PAGE XML file
-  #
-  # The rest of OCR-D probably isn't going to like it, but it is a. correct and b. makes PAGE Viewer open the image file
-  # automatically.
-
-  filegrp=$1
-
-  local file
-  for file in `ocrd workspace find -G $filegrp`; do
-    sed -i 's#imageFilename="OCR-D-IMG#imageFilename="../OCR-D-IMG#g' $file
-  done
-}
-
 page_fix_image_references_to_bin() {
   # Make image references point to the binarized images
   # XXX This is a hack, it is probably better to use alternative images in ocrd_calamari
