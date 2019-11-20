@@ -1,6 +1,6 @@
 tensorflow-gpu < 2.0  # Needed for sbb_text_linedetector
 
-ocrd >= 1.0.0
+ocrd >= 2.0.0
 
 https://github.com/mikegerber/ocrd_typegroups_classifier/archive/fix/pass-down-page-id.tar.gz  # XXX git+https://github.com/seuretm/ocrd_typegroups_classifier.git
 
@@ -11,6 +11,6 @@ ocrd_tesserocr
 https://github.com/mikegerber/ocrd_calamari/archive/6949876.tar.gz
 
 
-vendor/sbb_textline_detector-d905c0b.tar
+vendor/sbb_textline_detector-10bbda9.tar
 
 https://github.com/qurator-spk/dinglehopper/archive/c305539.tar.gz
