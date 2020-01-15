@@ -11,8 +11,8 @@ get_from_annex() {
 }
 
 get_from_web() {
-  download_to 'https://file.spk-berlin.de:8443/calamari-models/GT4HistOCR/model.tar.xz'  'calamari-models/GT4HistOCR'
-  download_to 'https://file.spk-berlin.de:8443/tesseract-models/GT4HistOCR/models.tar'   'tesseract-models/GT4HistOCR'
+  download_to 'https://qurator-data.de/calamari-models/GT4HistOCR/model.tar.xz'  'calamari-models/GT4HistOCR'
+  download_to 'https://qurator-data.de/tesseract-models/GT4HistOCR/models.tar'   'tesseract-models/GT4HistOCR'
   # FIXME needs update download_to 'https://file.spk-berlin.de:8443/textline_detection/models.tar.gz'         'textline_detection'
 }
 
