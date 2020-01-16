@@ -5,13 +5,13 @@
 DATA_SUBDIR=data
 
 get_from_annex() {
-  annex_get 'calamari-models/GT4HistOCR/*.ckpt*'
+  annex_get 'calamari-models/GT4HistOCR/2019-07-22T15:49+0200/*.ckpt*'
   annex_get 'tesseract-models/GT4HistOCR/*.traineddata'
   annex_get 'textline_detection/*.h5'
 }
 
 get_from_web() {
-  download_to 'https://qurator-data.de/calamari-models/GT4HistOCR/model.tar.xz'  'calamari-models/GT4HistOCR'
+  download_to 'https://qurator-data.de/calamari-models/GT4HistOCR/model.tar.xz' 'calamari-models/GT4HistOCR/2019-07-22T15:49+0200'
   download_to 'https://qurator-data.de/tesseract-models/GT4HistOCR/models.tar'   'tesseract-models/GT4HistOCR'
   # FIXME needs update download_to 'https://file.spk-berlin.de:8443/textline_detection/models.tar.gz'         'textline_detection'
 }
