@@ -85,7 +85,7 @@ do_linesegmentation_sbb() {
 
   remove_filegrp OCR-D-SEG-REGION mets.xml
   remove_filegrp OCR-D-SEG-LINE mets.xml
-  ocrd_sbb_textline_detector -l $LOG_LEVEL \
+  ocrd-sbb-textline-detector -l $LOG_LEVEL \
     -m mets.xml -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-LINE \
     -p '{"model": "/var/lib/textline_detection"}'
 }
