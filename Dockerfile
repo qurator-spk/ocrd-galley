@@ -82,6 +82,9 @@ COPY xsd/*            /usr/share/xml/
 RUN pip3 install --no-cache-dir pipdeptree && \
     pipdeptree -w fail
 
+# XXX Work around concurrency problems(?)
+RUN sed -i 's#num_cores *= *cpu_count()#num_cores = 1#' /usr/local/lib/python3.6/dist-packages/qurator/sbb_textline_detector/main.py
+
 
 WORKDIR /data
 CMD ["/usr/bin/my_ocrd_workflow"]
