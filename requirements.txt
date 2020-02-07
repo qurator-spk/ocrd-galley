@@ -1,12 +1,12 @@
 tensorflow-gpu < 2.0  # Needed for sbb_text_linedetector
 
-ocrd >= 2.0.0
+ocrd >= 2.3.1
 
 https://github.com/mikegerber/ocrd_kraken/archive/fix/pass-down-page-id.tar.gz  # XXX ocrd_kraken >= 0.1.1
 
 ocrd_tesserocr
 
-https://github.com/mikegerber/ocrd_calamari/archive/6949876.tar.gz
+ocrd_calamari == 0.0.4
 
 https://github.com/qurator-spk/sbb_textline_detector/archive/1446d7c6.tar.gz
 

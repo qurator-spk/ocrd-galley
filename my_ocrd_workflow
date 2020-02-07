@@ -84,7 +84,10 @@ do_ocr() {
 }
 
 do_ocr_calamari() {
-  ocrd_calamari_recognize_parameters='{ "checkpoint": "/var/lib/calamari-models/GT4HistOCR/2019-07-22T15:49+0200/*.ckpt.json" }'
+  ocrd_calamari_recognize_parameters='{
+    "checkpoint": "/var/lib/calamari-models/GT4HistOCR/2019-07-22T15:49+0200/*.ckpt.json",
+    "textequiv_level": "line"
+  }'
   remove_filegrp OCR-D-OCR-CALAMARI mets.xml
   ocrd-calamari-recognize -l $LOG_LEVEL \
     -m mets.xml -I OCR-D-SEG-LINE -O OCR-D-OCR-CALAMARI \
