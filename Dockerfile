@@ -50,7 +50,8 @@ RUN curl -sSL -O https://github.com/tesseract-ocr/tessdata_best/archive/$TESSDAT
 
 
 # Build ocrd_olena
-RUN curl -sSL -o ocrd_olena.tar.gz https://github.com/OCR-D/ocrd_olena/archive/fde4436.tar.gz && \
+RUN pip3 install --no-cache-dir --upgrade pip && \
+   curl -sSL -o ocrd_olena.tar.gz https://github.com/OCR-D/ocrd_olena/archive/fde4436.tar.gz && \
    mkdir ocrd_olena && \
    tar xvz -C ocrd_olena --strip-components=1 -f ocrd_olena.tar.gz && \
    cd ocrd_olena && \
