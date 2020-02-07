@@ -109,16 +109,6 @@ page_validate_xml() {
   done
 }
 
-page_downgrade_to_2018() {
-  # Not used anymore, but kept if needed in the future
-  filegrp=$1
-
-  local file
-  for file in `ocrd workspace find -G $filegrp`; do
-    sed -i 's#pagecontent/[0-9-]*#pagecontent/2018-07-15#g' $file
-  done
-}
-
 page_upgrade_to_2019() {
   filegrp=$1
 
