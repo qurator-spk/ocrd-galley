@@ -49,10 +49,6 @@ do_linesegmentation_tesserocr() {
 
   remove_filegrp OCR-D-SEG-REGION mets.xml
   remove_filegrp OCR-D-SEG-LINE mets.xml
-  #ocrd-ocropy-segment -l $LOG_LEVEL \
-  #  -m mets.xml -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-LINE
-  # XXX ocrd-ocropy-segment throws an exception for buerger_gedichte_1778.ocrd
-
   ocrd-tesserocr-segment-region -l $LOG_LEVEL \
     -m mets.xml -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-REGION
   ocrd-tesserocr-segment-line -l $LOG_LEVEL \
