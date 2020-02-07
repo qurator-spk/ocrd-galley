@@ -36,11 +36,12 @@ do_validate() {
 do_binarization() {
   # Binarize the images
 
+  ocrd_olena_binarize_paramters='{"impl": "sauvola-ms-split"}'
   remove_filegrp OCR-D-IMG-BINPAGE mets.xml
   remove_filegrp OCR-D-IMG-BIN mets.xml
   ocrd-olena-binarize -l $LOG_LEVEL \
     -m mets.xml -I OCR-D-IMG -O OCR-D-IMG-BINPAGE \
-    -p '{"impl": "sauvola-ms-split"}'
+    -p "$ocrd_olena_binarize_paramters"
 }
 
 do_linesegmentation_tesserocr() {
@@ -64,11 +65,12 @@ do_linesegmentation_sbb() {
   # Segment the lines in the images
   # TODO: Check that this works with the RGB images
 
+  ocrd_sbb_textline_detector_parameters='{"model": "/var/lib/textline_detection"}'
   remove_filegrp OCR-D-SEG-REGION mets.xml
   remove_filegrp OCR-D-SEG-LINE mets.xml
   ocrd-sbb-textline-detector -l $LOG_LEVEL \
     -m mets.xml -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-LINE \
-    -p '{"model": "/var/lib/textline_detection"}'
+    -p "$ocrd_sbb_textline_detector_parameters"
 }
 
 do_ocr() {
