@@ -10,11 +10,11 @@ fi
 
 
 do_validate() {
-  validate_options="
+  validate_options='
     --skip dimension
     --skip pixel_density
     --page-strictness lax
-    --page-coordinate-consistency off"
+    --page-coordinate-consistency off'
   ocrd workspace validate $validate_options
   # XXX ocrd-tesserocr INCONSISTENCY in TextRegion → use "--page-strictness lax" for now
 }
@@ -22,12 +22,12 @@ do_validate() {
 do_binarization() {
   # Binarize the images
 
-  ocrd_olena_binarize_parameters='{"impl": "sauvola-ms-split"}'
+  ocrd_olena_binarize_parameters='{
+    "impl": "sauvola-ms-split"
+  }'
   ocrd workspace remove-group -rf OCR-D-IMG-BINPAGE
   ocrd workspace remove-group -rf OCR-D-IMG-BIN
-  ocrd-olena-binarize \
-    -I OCR-D-IMG -O OCR-D-IMG-BINPAGE \
-    -p "$ocrd_olena_binarize_parameters"
+  ocrd-olena-binarize -I OCR-D-IMG -O OCR-D-IMG-BINPAGE -p "$ocrd_olena_binarize_parameters"
 }
 
 do_linesegmentation_tesserocr() {
@@ -35,31 +35,29 @@ do_linesegmentation_tesserocr() {
 
   ocrd workspace remove-group -rf OCR-D-SEG-REGION
   ocrd workspace remove-group -rf OCR-D-SEG-LINE
-  ocrd-tesserocr-segment-region \
-    -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-REGION
-  ocrd-tesserocr-segment-line \
-    -I OCR-D-SEG-REGION -O OCR-D-SEG-LINE
+  ocrd-tesserocr-segment-region -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-REGION
+  ocrd-tesserocr-segment-line -I OCR-D-SEG-REGION -O OCR-D-SEG-LINE
 }
 
 do_linesegmentation_sbb() {
   # Segment the lines in the images
 
-  ocrd_sbb_textline_detector_parameters='{"model": "/var/lib/textline_detection"}'
+  ocrd_sbb_textline_detector_parameters='{
+    "model": "/var/lib/textline_detection"
+  }'
   ocrd workspace remove-group -rf OCR-D-SEG-REGION
   ocrd workspace remove-group -rf OCR-D-SEG-LINE
-  ocrd-sbb-textline-detector \
-    -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-LINE \
-    -p "$ocrd_sbb_textline_detector_parameters"
+  ocrd-sbb-textline-detector -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-LINE -p "$ocrd_sbb_textline_detector_parameters"
 }
 
 do_ocr() {
   # Perform OCR on the segmented lines
 
-  ocrd_tesserocr_recognize_parameters='{ "model": "GT4HistOCR_2000000" }'
+  ocrd_tesserocr_recognize_parameters='{
+    "model": "GT4HistOCR_2000000"
+  }'
   ocrd workspace remove-group -rf OCR-D-OCR-TESS
-  ocrd-tesserocr-recognize \
-    -I OCR-D-SEG-LINE -O OCR-D-OCR-TESS \
-    -p "$ocrd_tesserocr_recognize_parameters"
+  ocrd-tesserocr-recognize -I OCR-D-SEG-LINE -O OCR-D-OCR-TESS -p "$ocrd_tesserocr_recognize_parameters"
 }
 
 do_ocr_calamari() {
@@ -68,9 +66,7 @@ do_ocr_calamari() {
     "textequiv_level": "line"
   }'
   ocrd workspace remove-group -rf OCR-D-OCR-CALAMARI
-  ocrd-calamari-recognize \
-    -I OCR-D-SEG-LINE -O OCR-D-OCR-CALAMARI \
-    -p "$ocrd_calamari_recognize_parameters"
+  ocrd-calamari-recognize -I OCR-D-SEG-LINE -O OCR-D-OCR-CALAMARI -p "$ocrd_calamari_recognize_parameters"
 }
 
 page_validate_xml() {
