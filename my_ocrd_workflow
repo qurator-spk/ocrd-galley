@@ -25,7 +25,7 @@ do_binarization() {
   ocrd workspace remove-group -rf OCR-D-IMG-BINPAGE
   ocrd workspace remove-group -rf OCR-D-IMG-BIN
   ocrd-olena-binarize -l $LOG_LEVEL \
-    -m mets.xml -I OCR-D-IMG -O OCR-D-IMG-BINPAGE \
+    -I OCR-D-IMG -O OCR-D-IMG-BINPAGE \
     -p "$ocrd_olena_binarize_paramters"
 }
 
@@ -35,9 +35,9 @@ do_linesegmentation_tesserocr() {
   ocrd workspace remove-group -rf OCR-D-SEG-REGION
   ocrd workspace remove-group -rf OCR-D-SEG-LINE
   ocrd-tesserocr-segment-region -l $LOG_LEVEL \
-    -m mets.xml -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-REGION
+    -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-REGION
   ocrd-tesserocr-segment-line -l $LOG_LEVEL \
-    -m mets.xml -I OCR-D-SEG-REGION -O OCR-D-SEG-LINE
+    -I OCR-D-SEG-REGION -O OCR-D-SEG-LINE
 
   # XXX compare ocrd-tesserocr-segment* vs tesseract native
 }
@@ -50,7 +50,7 @@ do_linesegmentation_sbb() {
   ocrd workspace remove-group -rf OCR-D-SEG-REGION
   ocrd workspace remove-group -rf OCR-D-SEG-LINE
   ocrd-sbb-textline-detector -l $LOG_LEVEL \
-    -m mets.xml -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-LINE \
+    -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-LINE \
     -p "$ocrd_sbb_textline_detector_parameters"
 }
 
@@ -60,7 +60,7 @@ do_ocr() {
   ocrd_tesserocr_recognize_parameters='{ "model": "GT4HistOCR_2000000" }'  # TODO mods:language + fontident → model
   ocrd workspace remove-group -rf OCR-D-OCR-TESS
   ocrd-tesserocr-recognize -l $LOG_LEVEL \
-    -m mets.xml -I OCR-D-SEG-LINE -O OCR-D-OCR-TESS \
+    -I OCR-D-SEG-LINE -O OCR-D-OCR-TESS \
     -p "$ocrd_tesserocr_recognize_parameters"
 }
 
@@ -71,7 +71,7 @@ do_ocr_calamari() {
   }'
   ocrd workspace remove-group -rf OCR-D-OCR-CALAMARI
   ocrd-calamari-recognize -l $LOG_LEVEL \
-    -m mets.xml -I OCR-D-SEG-LINE -O OCR-D-OCR-CALAMARI \
+    -I OCR-D-SEG-LINE -O OCR-D-OCR-CALAMARI \
     -p "$ocrd_calamari_recognize_parameters"
 }
 
@@ -134,7 +134,7 @@ for ocr_filegrp in OCR-D-OCR-CALAMARI OCR-D-OCR-TESS; do
 
   if ocrd workspace list-group | grep -q OCR-D-GT-PAGE; then
     ocrd workspace remove-group -rf $ocr_filegrp-EVAL
-    ocrd-dinglehopper -m mets.xml -I OCR-D-GT-PAGE,$ocr_filegrp -O $ocr_filegrp-EVAL
+    ocrd-dinglehopper -I OCR-D-GT-PAGE,$ocr_filegrp -O $ocr_filegrp-EVAL
   fi
 
 done
