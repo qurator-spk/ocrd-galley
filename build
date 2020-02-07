@@ -67,7 +67,7 @@ download_to() {
     tmpf=`mktemp 'tmp.XXXXX'`
     wget -O $tmpf "$download_source"
     mkdir -p "$unpack_to"
-    # XXX Unpacking relies on tar -a unpacking any tar compression, might not work everywhere?
+    # Unpacking relies on tar -a unpacking any tar compression
     tar -C "$unpack_to" -af $tmpf -xv
     rm -f $tmpf
   )

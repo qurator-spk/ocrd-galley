@@ -30,7 +30,6 @@ RUN apt-get update && \
 
 
 # Build Leptonica and Tesseract.
-# XXX Use a multi stage build for this.
 RUN curl -sSL -O https://github.com/DanBloomberg/leptonica/releases/download/$LEPTONICA_VERSION/leptonica-$LEPTONICA_VERSION.tar.gz && \
     tar xvzf leptonica-$LEPTONICA_VERSION.tar.gz && \
     cd leptonica-$LEPTONICA_VERSION && \
