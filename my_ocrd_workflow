@@ -97,39 +97,44 @@ page_upgrade_to_2019() {
   done
 }
 
+
+main() {
+  do_binarization
+  do_validate
+
+
+  do_linesegmentation_sbb
+  page_upgrade_to_2019             OCR-D-SEG-LINE
+  page_validate_xml                OCR-D-SEG-REGION
+  page_validate_xml                OCR-D-SEG-LINE
+  do_validate
+
+
+  do_ocr_calamari
+
+
+  do_ocr
+
+
+  for ocr_filegrp in OCR-D-OCR-CALAMARI OCR-D-OCR-TESS; do
+
+    page_validate_xml           $ocr_filegrp
+    do_validate
+
+    page_validate_xml           $ocr_filegrp
+    do_validate
+
+    if ocrd workspace list-group | grep -q OCR-D-GT-PAGE; then
+      ocrd workspace remove-group -rf $ocr_filegrp-EVAL
+      ocrd-dinglehopper -I OCR-D-GT-PAGE,$ocr_filegrp -O $ocr_filegrp-EVAL
+    fi
+
+  done
+}
+
+
 pip3 list
+main
 
-
-do_binarization
-do_validate
-
-
-do_linesegmentation_sbb
-page_upgrade_to_2019             OCR-D-SEG-LINE
-page_validate_xml                OCR-D-SEG-REGION
-page_validate_xml                OCR-D-SEG-LINE
-do_validate
-
-
-do_ocr_calamari
-
-
-do_ocr
-
-
-for ocr_filegrp in OCR-D-OCR-CALAMARI OCR-D-OCR-TESS; do
-
-  page_validate_xml           $ocr_filegrp
-  do_validate
-
-  page_validate_xml           $ocr_filegrp
-  do_validate
-
-  if ocrd workspace list-group | grep -q OCR-D-GT-PAGE; then
-    ocrd workspace remove-group -rf $ocr_filegrp-EVAL
-    ocrd-dinglehopper -I OCR-D-GT-PAGE,$ocr_filegrp -O $ocr_filegrp-EVAL
-  fi
-
-done
 
 # vim:tw=120:
