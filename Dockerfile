@@ -75,14 +75,12 @@ COPY data/textline_detection /var/lib/textline_detection
 
 COPY requirements.txt /tmp
 RUN pip3 install --no-cache-dir --upgrade pip && \
-    pip3 install --no-cache-dir -r /tmp/requirements.txt
+    pip3 install --no-cache-dir -r /tmp/requirements.txt && \
+    pip3 check
 
 COPY my_ocrd_workflow /usr/bin
 COPY xsd/*            /usr/share/xml/
 
-
-RUN pip3 install --no-cache-dir pipdeptree && \
-    pipdeptree -w fail
 
 # XXX Work around concurrency problems(?)
 RUN sed -i 's#num_cores *= *cpu_count()#num_cores = 1#' /usr/local/lib/python3.6/dist-packages/qurator/sbb_textline_detector/main.py
