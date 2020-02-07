@@ -17,7 +17,6 @@ do_validate() {
     --page-coordinate-consistency off"
   ocrd workspace validate $validate_options
   # XXX ocrd-tesserocr INCONSISTENCY in TextRegion → use "--page-strictness lax" for now
-  # XXX INVALIDITY in Glyph ID etc. in GT → --page-coordinate-consistency off
 }
 
 do_binarization() {
@@ -40,8 +39,6 @@ do_linesegmentation_tesserocr() {
     -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-REGION
   ocrd-tesserocr-segment-line \
     -I OCR-D-SEG-REGION -O OCR-D-SEG-LINE
-
-  # XXX compare ocrd-tesserocr-segment* vs tesseract native
 }
 
 do_linesegmentation_sbb() {
@@ -58,7 +55,7 @@ do_linesegmentation_sbb() {
 do_ocr() {
   # Perform OCR on the segmented lines
 
-  ocrd_tesserocr_recognize_parameters='{ "model": "GT4HistOCR_2000000" }'  # TODO mods:language + fontident → model
+  ocrd_tesserocr_recognize_parameters='{ "model": "GT4HistOCR_2000000" }'
   ocrd workspace remove-group -rf OCR-D-OCR-TESS
   ocrd-tesserocr-recognize \
     -I OCR-D-SEG-LINE -O OCR-D-OCR-TESS \
