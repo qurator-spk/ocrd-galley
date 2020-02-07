@@ -1,7 +1,9 @@
 #!/bin/bash
-LOG_LEVEL=${LOG_LEVEL:-DEBUG}
 
 set -e  # Abort on error
+
+# Set up logging
+export LOG_LEVEL=${LOG_LEVEL:-DEBUG}  # /etc/ocrd_logging.py uses this to set level for all OCR-D modules
 if [ "$LOG_LEVEL" = "DEBUG" -o "$LOG_LEVEL" = "TRACE" ]; then
   set -x
 fi
@@ -24,7 +26,7 @@ do_binarization() {
   ocrd_olena_binarize_paramters='{"impl": "sauvola-ms-split"}'
   ocrd workspace remove-group -rf OCR-D-IMG-BINPAGE
   ocrd workspace remove-group -rf OCR-D-IMG-BIN
-  ocrd-olena-binarize -l $LOG_LEVEL \
+  ocrd-olena-binarize \
     -I OCR-D-IMG -O OCR-D-IMG-BINPAGE \
     -p "$ocrd_olena_binarize_paramters"
 }
@@ -34,9 +36,9 @@ do_linesegmentation_tesserocr() {
 
   ocrd workspace remove-group -rf OCR-D-SEG-REGION
   ocrd workspace remove-group -rf OCR-D-SEG-LINE
-  ocrd-tesserocr-segment-region -l $LOG_LEVEL \
+  ocrd-tesserocr-segment-region \
     -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-REGION
-  ocrd-tesserocr-segment-line -l $LOG_LEVEL \
+  ocrd-tesserocr-segment-line \
     -I OCR-D-SEG-REGION -O OCR-D-SEG-LINE
 
   # XXX compare ocrd-tesserocr-segment* vs tesseract native
@@ -49,7 +51,7 @@ do_linesegmentation_sbb() {
   ocrd_sbb_textline_detector_parameters='{"model": "/var/lib/textline_detection"}'
   ocrd workspace remove-group -rf OCR-D-SEG-REGION
   ocrd workspace remove-group -rf OCR-D-SEG-LINE
-  ocrd-sbb-textline-detector -l $LOG_LEVEL \
+  ocrd-sbb-textline-detector \
     -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-LINE \
     -p "$ocrd_sbb_textline_detector_parameters"
 }
@@ -59,7 +61,7 @@ do_ocr() {
 
   ocrd_tesserocr_recognize_parameters='{ "model": "GT4HistOCR_2000000" }'  # TODO mods:language + fontident → model
   ocrd workspace remove-group -rf OCR-D-OCR-TESS
-  ocrd-tesserocr-recognize -l $LOG_LEVEL \
+  ocrd-tesserocr-recognize \
     -I OCR-D-SEG-LINE -O OCR-D-OCR-TESS \
     -p "$ocrd_tesserocr_recognize_parameters"
 }
@@ -70,7 +72,7 @@ do_ocr_calamari() {
     "textequiv_level": "line"
   }'
   ocrd workspace remove-group -rf OCR-D-OCR-CALAMARI
-  ocrd-calamari-recognize -l $LOG_LEVEL \
+  ocrd-calamari-recognize \
     -I OCR-D-SEG-LINE -O OCR-D-OCR-CALAMARI \
     -p "$ocrd_calamari_recognize_parameters"
 }

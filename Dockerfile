@@ -49,6 +49,10 @@ RUN curl -sSL -O https://github.com/tesseract-ocr/tessdata_best/archive/$TESSDAT
     rm -rf $TESSDATA_BEST_VERSION.tar.gz
 
 
+# Set up OCR-D logging
+COPY ocrd_logging.py /etc/
+
+
 # Build ocrd_olena
 RUN pip3 install --no-cache-dir --upgrade pip && \
    curl -sSL -o ocrd_olena.tar.gz https://github.com/OCR-D/ocrd_olena/archive/fde4436.tar.gz && \
