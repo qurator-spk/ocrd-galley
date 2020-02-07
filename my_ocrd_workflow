@@ -16,12 +16,6 @@ do_validate() {
   ocrd workspace validate $validate_options
   # XXX ocrd-tesserocr INCONSISTENCY in TextRegion → use "--page-strictness lax" for now
   # XXX INVALIDITY in Glyph ID etc. in GT → --page-coordinate-consistency off
-
-  # XXX
-  if test -d TEMP; then
-    echo "TEMP exists!"
-    rm -rf TEMP
-  fi
 }
 
 do_binarization() {
