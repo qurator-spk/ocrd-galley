@@ -43,25 +43,6 @@ do_binarization() {
     -p '{"impl": "sauvola-ms-split"}'
 }
 
-do_fontident() {
-  # Identify fonts in the images
-
-  network=`python3 -c "import ocrd_typegroups_classifier, os; print(os.path.join(os.path.dirname(ocrd_typegroups_classifier.__file__), 'models', 'classifier.tgc'))"`
-  ocrd_typegroups_classifier_parameters="
-  {
-    \"network\": \"$network\",
-    \"stride\":  143
-  }"
-
-  remove_filegrp OCR-D-OCR-FONTIDENT mets.xml
-  ocrd-typegroups-classifier -l $LOG_LEVEL \
-    -m mets.xml -I OCR-D-IMG -O OCR-D-OCR-FONTIDENT \
-    -p "$ocrd_typegroups_classifier_parameters"
-  # XXX Check if ocrd-typegroups-classifier uses the whole image
-  # XXX does DEFAULT have any meaning? /buerger_gedichte_1778.ocrd does not have
-  #     any DEFAULT, yet -I DEFAULT seems to work for ocrd-typegroups-classifier
-}
-
 do_linesegmentation_tesserocr() {
   # Segment the lines in the binarized images
 
@@ -143,10 +124,6 @@ page_upgrade_to_2019() {
 }
 
 pip3 list
-
-
-#do_fontident
-#do_validate
 
 
 do_binarization
