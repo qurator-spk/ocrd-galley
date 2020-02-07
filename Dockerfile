@@ -67,7 +67,7 @@ RUN pip3 install --no-cache-dir --upgrade pip && \
 RUN mkdir -p /var/lib/calamari-models
 COPY data/calamari-models/GT4HistOCR /var/lib/calamari-models/GT4HistOCR
 RUN mkdir -p $TESSDATA_PREFIX
-COPY data/tesseract-models/GT4HistOCR/GT4HistOCR_2000000.traineddata $TESSDATA_PREFIX
+COPY data/tesseract-models/GT4HistOCR/GT4HistOCR_2000000.traineddata $TESSDATA_PREFIX/
 
 RUN tesseract --list-langs
 
@@ -77,12 +77,12 @@ COPY vendor vendor
 COPY data/textline_detection /var/lib/textline_detection
 
 
-COPY requirements.txt /tmp
+COPY requirements.txt /tmp/
 RUN pip3 install --no-cache-dir --upgrade pip && \
     pip3 install --no-cache-dir -r /tmp/requirements.txt && \
     pip3 check
 
-COPY my_ocrd_workflow /usr/bin
+COPY my_ocrd_workflow /usr/bin/
 COPY xsd/*            /usr/share/xml/
 
 
