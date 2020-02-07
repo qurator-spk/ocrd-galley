@@ -61,6 +61,8 @@ do_ocr() {
 }
 
 do_ocr_calamari() {
+  # Perform OCR on the segmented lines
+
   ocrd_calamari_recognize_parameters='{
     "checkpoint": "/var/lib/calamari-models/GT4HistOCR/2019-07-22T15:49+0200/*.ckpt.json",
     "textequiv_level": "line"
@@ -85,6 +87,8 @@ page_validate_xml() {
 }
 
 page_upgrade_to_2019() {
+  # Upgrade PAGE files to 2019-07-15
+
   filegrp=$1
 
   local file
