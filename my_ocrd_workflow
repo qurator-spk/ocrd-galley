@@ -7,20 +7,6 @@ if [ "$LOG_LEVEL" = "DEBUG" -o "$LOG_LEVEL" = "TRACE" ]; then
 fi
 
 
-remove_filegrp() {
-  # Remove the given file group from the workspace
-
-  filegrp_use=$1
-  mets=$2
-
-  xmlstarlet ed --inplace \
-    -N mets=http://www.loc.gov/METS/ \
-    -d "//mets:fileGrp[@USE='$filegrp_use']" $mets
-
-  # XXX See also https://github.com/OCR-D/core/issues/245
-  # XXX This should also delete the files (after checking if they are indeed inside the workspace) and the directory
-}
-
 do_validate() {
   validate_options="
     --skip dimension
@@ -42,8 +28,8 @@ do_binarization() {
   # Binarize the images
 
   ocrd_olena_binarize_paramters='{"impl": "sauvola-ms-split"}'
-  remove_filegrp OCR-D-IMG-BINPAGE mets.xml
-  remove_filegrp OCR-D-IMG-BIN mets.xml
+  ocrd workspace remove-group -rf OCR-D-IMG-BINPAGE
+  ocrd workspace remove-group -rf OCR-D-IMG-BIN
   ocrd-olena-binarize -l $LOG_LEVEL \
     -m mets.xml -I OCR-D-IMG -O OCR-D-IMG-BINPAGE \
     -p "$ocrd_olena_binarize_paramters"
@@ -52,8 +38,8 @@ do_binarization() {
 do_linesegmentation_tesserocr() {
   # Segment the lines in the binarized images
 
-  remove_filegrp OCR-D-SEG-REGION mets.xml
-  remove_filegrp OCR-D-SEG-LINE mets.xml
+  ocrd workspace remove-group -rf OCR-D-SEG-REGION
+  ocrd workspace remove-group -rf OCR-D-SEG-LINE
   ocrd-tesserocr-segment-region -l $LOG_LEVEL \
     -m mets.xml -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-REGION
   ocrd-tesserocr-segment-line -l $LOG_LEVEL \
@@ -67,8 +53,8 @@ do_linesegmentation_sbb() {
   # TODO: Check that this works with the RGB images
 
   ocrd_sbb_textline_detector_parameters='{"model": "/var/lib/textline_detection"}'
-  remove_filegrp OCR-D-SEG-REGION mets.xml
-  remove_filegrp OCR-D-SEG-LINE mets.xml
+  ocrd workspace remove-group -rf OCR-D-SEG-REGION
+  ocrd workspace remove-group -rf OCR-D-SEG-LINE
   ocrd-sbb-textline-detector -l $LOG_LEVEL \
     -m mets.xml -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-LINE \
     -p "$ocrd_sbb_textline_detector_parameters"
@@ -78,7 +64,7 @@ do_ocr() {
   # Perform OCR on the segmented lines
 
   ocrd_tesserocr_recognize_parameters='{ "model": "GT4HistOCR_2000000" }'  # TODO mods:language + fontident → model
-  remove_filegrp OCR-D-OCR-TESS mets.xml
+  ocrd workspace remove-group -rf OCR-D-OCR-TESS
   ocrd-tesserocr-recognize -l $LOG_LEVEL \
     -m mets.xml -I OCR-D-SEG-LINE -O OCR-D-OCR-TESS \
     -p "$ocrd_tesserocr_recognize_parameters"
@@ -89,7 +75,7 @@ do_ocr_calamari() {
     "checkpoint": "/var/lib/calamari-models/GT4HistOCR/2019-07-22T15:49+0200/*.ckpt.json",
     "textequiv_level": "line"
   }'
-  remove_filegrp OCR-D-OCR-CALAMARI mets.xml
+  ocrd workspace remove-group -rf OCR-D-OCR-CALAMARI
   ocrd-calamari-recognize -l $LOG_LEVEL \
     -m mets.xml -I OCR-D-SEG-LINE -O OCR-D-OCR-CALAMARI \
     -p "$ocrd_calamari_recognize_parameters"
@@ -153,7 +139,7 @@ for ocr_filegrp in OCR-D-OCR-CALAMARI OCR-D-OCR-TESS; do
   #do_validate
 
   if ocrd workspace list-group | grep -q OCR-D-GT-PAGE; then
-    remove_filegrp $ocr_filegrp-EVAL mets.xml
+    ocrd workspace remove-group -rf $ocr_filegrp-EVAL
     ocrd-dinglehopper -m mets.xml -I OCR-D-GT-PAGE,$ocr_filegrp -O $ocr_filegrp-EVAL
   fi
 
