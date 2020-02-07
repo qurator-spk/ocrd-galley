@@ -23,12 +23,12 @@ do_validate() {
 do_binarization() {
   # Binarize the images
 
-  ocrd_olena_binarize_paramters='{"impl": "sauvola-ms-split"}'
+  ocrd_olena_binarize_parameters='{"impl": "sauvola-ms-split"}'
   ocrd workspace remove-group -rf OCR-D-IMG-BINPAGE
   ocrd workspace remove-group -rf OCR-D-IMG-BIN
   ocrd-olena-binarize \
     -I OCR-D-IMG -O OCR-D-IMG-BINPAGE \
-    -p "$ocrd_olena_binarize_paramters"
+    -p "$ocrd_olena_binarize_parameters"
 }
 
 do_linesegmentation_tesserocr() {
