@@ -67,11 +67,9 @@ RUN mkdir -p /var/lib/calamari-models
 COPY data/calamari-models/GT4HistOCR /var/lib/calamari-models/GT4HistOCR
 RUN mkdir -p $TESSDATA_PREFIX
 COPY data/tesseract-models/GT4HistOCR/GT4HistOCR_2000000.traineddata $TESSDATA_PREFIX/
+COPY data/textline_detection /var/lib/textline_detection
 
 RUN tesseract --list-langs
-
-
-COPY data/textline_detection /var/lib/textline_detection
 
 
 COPY requirements.txt /tmp/
