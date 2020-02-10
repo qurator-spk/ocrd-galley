@@ -6,6 +6,6 @@ ocrd_tesserocr
 
 ocrd_calamari == 0.0.4
 
-https://github.com/qurator-spk/sbb_textline_detector/archive/1446d7c6.tar.gz
+https://github.com/qurator-spk/sbb_textline_detector/archive/689822c.tar.gz
 
 https://github.com/qurator-spk/dinglehopper/archive/c305539.tar.gz
