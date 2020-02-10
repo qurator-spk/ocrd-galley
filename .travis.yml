@@ -7,7 +7,7 @@ git:
   submodules: false  # Avoid trying to checkout private data/ submodule
 
 install:
-  - FORCE_GET_FROM_WEB=y ./build
+  - FORCE_DOWNLOAD=y ./build
 
 script:
   - curl -O https://qurator-data.de/examples/actevedef_718448162.first-page.zip
