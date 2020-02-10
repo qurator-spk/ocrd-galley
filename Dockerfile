@@ -71,8 +71,6 @@ COPY data/tesseract-models/GT4HistOCR/GT4HistOCR_2000000.traineddata $TESSDATA_P
 RUN tesseract --list-langs
 
 
-# Copy over sbb_textline_detector
-COPY vendor vendor
 COPY data/textline_detection /var/lib/textline_detection
 
 
