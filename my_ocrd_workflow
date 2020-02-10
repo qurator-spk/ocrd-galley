@@ -10,13 +10,27 @@ fi
 
 
 do_validate() {
+  # Validate the workspace
+
+  # Both ocrd_tesserocr + ocrd_calamari produce segment coordinates that are not strictly within their parent's
+  # coordinates:
+  #
+  #     INCONSISTENCY in [...] coords [...] not within parent coords
+  #
+  # → --page-coordinate-consistency off
+  #
+  # ocrd_tesserocr sometimes produces segment text results that aren't concatenating as expected by the validator:
+  #
+  #     INCONSISTENCY in [...]: text results '[...]' != concatenated '[...]'
+  #
+  # → --page-strictness lax
+  #
   validate_options='
     --skip dimension
     --skip pixel_density
     --page-strictness lax
     --page-coordinate-consistency off'
   ocrd workspace validate $validate_options
-  # XXX ocrd-tesserocr INCONSISTENCY in TextRegion → use "--page-strictness lax" for now
 }
 
 do_binarization() {
