@@ -3,6 +3,9 @@ language: generic
 services:
   - docker
 
+git:
+  submodules: false  # Avoid trying to checkout private data/ submodule
+
 install:
   - FORCE_GET_FROM_WEB=y ./build
 
