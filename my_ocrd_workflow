@@ -68,7 +68,8 @@ do_ocr() {
   # Perform OCR on the segmented lines
 
   ocrd_tesserocr_recognize_parameters='{
-    "model": "GT4HistOCR_2000000"
+    "model": "GT4HistOCR_2000000",
+    "textequiv_level": "word"
   }'
   ocrd workspace remove-group -rf OCR-D-OCR-TESS
   ocrd-tesserocr-recognize -I OCR-D-SEG-LINE -O OCR-D-OCR-TESS -p "$ocrd_tesserocr_recognize_parameters"
@@ -79,7 +80,7 @@ do_ocr_calamari() {
 
   ocrd_calamari_recognize_parameters='{
     "checkpoint": "/var/lib/calamari-models/GT4HistOCR/2019-07-22T15:49+0200/*.ckpt.json",
-    "textequiv_level": "line"
+    "textequiv_level": "word"
   }'
   ocrd workspace remove-group -rf OCR-D-OCR-CALAMARI
   ocrd-calamari-recognize -I OCR-D-SEG-LINE -O OCR-D-OCR-CALAMARI -p "$ocrd_calamari_recognize_parameters"
