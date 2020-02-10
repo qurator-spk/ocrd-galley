@@ -1,4 +1,3 @@
-#FROM nvidia/cuda:10.0-cudnn7-runtime-ubuntu18.04
 FROM ubuntu:18.04
 
 ENV LC_ALL=C.UTF-8 LANG=C.UTF-8
