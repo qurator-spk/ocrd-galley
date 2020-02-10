@@ -72,6 +72,7 @@ COPY data/textline_detection /var/lib/textline_detection
 RUN tesseract --list-langs
 
 
+# Install requirements
 COPY requirements.txt /tmp/
 RUN pip3 install --no-cache-dir --upgrade pip && \
     pip3 install --no-cache-dir -r /tmp/requirements.txt && \
