@@ -77,7 +77,9 @@ download_to() {
 set -e
 
 
-if ! check_data_subdir; then
+if [ -n "$FORCE_GET_FROM_WEB" ]; then
+  get_from_web
+elif ! check_data_subdir; then
   select choice in "Abort to manually fix $DATA_SUBDIR submodule" "Download data files from the web"; do
     if [ $REPLY = 1 ]; then
       suggest_commands

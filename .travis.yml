@@ -1,0 +1,14 @@
+language: generic
+
+services:
+  - docker
+
+install:
+  - FORCE_GET_FROM_WEB=y ./build
+
+script:
+  - curl -O https://qurator-data.de/examples/actevedef_718448162.first-page.zip
+  - unzip actevedef_718448162.first-page.zip
+  - cd actevedef_718448162.first-page
+
+  - $TRAVIS_BUILD_DIR/run
