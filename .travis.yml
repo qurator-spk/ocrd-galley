@@ -15,3 +15,6 @@ script:
   - cd actevedef_718448162.first-page
 
   - $TRAVIS_BUILD_DIR/run
+
+  - grep -q 'auswaͤrtige Rechtsgelaͤhrte haͤtten muͤſſen bef.aget werden' OCR-D-OCR-CALAMARI/OCR-D-OCR-CALAMARI_00000024.xml
+  - grep -q 'auswaͤrtige Rechtsgelaͤhrte haͤtten muͤſſen bef.aget werden' OCR-D-OCR-TESS/OCR-D-OCR-TESS_00000024.xml
