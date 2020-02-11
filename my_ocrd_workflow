@@ -41,7 +41,7 @@ do_binarization() {
   }'
   ocrd workspace remove-group -rf OCR-D-IMG-BINPAGE
   ocrd workspace remove-group -rf OCR-D-IMG-BIN
-  ocrd-olena-binarize -I OCR-D-IMG -O OCR-D-IMG-BINPAGE -p "$ocrd_olena_binarize_parameters"
+  ocrd-olena-binarize -I OCR-D-IMG -O OCR-D-IMG-BINPAGE,OCR-D-IMG-BIN -p "$ocrd_olena_binarize_parameters"
 }
 
 do_linesegmentation_tesserocr() {
