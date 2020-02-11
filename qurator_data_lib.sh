@@ -1,3 +1,8 @@
+if [ -z "$BASH" ]; then
+  echo "qurator_data_lib.sh uses bash features, please make sure to run $0 in bash"
+  exit 1
+fi
+
 check_data_subdir() {
   result=0
 
