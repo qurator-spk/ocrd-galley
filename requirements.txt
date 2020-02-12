@@ -4,7 +4,7 @@ ocrd >= 2.3.1
 
 ocrd_tesserocr
 
-ocrd_calamari == 0.0.4
+ocrd_calamari == 0.0.5
 
 https://github.com/qurator-spk/sbb_textline_detector/archive/689822c.tar.gz
 
