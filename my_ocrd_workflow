@@ -139,9 +139,6 @@ main() {
     page_validate_xml           $ocr_filegrp
     do_validate
 
-    page_validate_xml           $ocr_filegrp
-    do_validate
-
     if ocrd workspace list-group | grep -q OCR-D-GT-PAGE; then
       ocrd workspace remove-group -rf $ocr_filegrp-EVAL
       ocrd-dinglehopper -I OCR-D-GT-PAGE,$ocr_filegrp -O $ocr_filegrp-EVAL
