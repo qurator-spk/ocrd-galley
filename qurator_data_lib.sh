@@ -26,7 +26,7 @@ annex_get() {
   file_pattern="$1"
 
   (
-    cd data
+    cd $DATA_SUBDIR
     git annex get $file_pattern
 
     # fsck seems to be necessary to fix the files if we're in a submodule
@@ -39,7 +39,7 @@ download_to() {
   unpack_to="$2"
 
   (
-    cd data
+    cd $DATA_SUBDIR
     tmpf=`mktemp 'tmp.XXXXX'`
     wget -O $tmpf "$download_source"
     mkdir -p "$unpack_to"
