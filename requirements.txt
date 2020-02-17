@@ -2,7 +2,7 @@ tensorflow-gpu < 2.0  # Needed for sbb_text_linedetector
 
 ocrd >= 2.3.1
 
-ocrd_tesserocr
+ocrd_tesserocr >= 0.8.1
 
 ocrd_calamari >= 0.0.6
 
