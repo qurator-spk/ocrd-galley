@@ -15,7 +15,7 @@ If you're interested in the exact processors, versions and parameters, please ta
 
 Goal
 ----
-Provide an environment to produce OCR output for historical prints, using OCR-D, especially [ocrd_calamari](https://github.com/OCR-D/ocrd_calamari) and [sbb_textline_detection](https://github.com/qurator-spk/sbb_textline_detection), including all dependencies in Docker.
+Provide a **test environment** to produce OCR output for historical prints, using OCR-D, especially [ocrd_calamari](https://github.com/OCR-D/ocrd_calamari) and [sbb_textline_detection](https://github.com/qurator-spk/sbb_textline_detection), including all dependencies in Docker.
 
 How to use
 ----------
