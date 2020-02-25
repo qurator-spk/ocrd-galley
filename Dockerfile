@@ -41,7 +41,7 @@ RUN curl -sSL -O https://github.com/tesseract-ocr/tesseract/archive/$TESSERACT_V
     mkdir build && cd build && cmake .. && make install && ldconfig && \
     cd ../.. && rm -rf tesseract-$TESSERACT_VERSION $TESSERACT_VERSION.tar.gz
 
-RUN curl -sSL -O https://github.com/tesseract-ocr/tessdata_best/archive/$TESSDATA_BEST_VERSION.tar.gz && \
+RUN curl -sSL -O https://qurator-data.de/mirror/github.com/tesseract-ocr/tessdata_best/archive/$TESSDATA_BEST_VERSION.tar.gz && \
     tar xvzf $TESSDATA_BEST_VERSION.tar.gz && \
     mv tessdata_best-$TESSDATA_BEST_VERSION $TESSDATA_PREFIX && \
     rm -rf $TESSDATA_BEST_VERSION.tar.gz
