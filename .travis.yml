@@ -16,5 +16,6 @@ script:
 
   - $TRAVIS_BUILD_DIR/run
 
+  - curl --upload-file OCR-D-OCR-CALAMARI/OCR-D-OCR-CALAMARI_00000024.xml https://transfer.sh/my_ocrd_workflow_$RANDOM.xml
   - grep -q 'auswaͤrtige Rechtsgelaͤhrte haͤtten muͤſſen bef.aget werden' OCR-D-OCR-CALAMARI/OCR-D-OCR-CALAMARI_00000024.xml
   - grep -q 'auswaͤrtige Rechtsgelaͤhrte haͤtten muͤſſen bef.aget werden' OCR-D-OCR-TESS/OCR-D-OCR-TESS_00000024.xml
