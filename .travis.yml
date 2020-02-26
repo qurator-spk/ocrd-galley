@@ -6,16 +6,27 @@ services:
 git:
   submodules: false  # Avoid trying to checkout private data/ submodule
 
-install:
-  - FORCE_DOWNLOAD=y ./build
 
-script:
-  - curl -O https://qurator-data.de/examples/actevedef_718448162.first-page.zip
-  - unzip actevedef_718448162.first-page.zip
-  - cd actevedef_718448162.first-page
+jobs:
+  include:
+    - stage: Build Docker image
+      script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - FORCE_DOWNLOAD=y ./build
+        - docker images
+        - docker tag my_ocrd_workflow $DOCKER_USERNAME/my_ocrd_workflow
+        - docker push $DOCKER_USERNAME/my_ocrd_workflow
+    - stage: Test
+      script:
+        - docker pull $DOCKER_USERNAME/my_ocrd_workflow
+        - docker tag $DOCKER_USERNAME/my_ocrd_workflow my_ocrd_workflow
 
-  - $TRAVIS_BUILD_DIR/run
+        - curl -O https://qurator-data.de/examples/actevedef_718448162.first-page.zip
+        - unzip actevedef_718448162.first-page.zip
+        - cd actevedef_718448162.first-page
 
-  - curl --upload-file OCR-D-OCR-CALAMARI/OCR-D-OCR-CALAMARI_00000024.xml https://transfer.sh/my_ocrd_workflow_$RANDOM.xml 1>&2
-  - grep -q 'auswaͤrtige Rechtsgelaͤhrte haͤtten muͤſſen bef.aget werden' OCR-D-OCR-CALAMARI/OCR-D-OCR-CALAMARI_00000024.xml
-  - grep -q 'auswaͤrtige Rechtsgelaͤhrte haͤtten muͤſſen bef.aget werden' OCR-D-OCR-TESS/OCR-D-OCR-TESS_00000024.xml
+        - $TRAVIS_BUILD_DIR/run
+
+        - curl --upload-file OCR-D-OCR-CALAMARI/OCR-D-OCR-CALAMARI_00000024.xml https://transfer.sh/my_ocrd_workflow_$RANDOM.xml 1>&2
+        - grep -q 'auswaͤrtige Rechtsgelaͤhrte haͤtten muͤſſen bef.aget werden' OCR-D-OCR-CALAMARI/OCR-D-OCR-CALAMARI_00000024.xml
+        - grep -q 'auswaͤrtige Rechtsgelaͤhrte haͤtten muͤſſen bef.aget werden' OCR-D-OCR-TESS/OCR-D-OCR-TESS_00000024.xml
