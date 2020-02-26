@@ -19,4 +19,4 @@ get_from_web() {
 handle_data
 
 
-docker build -t my_ocrd_workflow .
+docker build --cache-from my_ocrd_workflow -t my_ocrd_workflow .

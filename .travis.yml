@@ -12,10 +12,17 @@ jobs:
     - stage: Build Docker image
       script:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+        # We are using the image my_ocrd_workflow to cache, so pull and tag it
+        - docker pull $DOCKER_USERNAME/my_ocrd_workflow
+        - docker tag $DOCKER_USERNAME/my_ocrd_workflow my_ocrd_workflow
+
         - FORCE_DOWNLOAD=y ./build
-        - docker images
+
         - docker tag my_ocrd_workflow $DOCKER_USERNAME/my_ocrd_workflow
+        - docker images
         - docker push $DOCKER_USERNAME/my_ocrd_workflow
+
     - stage: Test
       script:
         - docker pull $DOCKER_USERNAME/my_ocrd_workflow
