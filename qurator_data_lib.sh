@@ -69,7 +69,7 @@ download_to() {
   (
     cd $DATA_SUBDIR
     tmpf=`mktemp 'tmp.XXXXX'`
-    wget -O $tmpf "$download_source"
+    curl -sSL -o $tmpf "$download_source"
     mkdir -p "$unpack_to"
     # Unpacking relies on tar -a unpacking any tar compression
     tar -C "$unpack_to" -af $tmpf -xv
