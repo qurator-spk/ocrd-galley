@@ -60,10 +60,12 @@ RUN pip3 install --no-cache-dir --upgrade pip && \
 RUN mkdir -p /var/lib/calamari-models
 COPY data/calamari-models/GT4HistOCR /var/lib/calamari-models/GT4HistOCR
 RUN mkdir -p $TESSDATA_PREFIX
+RUN curl -sSL -O https://qurator-data.de/mirror/github.com/tesseract-ocr/tessdata_best/archive/$TESSDATA_BEST_VERSION.tar.gz && \
+    tar xzf $TESSDATA_BEST_VERSION.tar.gz && \
+    mv tessdata_best-$TESSDATA_BEST_VERSION/* $TESSDATA_PREFIX/ && \
+    rm -rf $TESSDATA_BEST_VERSION.tar.gz
 COPY data/tesseract-models/GT4HistOCR/GT4HistOCR_2000000.traineddata $TESSDATA_PREFIX/
 COPY data/textline_detection /var/lib/textline_detection
-
-RUN tesseract --list-langs
 
 
 # Install requirements
