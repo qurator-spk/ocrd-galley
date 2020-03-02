@@ -5,7 +5,7 @@
 # /home on SELinux secured systems such as Fedora. We might want to use udica
 # instead in the future.
 
-DOCKER_IMAGE=my_ocrd_workflow:latest  # locally built
+DOCKER_IMAGE=mikegerber/my_ocrd_workflow:stable
 
 if echo "$DOCKER_IMAGE" | grep -q "/"; then
   docker pull "$DOCKER_IMAGE"
