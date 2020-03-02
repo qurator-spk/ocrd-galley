@@ -12,7 +12,7 @@ stages:
   - name: "Deploy Docker image - latest"
     if: branch = master
   - name: "Deploy Docker image - tagged"
-    if: branch = master AND tag IS present
+    if: tag IS present
 
 jobs:
   include:
