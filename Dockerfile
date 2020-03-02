@@ -78,9 +78,5 @@ COPY my_ocrd_workflow /usr/bin/
 COPY xsd/*            /usr/share/xml/
 
 
-# XXX Work around suspected concurrency problems in ocrd-sbb-textline-detector
-RUN sed -i 's#num_cores *= *cpu_count()#num_cores = 1#' /usr/local/lib/python3.6/dist-packages/qurator/sbb_textline_detector/main.py
-
-
 WORKDIR /data
 CMD ["/usr/bin/my_ocrd_workflow"]
