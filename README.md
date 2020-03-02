@@ -19,13 +19,9 @@ Provide a **test environment** to produce OCR output for historical prints, usin
 
 How to use
 ----------
-It's easiest to use it as a container. To build the container using Docker:
-~~~
-cd ~/devel/my_ocrd_workflow
-./build
-~~~
+It's easiest to use it as a pre-built container. To run the container on an
+example workspace:
 
-To run the container on an example workspace:
 ~~~
 # Download an example workspace
 cd /tmp
@@ -34,8 +30,17 @@ unzip actevedef_718448162.first-page.zip
 
 # Run the workflow on it
 cd actevedef_718448162.first-page
-~/devel/my_ocrd_workflow/run
+~/devel/my_ocrd_workflow/run-docker-hub
 ~~~
+
+### Build the container yourself
+To build the container yourself using Docker:
+~~~
+cd ~/devel/my_ocrd_workflow
+./build
+~~~
+You may then use the script `run` to use your self-built container, analogous to
+the example above.
 
 ### Viewing results
 You may then examine the results using
