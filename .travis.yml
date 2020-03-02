@@ -6,10 +6,17 @@ services:
 git:
   submodules: false  # Avoid trying to checkout private data/ submodule
 
+stages:
+  - name: "Build Docker image"
+  - name: "Test"
+  - name: "Deploy Docker image - latest"
+    if: branch = master
+  - name: "Deploy Docker image - tagged"
+    if: branch = master AND tag IS present
 
 jobs:
   include:
-    - stage: Build Docker image
+    - stage: "Build Docker image"
       script:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
@@ -19,14 +26,14 @@ jobs:
 
         - FORCE_DOWNLOAD=y ./build
 
-        - docker tag my_ocrd_workflow $DOCKER_USERNAME/my_ocrd_workflow
+        - docker tag my_ocrd_workflow $DOCKER_USERNAME/my_ocrd_workflow:$TRAVIS_COMMIT
         - docker images
-        - docker push $DOCKER_USERNAME/my_ocrd_workflow
+        - docker push $DOCKER_USERNAME/my_ocrd_workflow:$TRAVIS_COMMIT
 
-    - stage: Test
+    - stage: "Test"
       script:
-        - docker pull $DOCKER_USERNAME/my_ocrd_workflow
-        - docker tag $DOCKER_USERNAME/my_ocrd_workflow my_ocrd_workflow
+        - docker pull $DOCKER_USERNAME/my_ocrd_workflow:$TRAVIS_COMMIT
+        - docker tag $DOCKER_USERNAME/my_ocrd_workflow:$TRAVIS_COMMIT my_ocrd_workflow
 
         - curl -O https://qurator-data.de/examples/actevedef_718448162.first-page.zip
         - unzip actevedef_718448162.first-page.zip
@@ -37,3 +44,21 @@ jobs:
         - curl --upload-file OCR-D-OCR-CALAMARI/OCR-D-OCR-CALAMARI_00000024.xml https://transfer.sh/my_ocrd_workflow_$RANDOM.xml 1>&2
         - grep -q 'auswa.rtige Rechtsgela.hrte ha.tten mu...en bef.aget werden' OCR-D-OCR-CALAMARI/OCR-D-OCR-CALAMARI_00000024.xml
         - grep -q 'auswa.rtige Rechtsgela.hrte ha.tten mu...en bef.aget werden' OCR-D-OCR-TESS/OCR-D-OCR-TESS_00000024.xml
+
+    - stage: "Deploy Docker image - latest"
+      env: DOCKER_TAG=latest
+      script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+        - docker pull $DOCKER_USERNAME/my_ocrd_workflow:$TRAVIS_COMMIT
+        - docker tag $DOCKER_USERNAME/my_ocrd_workflow:$TRAVIS_COMMIT $DOCKER_USERNAME/my_ocrd_workflow:$DOCKER_TAG
+        - docker push $DOCKER_USERNAME/my_ocrd_workflow:$DOCKER_TAG
+
+    - stage: "Deploy Docker image - tagged"
+      env: DOCKER_TAG=$TRAVIS_TAG
+      script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+        - docker pull $DOCKER_USERNAME/my_ocrd_workflow:$TRAVIS_COMMIT
+        - docker tag $DOCKER_USERNAME/my_ocrd_workflow:$TRAVIS_COMMIT $DOCKER_USERNAME/my_ocrd_workflow:$DOCKER_TAG
+        - docker push $DOCKER_USERNAME/my_ocrd_workflow:$DOCKER_TAG
