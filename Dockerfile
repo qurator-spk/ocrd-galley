@@ -41,8 +41,10 @@ COPY ocrd_logging.py /etc/
 # Build ocrd_olena
 RUN curl -sSL -O https://qurator-data.de/~mike.gerber/olena_2.1-0+ocrd-git/olena-bin_2.1-0+ocrd-git_amd64.deb && \
     dpkg -i --force-depends olena-bin_2.1-0+ocrd-git_amd64.deb && \
-    apt-get -f install -y && apt-get clean && \
-    rm -f olena-bin_2.1-0+ocrd-git_amd64.deb
+    rm -f olena-bin_2.1-0+ocrd-git_amd64.deb && \
+    apt-get update && \
+    apt-get -f install -y && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN pip3 install --no-cache-dir --upgrade pip && \
    curl -sSL -o ocrd_olena.tar.gz https://github.com/OCR-D/ocrd_olena/archive/fde4436.tar.gz && \
    mkdir ocrd_olena && \
