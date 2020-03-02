@@ -2,8 +2,6 @@ FROM ubuntu:18.04
 
 ENV LC_ALL=C.UTF-8 LANG=C.UTF-8
 
-ENV LEPTONICA_VERSION 1.78.0
-ENV TESSERACT_VERSION 4.1.1
 ENV TESSDATA_BEST_VERSION 4.0.0
 ENV TESSDATA_PREFIX /usr/local/share/tessdata
 
@@ -13,8 +11,7 @@ RUN apt-get update && \
       curl xz-utils \
       python3-pip \
       git \
-# For leptonica/tesseract:
-      cmake libgif-dev libjpeg-dev libpng-dev libtiff-dev zlib1g-dev libpango1.0-dev \
+      software-properties-common \
 # For clstm on Ubuntu 19.04:
       swig libeigen3-dev libpng-dev libprotobuf-dev \
 # For cv2:
@@ -28,24 +25,14 @@ RUN apt-get update && \
     apt-get clean
 
 
-# Build Leptonica and Tesseract.
-RUN curl -sSL -O https://github.com/DanBloomberg/leptonica/releases/download/$LEPTONICA_VERSION/leptonica-$LEPTONICA_VERSION.tar.gz && \
-    tar xvzf leptonica-$LEPTONICA_VERSION.tar.gz && \
-    cd leptonica-$LEPTONICA_VERSION && \
-    mkdir build && cd build && cmake .. && make install && ldconfig && \
-    cd ../.. && rm -rf leptonica-$LEPTONICA_VERSION leptonica-$LEPTONICA_VERSION.tar.gz
-
-RUN curl -sSL -O https://github.com/tesseract-ocr/tesseract/archive/$TESSERACT_VERSION.tar.gz && \
-    tar xvzf $TESSERACT_VERSION.tar.gz && \
-    cd tesseract-$TESSERACT_VERSION && \
-    mkdir build && cd build && cmake .. && make install && ldconfig && \
-    cd ../.. && rm -rf tesseract-$TESSERACT_VERSION $TESSERACT_VERSION.tar.gz
-
-RUN curl -sSL -O https://qurator-data.de/mirror/github.com/tesseract-ocr/tessdata_best/archive/$TESSDATA_BEST_VERSION.tar.gz && \
-    tar xvzf $TESSDATA_BEST_VERSION.tar.gz && \
-    mv tessdata_best-$TESSDATA_BEST_VERSION $TESSDATA_PREFIX && \
-    rm -rf $TESSDATA_BEST_VERSION.tar.gz
-
+# Install Leptonica and Tesseract.
+RUN add-apt-repository ppa:alex-p/tesseract-ocr && \
+    apt-get update && \
+    apt-get install -y \
+        tesseract-ocr \
+        libtesseract-dev \
+    && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set up OCR-D logging
 COPY ocrd_logging.py /etc/
