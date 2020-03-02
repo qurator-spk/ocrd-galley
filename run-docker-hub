@@ -5,16 +5,4 @@
 # /home on SELinux secured systems such as Fedora. We might want to use udica
 # instead in the future.
 
-DOCKER_IMAGE=mikegerber/my_ocrd_workflow:stable
-
-if echo "$DOCKER_IMAGE" | grep -q "/"; then
-  docker pull "$DOCKER_IMAGE"
-fi
-
-docker run --privileged=true --rm -t \
-  \
-  --user `id -u`:`id -g` \
-  --mount type=bind,src="$(pwd)",target=/data \
-  \
-  -e LOG_LEVEL=$LOG_LEVEL \
-  $DOCKER_IMAGE
+DOCKER_IMAGE=mikegerber/my_ocrd_workflow:stable `dirname $0`/run

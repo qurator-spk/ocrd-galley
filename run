@@ -1,15 +1,17 @@
 #!/bin/sh
 # Run the my_ocrd_workflow container on the current workspace
 
-# The container currently needs to run privileged to allow it to read from e.g.
-# /home on SELinux secured systems such as Fedora. We might want to use udica
-# instead in the future.
+set -e  # Abort on error
 
-DOCKER_IMAGE=my_ocrd_workflow:latest  # locally built
+DOCKER_IMAGE=${DOCKER_IMAGE:-my_ocrd_workflow:latest}  # default to locally built
 
 if echo "$DOCKER_IMAGE" | grep -q "/"; then
   docker pull "$DOCKER_IMAGE"
 fi
+
+# The container currently needs to run privileged to allow it to read from e.g.
+# /home on SELinux secured systems such as Fedora. We might want to use udica
+# instead in the future.
 
 docker run --privileged=true --rm -t \
   \
