@@ -1,0 +1,50 @@
+#!/bin/sh
+#ppn="PPN719671574"
+#ppn="PPN726351202"  # Einblattdruck
+ppn=PPN787969397  # Folz, Hans: Abenteuerliches Klopfan, 1481
+
+set -e
+
+self_dir=`dirname $0`
+self_dir=`realpath $self_dir`
+
+export no_proxy=localhost,digital.staatsbibliothek-berlin.de
+
+workspace=$ppn
+mkdir "$workspace"
+cd "$workspace"
+pwd
+oai_identifier="oai%3Adigital.staatsbibliothek-berlin.de%3A$ppn"
+oai_url="https://digital.staatsbibliothek-berlin.de/oai?verb=GetRecord&metadataPrefix=mets&identifier=$oai_identifier"
+echo "$oai_url"
+curl "$oai_url" | xmlstarlet sel -t -c '//*[local-name()="mets"]' > mets.xml
+
+
+sed -i 's#file:///goobi/tiff001/sbb/#file:///srv/digisam_images/sbb/#g' mets.xml
+
+
+ocrd workspace validate mets.xml | grep -v "<notice>Won't download remote image"
+
+
+$self_dir/run-docker-hub -I PRESENTATION --skip-validation
+
+
+# TODO
+
+# my_ocrd_workflow
+# ----------------
+# * Need option to add volumes e.g. /srv/digisam_images
+# * Use run-docker-hub
+
+# File bugs in OCR-D
+# ------------------
+# * <error>PAGE-XML OCR-D-IMG-BINPAGE/OCR-D-IMG-BINPAGE_0001.xml : imageFilename '/srv/digisam_images/sbb/PPN719671574/00000001.tif' not found in METS</error>
+#   -> had to use relative file names
+# * Should be able to disable in workspace validate   <notice>Won't download remote image <http://content.staatsbibliothek-berlin.de/dms/PPN719671574/800/0/00000335.jpg></notice>
+
+
+# sbb_textline_detector
+# ---------------------
+# * sbb_textline_detector slow
+#   -> Support loading the models once so the OCR-D processor can profit from  processing multiple pages
+# * Check what happens with the skewed textlines in SEG_LINE_0019
