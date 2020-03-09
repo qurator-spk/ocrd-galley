@@ -79,4 +79,4 @@ COPY xsd/*            /usr/share/xml/
 
 
 WORKDIR /data
-CMD ["/usr/bin/my_ocrd_workflow"]
+ENTRYPOINT ["/usr/bin/my_ocrd_workflow"]

@@ -19,4 +19,4 @@ docker run --privileged=true --rm -t \
   --mount type=bind,src="$(pwd)",target=/data \
   \
   -e LOG_LEVEL=$LOG_LEVEL \
-  $DOCKER_IMAGE
+  $DOCKER_IMAGE "$@"

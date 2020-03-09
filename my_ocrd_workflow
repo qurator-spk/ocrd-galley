@@ -6,6 +6,19 @@ set -e  # Abort on error
 export LOG_LEVEL=${LOG_LEVEL:-DEBUG}  # /etc/ocrd_logging.py uses this to set level for all OCR-D modules
 export TEXTEQUIV_LEVEL=glyph
 
+# Command line parameters
+OPTS=`getopt -o I: --long input-file-grp: -- "$@"`
+eval set -- "$OPTS"
+INPUT_FILE_GRP=OCR-D-IMG
+while true; do
+  case "$1" in
+    -I|--input-file-grp) INPUT_FILE_GRP=$2; shift 2;;
+
+    --) shift; break;;
+    *) break;;
+  esac
+done
+
 # Set up logging
 if [ "$LOG_LEVEL" = "DEBUG" -o "$LOG_LEVEL" = "TRACE" ]; then
   set -x
@@ -44,7 +57,7 @@ do_binarization() {
   }'
   ocrd workspace remove-group -rf OCR-D-IMG-BINPAGE
   ocrd workspace remove-group -rf OCR-D-IMG-BIN
-  ocrd-olena-binarize -I OCR-D-IMG -O OCR-D-IMG-BINPAGE,OCR-D-IMG-BIN -p "$ocrd_olena_binarize_parameters"
+  ocrd-olena-binarize -I $INPUT_FILE_GRP -O OCR-D-IMG-BINPAGE,OCR-D-IMG-BIN -p "$ocrd_olena_binarize_parameters"
 }
 
 do_linesegmentation_tesserocr() {
