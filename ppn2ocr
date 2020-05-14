@@ -34,7 +34,6 @@ $self_dir/run-docker-hub -I PRESENTATION --skip-validation
 # my_ocrd_workflow
 # ----------------
 # * Need option to add volumes e.g. /srv/digisam_images
-# * Use run-docker-hub
 
 # File bugs in OCR-D
 # ------------------
