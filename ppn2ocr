@@ -8,7 +8,6 @@ set -e
 self_dir=`dirname $0`
 self_dir=`realpath $self_dir`
 
-export no_proxy=localhost,digital.staatsbibliothek-berlin.de
 
 workspace=$ppn
 mkdir "$workspace"
@@ -30,6 +29,9 @@ $self_dir/run-docker-hub -I PRESENTATION --skip-validation
 
 
 # TODO
+
+# * README: Users must configure their proxy properly via environment variables;
+#   This includes setting no_proxy (e.g. for use at SBB).
 
 # my_ocrd_workflow
 # ----------------
