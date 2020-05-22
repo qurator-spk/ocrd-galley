@@ -1,16 +1,19 @@
-#!/bin/sh
-#ppn="PPN719671574"
-#ppn="PPN726351202"  # Einblattdruck
-#ppn=PPN787969397  # Folz, Hans: Abenteuerliches Klopfan, 1481
-#ppn=PPN833534149  # Der von Wienn Rueff was ordnung || die Burger auf denen plaetzen ... , 1528
-ppn=PPN77164308X  # Bericht des Evangelischen Vereins an seine Mitglieder und Freunde , 1915
+#!/bin/bash
+# Get OCR results as a OCR-D workspace for a given PPN
+
+set -e  # Abort on error
 
 
-set -e
+show_help() {
+  cat <<-EOH
+Usage: $0 PPN77164308X
 
-self_dir=`dirname $0`
-self_dir=`realpath $self_dir`
+  Get OCR results as a OCR-D workspace for a given PPN
 
+Options:
+  --help                          Show this message and exit.
+EOH
+}
 
 make_workspace () {
     ppn=$1
@@ -40,6 +43,23 @@ make_workspace () {
 }
 
 
+# Command line parameters
+OPTS=`getopt -o h --long help -- "$@"`
+eval set -- "$OPTS"
+while true; do
+    case "$1" in
+        -h|--help) show_help; exit; shift;;
+        --) shift; break;;
+        *) break;;
+    esac
+done
+if [ -z "$1" ]; then show_help; exit; fi
+ppn=$1
+
+
+# From here, the magic happens
+self_dir=`dirname $0`
+self_dir=`realpath $self_dir`
 
 make_workspace $ppn $ppn
 $self_dir/run-docker-hub -I PRESENTATION --skip-validation
