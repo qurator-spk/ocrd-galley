@@ -12,27 +12,36 @@ self_dir=`dirname $0`
 self_dir=`realpath $self_dir`
 
 
-workspace=$ppn
-mkdir "$workspace"
-cd "$workspace"
-pwd
-oai_identifier="oai%3Adigital.staatsbibliothek-berlin.de%3A$ppn"
-oai_url="https://digital.staatsbibliothek-berlin.de/oai?verb=GetRecord&metadataPrefix=mets&identifier=$oai_identifier"
-echo "$oai_url"
-curl "$oai_url" | xmlstarlet sel -t -c '//*[local-name()="mets"]' > mets.xml
+make_workspace () {
+    ppn=$1
+    workspace=$2
 
-# Fix 'file:/' URLs to 'file:///'
-sed -i 's#file:/\([^/]\)#file:///\1#' mets.xml
+    # Make workspace directory
+    mkdir "$workspace"
+    cd "$workspace"
 
-# Patch mets.xml to use our NFS mount
-sed -i 's#file:///goobi/tiff001/sbb/#file:///srv/digisam_images/sbb/#g' mets.xml
+    # Get METS from OAI-PMH
+    oai_identifier="oai%3Adigital.staatsbibliothek-berlin.de%3A$ppn"
+    oai_url="https://digital.staatsbibliothek-berlin.de/oai?verb=GetRecord&metadataPrefix=mets&identifier=$oai_identifier"
+    echo "$oai_url"
+    curl "$oai_url" | xmlstarlet sel -t -c '//*[local-name()="mets"]' > mets.xml
 
-# Remove LOCAL file group as we do not have access to the files
-ocrd workspace remove-group -rf --keep-files LOCAL
+    # Fix 'file:/' URLs to 'file:///'
+    sed -i 's#file:/\([^/]\)#file:///\1#' mets.xml
 
-ocrd workspace validate mets.xml | grep -v "<notice>Won't download remote image"
+    # Patch mets.xml to use our NFS mount
+    sed -i 's#file:///goobi/tiff001/sbb/#file:///srv/digisam_images/sbb/#g' mets.xml
+
+    # Remove LOCAL file group as we do not have access to the files
+    ocrd workspace remove-group -rf --keep-files LOCAL
+
+    # Validate workspace
+    ocrd workspace validate mets.xml | grep -v "<notice>Won't download remote image"
+}
 
 
+
+make_workspace $ppn $ppn
 $self_dir/run-docker-hub -I PRESENTATION --skip-validation
 
 
