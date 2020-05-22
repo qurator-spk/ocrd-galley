@@ -1,0 +1,23 @@
+#!/bin/sh
+zdb=27974534
+yyyymmdd=19010712
+
+set -e
+
+self_dir=`dirname $0`
+self_dir=`realpath $self_dir`
+
+
+workspace=$zdb-$yyyymmdd
+mkdir "$workspace"
+cd "$workspace"
+pwd
+zefys_url="https://content.staatsbibliothek-berlin.de/zefys/SNP$zdb-$yyyymmdd-0-0-0-0.xml"
+echo "$zefys_url"
+curl "$zefys_url" > mets.xml
+
+
+ocrd workspace validate mets.xml | grep -v "<notice>Won't download remote image"
+
+
+$self_dir/run-docker-hub -I MAX --skip-validation
