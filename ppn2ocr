@@ -1,7 +1,10 @@
 #!/bin/sh
 #ppn="PPN719671574"
 #ppn="PPN726351202"  # Einblattdruck
-ppn=PPN787969397  # Folz, Hans: Abenteuerliches Klopfan, 1481
+#ppn=PPN787969397  # Folz, Hans: Abenteuerliches Klopfan, 1481
+#ppn=PPN833534149  # Der von Wienn Rueff was ordnung || die Burger auf denen plaetzen ... , 1528
+ppn=PPN77164308X  # Bericht des Evangelischen Vereins an seine Mitglieder und Freunde , 1915
+
 
 set -e
 
