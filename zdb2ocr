@@ -21,3 +21,11 @@ ocrd workspace validate mets.xml | grep -v "<notice>Won't download remote image"
 
 
 $self_dir/run-docker-hub -I MAX --skip-validation
+
+
+# * TODO: Error on invocation
+# * TODO: Check out options to get better image resolutions
+# * TODO: Are input images already grayscale? Further binarization makes them
+#         worse than before
+# * TODO: Does this loose the image URLs for the MAX filegroup?
+# * TODO: Lots of text problems with ocrd_calamari "not the same as Calamari"
