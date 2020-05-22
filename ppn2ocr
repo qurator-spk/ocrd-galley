@@ -18,9 +18,14 @@ oai_url="https://digital.staatsbibliothek-berlin.de/oai?verb=GetRecord&metadataP
 echo "$oai_url"
 curl "$oai_url" | xmlstarlet sel -t -c '//*[local-name()="mets"]' > mets.xml
 
+# Fix 'file:/' URLs to 'file:///'
+sed -i 's#file:/\([^/]\)#file:///\1#' mets.xml
 
+# Patch mets.xml to use our NFS mount
 sed -i 's#file:///goobi/tiff001/sbb/#file:///srv/digisam_images/sbb/#g' mets.xml
 
+# Remove LOCAL file group as we do not have access to the files
+ocrd workspace remove-group -rf --keep-files LOCAL
 
 ocrd workspace validate mets.xml | grep -v "<notice>Won't download remote image"
 
