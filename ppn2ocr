@@ -50,6 +50,25 @@ def oai_mets(ppn):
     return mets
 
 
+def iiif_url_for_dms_url(dms_url, ppn, size):
+    """
+    Construct an IIIF URL from a dms URL.
+
+    This function exists to contain the hack of rewriting the URL to get IIIF.
+    """
+    if ppn not in dms_url:
+        raise ValueError(f"Unexpected URL {dms_url}")
+    m = re.search(r'/dms/.*/([0-9]+)\.jpg$', dms_url)
+    if m:
+        page_num = m.group(1)
+    else:
+        raise ValueError(f"Unexpected URL {dms_url}")
+    iiif_identifier = f'{ppn}-{page_num}'
+    iiif_url = f'https://content.staatsbibliothek-berlin.de/dc/{iiif_identifier}/full/{size}/0/default.jpg'
+
+    return iiif_url
+
+
 def make_workspace(ppn, workspace):
     # Make workspace directory
     os.mkdir(workspace)
@@ -82,12 +101,7 @@ def make_workspace(ppn, workspace):
         # XXX Need to fumble around with the URL for now
         flocat = f.find(f".//{{{XMLNS['mets']}}}FLocat")
         old_url = flocat.attrib[f"{{{XMLNS['xlink']}}}href"]
-        m = re.search(r'/dms/.*/([0-9]+)\.jpg$', old_url)
-        if m:
-            page_num = m.group(1)
-        else:
-            raise ValueError(f"Unexpected DEFAULT URL {old_url}")
-        url_iiif_full = f'https://content.staatsbibliothek-berlin.de/dc/{ppn}-{page_num}/full/full/0/default.jpg'
+        url_iiif_full = iiif_url_for_dms_url(old_url, ppn, 'full')
         flocat.attrib[f"{{{XMLNS['xlink']}}}href"] = url_iiif_full
 
     mets.find('//mets:fileSec', namespaces=XMLNS).append(file_grp_best)
