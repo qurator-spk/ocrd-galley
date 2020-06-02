@@ -5,6 +5,7 @@ import requests
 import sys
 import lxml.etree as ET
 import re
+import subprocess
 from copy import deepcopy
 
 
@@ -139,11 +140,13 @@ ppn = sys.argv[1]
 
 
 # From here, the magic happens
-#  self_dir=`dirname $0`
-#  self_dir=`realpath $self_dir`
-
+self_dir = os.path.realpath(os.path.dirname(sys.argv[0]))
 make_workspace(ppn, ppn)
-# XXX $self_dir/run-docker-hub -I PRESENTATION --skip-validation
+subprocess.run([
+   os.path.join(self_dir, 'run-docker-hub'),
+   '-I', 'BEST',
+   '--skip-validation'
+])
 
 
 # TODO
