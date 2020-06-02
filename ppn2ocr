@@ -1,68 +1,135 @@
-#!/bin/bash
-# Get OCR results as a OCR-D workspace for a given PPN
+#!/usr/bin/env python3
+"""Get OCR results as a OCR-D workspace for a given PPN"""
+import os
+import requests
+import sys
+import lxml.etree as ET
+import re
+from copy import deepcopy
 
-set -e  # Abort on error
 
-
-show_help() {
-  cat <<-EOH
-Usage: $0 PPN77164308X
-
-  Get OCR results as a OCR-D workspace for a given PPN
-
-Options:
-  --help                          Show this message and exit.
-EOH
+XMLNS = {
+   'mets': 'http://www.loc.gov/METS/',
+   'xlink': 'http://www.w3.org/1999/xlink'
 }
+API_URL = 'https://digital.staatsbibliothek-berlin.de/oai'
+IDENTIFIER_TEMPLATE = 'oai:digital.staatsbibliothek-berlin.de:%s'
 
-make_workspace () {
-    ppn=$1
-    workspace=$2
 
+for prefix, uri in XMLNS.items():
+    ET.register_namespace(prefix, uri)
+
+
+# XXX
+#  show_help() {
+#    cat <<-EOH
+#  Usage: $0 PPN77164308X
+#
+#    Get OCR results as a OCR-D workspace for a given PPN
+#
+#  Options:
+#    --help                          Show this message and exit.
+#  EOH
+#  }
+
+
+def oai_mets(ppn):
+    """Retrieve METS metadata for a given PPN."""
+
+    params = {
+        'verb': 'GetRecord',
+        'metadataPrefix': 'mets',
+        'identifier': IDENTIFIER_TEMPLATE % ppn
+    }
+
+    s = requests.Session()
+    r = s.get(API_URL, params=params)
+    mets = ET.XML(r.content).find(f".//{{{XMLNS['mets']}}}mets")
+    mets = ET.ElementTree(mets)
+
+    return mets
+
+
+def make_workspace(ppn, workspace):
     # Make workspace directory
-    mkdir "$workspace"
-    cd "$workspace"
+    os.mkdir(workspace)
+    os.chdir(workspace)
 
-    # Get METS from OAI-PMH
-    oai_identifier="oai%3Adigital.staatsbibliothek-berlin.de%3A$ppn"
-    oai_url="https://digital.staatsbibliothek-berlin.de/oai?verb=GetRecord&metadataPrefix=mets&identifier=$oai_identifier"
-    echo "$oai_url"
-    curl "$oai_url" | xmlstarlet sel -t -c '//*[local-name()="mets"]' > mets.xml
+    mets = oai_mets(ppn)
 
+    # XXX
+    # Delete PRESENTATION file group
+    # (local file:/// links, not handled well by "ocrd workspace")
+    for bad in mets.xpath('//mets:fileGrp[@USE="PRESENTATION"]', namespaces=XMLNS):
+        bad.getparent().remove(bad)
+
+
+    # Duplicate DEFAULT file group into a new file group BEST
+    file_grp_default = mets.find('//mets:fileGrp[@USE="DEFAULT"]', namespaces=XMLNS)
+    file_grp_best = deepcopy(file_grp_default)
+
+    file_grp_best.attrib['USE'] = 'BEST'
+    for f in file_grp_best.findall('./mets:file', namespaces=XMLNS):
+        old_id = f.attrib['ID']
+        new_id = re.sub('DEFAULT', 'BEST', old_id)
+        f.attrib['ID'] = new_id
+
+        for fptr in mets.findall(f'//mets:fptr[@FILEID="{old_id}"]', namespaces=XMLNS):
+            new_fptr = deepcopy(fptr)
+            new_fptr.attrib['FILEID'] = new_id
+            fptr.getparent().append(new_fptr)
+
+        # XXX Need to fumble around with the URL for now
+        flocat = f.find(f".//{{{XMLNS['mets']}}}FLocat")
+        old_url = flocat.attrib[f"{{{XMLNS['xlink']}}}href"]
+        m = re.search(r'/dms/.*/([0-9]+)\.jpg$', old_url)
+        if m:
+            page_num = m.group(1)
+        else:
+            raise ValueError(f"Unexpected DEFAULT URL {old_url}")
+        url_iiif_full = f'https://content.staatsbibliothek-berlin.de/dc/{ppn}-{page_num}/full/full/0/default.jpg'
+        flocat.attrib[f"{{{XMLNS['xlink']}}}href"] = url_iiif_full
+
+    mets.find('//mets:fileSec', namespaces=XMLNS).append(file_grp_best)
+
+
+    # Write mets.xml
+    mets.write('mets.xml', pretty_print=True)
+
+    # TODO
+    # Validate workspace
+    #ocrd workspace validate mets.xml | grep -v "<notice>Won't download remote image"
+
+    # XXX
     # Fix 'file:/' URLs to 'file:///'
-    sed -i 's#file:/\([^/]\)#file:///\1#' mets.xml
+    #sed -i 's#file:/\([^/]\)#file:///\1#' mets.xml
 
     # Patch mets.xml to use our NFS mount
-    sed -i 's#file:///goobi/tiff001/sbb/#file:///srv/digisam_images/sbb/#g' mets.xml
-
-    # Remove LOCAL file group as we do not have access to the files
-    ocrd workspace remove-group -rf --keep-files LOCAL
-
-    # Validate workspace
-    ocrd workspace validate mets.xml | grep -v "<notice>Won't download remote image"
-}
+    #sed -i 's#file:///goobi/tiff001/sbb/#file:///srv/digisam_images/sbb/#g' mets.xml
 
 
 # Command line parameters
-OPTS=`getopt -o h --long help -- "$@"`
-eval set -- "$OPTS"
-while true; do
-    case "$1" in
-        -h|--help) show_help; exit; shift;;
-        --) shift; break;;
-        *) break;;
-    esac
-done
-if [ -z "$1" ]; then show_help; exit; fi
-ppn=$1
+# XXX
+ppn = sys.argv[1]
+#  OPTS=`getopt -o h --long help -- "$@"`
+#  eval set -- "$OPTS"
+#  while true; do
+#      case "$1" in
+#          -h|--help) show_help; exit; shift;;
+#          --) shift; break;;
+#          *) break;;
+#      esac
+#  done
+#  if [ -z "$1" ]; then show_help; exit; fi
+#  ppn=$1
 
 
 # From here, the magic happens
-self_dir=`dirname $0`
-self_dir=`realpath $self_dir`
+#  self_dir=`dirname $0`
+#  self_dir=`realpath $self_dir`
 
-make_workspace $ppn $ppn
-$self_dir/run-docker-hub -I PRESENTATION --skip-validation
+make_workspace(ppn, ppn)
+# XXX $self_dir/run-docker-hub -I PRESENTATION --skip-validation
 
 
 # TODO
