@@ -154,23 +154,3 @@ make_workspace(ppn, ppn)
 #     '-I', 'BEST',
 #     '--skip-validation'
 #  ])
-
-
-# TODO
-
-# my_ocrd_workflow
-# ----------------
-# * Need option to add volumes e.g. /srv/digisam_images
-
-# File bugs in OCR-D
-# ------------------
-# * <error>PAGE-XML OCR-D-IMG-BINPAGE/OCR-D-IMG-BINPAGE_0001.xml : imageFilename '/srv/digisam_images/sbb/PPN719671574/00000001.tif' not found in METS</error>
-#   -> had to use relative file names
-# * Should be able to disable in workspace validate   <notice>Won't download remote image <http://content.staatsbibliothek-berlin.de/dms/PPN719671574/800/0/00000335.jpg></notice>
-
-
-# sbb_textline_detector
-# ---------------------
-# * sbb_textline_detector slow
-#   -> Support loading the models once so the OCR-D processor can profit from  processing multiple pages
-# * Check what happens with the skewed textlines in SEG_LINE_0019
