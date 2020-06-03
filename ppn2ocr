@@ -55,7 +55,7 @@ def iiif_url_for_dms_url(dms_url, ppn, size):
     """
     Construct an IIIF URL from a dms URL.
 
-    This function exists to contain the hack of rewriting the URL to get IIIF.
+    This function exists to encapsulate the hack of rewriting the URL to get IIIF.
     """
     if ppn not in dms_url:
         raise ValueError(f"Unexpected URL {dms_url}")
