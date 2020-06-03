@@ -6,6 +6,7 @@ import sys
 import lxml.etree as ET
 import re
 import subprocess
+import click
 from copy import deepcopy
 
 
@@ -130,27 +131,28 @@ def make_workspace(ppn, workspace):
     #sed -i 's#file:///goobi/tiff001/sbb/#file:///srv/digisam_images/sbb/#g' mets.xml
 
 
-# Command line parameters
-# XXX
-ppn = sys.argv[1]
-#  OPTS=`getopt -o h --long help -- "$@"`
-#  eval set -- "$OPTS"
-#  while true; do
-#      case "$1" in
-#          -h|--help) show_help; exit; shift;;
-#          --) shift; break;;
-#          *) break;;
-#      esac
-#  done
-#  if [ -z "$1" ]; then show_help; exit; fi
-#  ppn=$1
+@click.command()
+@click.argument('ppn')
+def ppn2ocr(ppn):
+   """
+   Get METS with best images for a document PPN
+
+   For example, to get the document "PROPOSITIONES PHILOSOPHICAE: [...]" use this:
+
+   \b
+   ppn2ocr PPN699887615
+   ls PPN699887615
+   """
+   self_dir = os.path.realpath(os.path.dirname(sys.argv[0]))
+   make_workspace(ppn, ppn)
+
+   # XXX
+   #  subprocess.run([
+   #     os.path.join(self_dir, 'run-docker-hub'),
+   #     '-I', 'BEST',
+   #     '--skip-validation'
+   #  ])
 
 
-# From here, the magic happens
-self_dir = os.path.realpath(os.path.dirname(sys.argv[0]))
-make_workspace(ppn, ppn)
-#  subprocess.run([
-#     os.path.join(self_dir, 'run-docker-hub'),
-#     '-I', 'BEST',
-#     '--skip-validation'
-#  ])
+if __name__ == '__main__':
+    ppn2ocr()
