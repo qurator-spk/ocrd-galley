@@ -149,11 +149,11 @@ ppn = sys.argv[1]
 # From here, the magic happens
 self_dir = os.path.realpath(os.path.dirname(sys.argv[0]))
 make_workspace(ppn, ppn)
-subprocess.run([
-   os.path.join(self_dir, 'run-docker-hub'),
-   '-I', 'BEST',
-   '--skip-validation'
-])
+#  subprocess.run([
+#     os.path.join(self_dir, 'run-docker-hub'),
+#     '-I', 'BEST',
+#     '--skip-validation'
+#  ])
 
 
 # TODO
