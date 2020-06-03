@@ -70,6 +70,14 @@ def iiif_url_for_dms_url(dms_url, ppn, size):
     return iiif_url
 
 
+def remove_file_grp(mets, use):
+    for bad_fileid in mets.xpath(f'//mets:fileGrp[@USE="{use}"]/mets:file/@ID', namespaces=XMLNS):
+        for bad in mets.xpath(f'//mets:fptr[@FILEID="{bad_fileid}"]', namespaces=XMLNS):
+            bad.getparent().remove(bad)
+    for bad in mets.xpath(f'//mets:fileGrp[@USE="{use}"]', namespaces=XMLNS):
+        bad.getparent().remove(bad)
+
+
 def make_workspace(ppn, workspace):
     # Make workspace directory
     os.mkdir(workspace)
@@ -80,8 +88,7 @@ def make_workspace(ppn, workspace):
     # XXX
     # Delete PRESENTATION file group
     # (local file:/// links, not handled well by "ocrd workspace")
-    for bad in mets.xpath('//mets:fileGrp[@USE="PRESENTATION"]', namespaces=XMLNS):
-        bad.getparent().remove(bad)
+    remove_file_grp(mets, 'PRESENTATION')
 
 
     # Duplicate DEFAULT file group into a new file group BEST
