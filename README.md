@@ -62,7 +62,7 @@ The `ppn2ocr` script produces a METS file with the best images for a given
 document in the State Library Berlin (SBB)'s digitized collection. The document
 must be specified by its PPN, for example:
 ~~~
-pip install -r requirements-ppn2ocr.txt
+pip install -r ~/devel/my_ocrd_workflow/requirements-ppn2ocr.txt
 ~/devel/my_ocrd_workflow/ppn2ocr PPN77164308X
 cd PPN77164308X
 ~/devel/my_ocrd_workflow/run-docker-hub -I BEST --skip-validation
