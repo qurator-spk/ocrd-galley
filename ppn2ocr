@@ -87,9 +87,10 @@ def make_workspace(ppn, workspace):
     mets = oai_mets(ppn)
 
     # XXX
-    # Delete PRESENTATION file group
-    # (local file:/// links, not handled well by "ocrd workspace")
+    # Delete PRESENTATION + LOCAL file groups
+    # (local file:/// or file:/ links, not handled well by "ocrd workspace")
     remove_file_grp(mets, 'PRESENTATION')
+    remove_file_grp(mets, 'LOCAL')
 
 
     # Duplicate DEFAULT file group into a new file group BEST
