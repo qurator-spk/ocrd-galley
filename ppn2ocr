@@ -45,7 +45,9 @@ def oai_mets(ppn):
     }
 
     s = requests.Session()
-    r = s.get(API_URL, params=params)
+    # FIXME oai.sbb.berlin fails certificate check
+    #r = s.get(API_URL, params=params)
+    r = s.get(API_URL, params=params, verify=False)
     mets = ET.XML(r.content).find(f".//{{{XMLNS['mets']}}}mets")
     mets = ET.ElementTree(mets)
 
