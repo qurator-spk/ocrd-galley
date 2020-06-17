@@ -22,19 +22,6 @@ for prefix, uri in XMLNS.items():
     ET.register_namespace(prefix, uri)
 
 
-# XXX
-#  show_help() {
-#    cat <<-EOH
-#  Usage: $0 PPN77164308X
-#
-#    Get OCR results as a OCR-D workspace for a given PPN
-#
-#  Options:
-#    --help                          Show this message and exit.
-#  EOH
-#  }
-
-
 def oai_mets(ppn):
     """Retrieve METS metadata for a given PPN."""
 
