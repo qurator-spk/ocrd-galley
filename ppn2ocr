@@ -22,19 +22,6 @@ for prefix, uri in XMLNS.items():
     ET.register_namespace(prefix, uri)
 
 
-# XXX
-#  show_help() {
-#    cat <<-EOH
-#  Usage: $0 PPN77164308X
-#
-#    Get OCR results as a OCR-D workspace for a given PPN
-#
-#  Options:
-#    --help                          Show this message and exit.
-#  EOH
-#  }
-
-
 def oai_mets(ppn):
     """Retrieve METS metadata for a given PPN."""
 
@@ -45,7 +32,9 @@ def oai_mets(ppn):
     }
 
     s = requests.Session()
-    r = s.get(API_URL, params=params)
+    # FIXME oai.sbb.berlin fails certificate check
+    #r = s.get(API_URL, params=params)
+    r = s.get(API_URL, params=params, verify=False)
     mets = ET.XML(r.content).find(f".//{{{XMLNS['mets']}}}mets")
     mets = ET.ElementTree(mets)
 

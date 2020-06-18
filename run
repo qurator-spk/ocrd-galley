@@ -9,13 +9,22 @@ if echo "$DOCKER_IMAGE" | grep -q "/"; then
   docker pull "$DOCKER_IMAGE"
 fi
 
+
+# XXX Work around podman vs docker uid behaviour
+if docker -v 2>&1 | grep -q podman; then
+  user="0:0"
+else
+  user="`id -u`:`id -g`"
+fi
+
+
 # The container currently needs to run privileged to allow it to read from e.g.
 # /home on SELinux secured systems such as Fedora. We might want to use udica
 # instead in the future.
 
 docker run --privileged=true --rm -t \
   \
-  --user `id -u`:`id -g` \
+  --user $user \
   --mount type=bind,src="$(pwd)",target=/data \
   \
   -e LOG_LEVEL=$LOG_LEVEL \
