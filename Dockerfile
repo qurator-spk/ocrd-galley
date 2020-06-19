@@ -70,10 +70,13 @@ COPY data/textline_detection /var/lib/textline_detection
 
 
 # Install requirements
+# Using pipdeptree here to get more info than from pip3 check
 COPY requirements.txt /tmp/
 RUN pip3 install --no-cache-dir --upgrade pip && \
     pip3 install --no-cache-dir -r /tmp/requirements.txt && \
-    pip3 check
+    pip3 install --no-cache-dir pipdeptree && \
+    pipdeptree -w fail
+
 
 COPY my_ocrd_workflow /usr/bin/
 COPY xsd/*            /usr/share/xml/
