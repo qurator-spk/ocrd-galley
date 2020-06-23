@@ -134,6 +134,8 @@ page_upgrade_to_2019() {
 
 
 main() {
+  do_validate
+
   do_binarization
   do_validate
 
