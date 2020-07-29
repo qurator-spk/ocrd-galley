@@ -2,6 +2,7 @@ FROM ubuntu:18.04
 
 ENV LC_ALL=C.UTF-8 LANG=C.UTF-8
 
+ENV OCRD_OLENA_VERSION 1.1.10
 ENV TESSDATA_BEST_VERSION 4.0.0
 ENV TESSDATA_PREFIX /usr/local/share/tessdata
 
@@ -47,7 +48,7 @@ RUN curl -sSL -O https://qurator-data.de/~mike.gerber/olena_2.1-0+ocrd-git/olena
     apt-get -f install -y && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN pip3 install --no-cache-dir --upgrade pip && \
-   curl -sSL -o ocrd_olena.tar.gz https://github.com/OCR-D/ocrd_olena/archive/v1.1.4.tar.gz && \
+   curl -sSL -o ocrd_olena.tar.gz https://github.com/OCR-D/ocrd_olena/archive/v${OCRD_OLENA_VERSION}.tar.gz && \
    mkdir ocrd_olena && \
    tar xvz -C ocrd_olena --strip-components=1 -f ocrd_olena.tar.gz && \
    cd ocrd_olena && \
