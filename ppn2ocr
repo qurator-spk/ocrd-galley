@@ -32,16 +32,14 @@ def oai_mets(ppn):
     }
 
     s = requests.Session()
-    # FIXME oai.sbb.berlin fails certificate check
-    #r = s.get(API_URL, params=params)
-    r = s.get(API_URL, params=params, verify=False)
+    r = s.get(API_URL, params=params)
     mets = ET.XML(r.content).find(f".//{{{XMLNS['mets']}}}mets")
     mets = ET.ElementTree(mets)
 
     return mets
 
 
-def iiif_url_for_dms_url(dms_url, ppn, size):
+def iiif_url_for_dms_url(dms_url, ppn, size, format):
     """
     Construct an IIIF URL from a dms URL.
 
@@ -55,7 +53,8 @@ def iiif_url_for_dms_url(dms_url, ppn, size):
     else:
         raise ValueError(f"Unexpected URL {dms_url}")
     iiif_identifier = f'{ppn}-{page_num}'
-    iiif_url = f'https://content.staatsbibliothek-berlin.de/dc/{iiif_identifier}/full/{size}/0/default.jpg'
+    iiif_quality = 'default'
+    iiif_url = f'https://content.staatsbibliothek-berlin.de/dc/{iiif_identifier}/full/{size}/0/{iiif_quality}.{format}'
 
     return iiif_url
 
@@ -66,6 +65,17 @@ def remove_file_grp(mets, use):
             bad.getparent().remove(bad)
     for bad in mets.xpath(f'//mets:fileGrp[@USE="{use}"]', namespaces=XMLNS):
         bad.getparent().remove(bad)
+
+
+def mime_type_for_format(format_):
+    if format_ == 'tif':
+        mime_type = 'image/tiff'
+    elif format_ == 'jpg':
+        mime_type = 'image/jpg'
+    else:
+        raise ValueError()
+
+    return mime_type
 
 
 def make_workspace(ppn, workspace):
@@ -83,6 +93,7 @@ def make_workspace(ppn, workspace):
 
 
     # Duplicate DEFAULT file group into a new file group BEST
+    format_ = 'tif'
     file_grp_default = mets.find('//mets:fileGrp[@USE="DEFAULT"]', namespaces=XMLNS)
     file_grp_best = deepcopy(file_grp_default)
 
@@ -91,6 +102,7 @@ def make_workspace(ppn, workspace):
         old_id = f.attrib['ID']
         new_id = re.sub('DEFAULT', 'BEST', old_id)
         f.attrib['ID'] = new_id
+        f.attrib['MIMETYPE'] = mime_type_for_format(format_)
 
         for fptr in mets.findall(f'//mets:fptr[@FILEID="{old_id}"]', namespaces=XMLNS):
             new_fptr = deepcopy(fptr)
@@ -100,7 +112,7 @@ def make_workspace(ppn, workspace):
         # XXX Need to fumble around with the URL for now
         flocat = f.find(f".//{{{XMLNS['mets']}}}FLocat")
         old_url = flocat.attrib[f"{{{XMLNS['xlink']}}}href"]
-        url_iiif_full = iiif_url_for_dms_url(old_url, ppn, 'full')
+        url_iiif_full = iiif_url_for_dms_url(old_url, ppn, 'full', format_)
         flocat.attrib[f"{{{XMLNS['xlink']}}}href"] = url_iiif_full
 
     mets.find('//mets:fileSec', namespaces=XMLNS).append(file_grp_best)
