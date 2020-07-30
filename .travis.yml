@@ -42,7 +42,7 @@ jobs:
         - $TRAVIS_BUILD_DIR/run --skip-validation
           # XXX Enable validation again when ocrd_olena is fixed https://github.com/OCR-D/ocrd_olena/issues/60
 
-        - curl --upload-file OCR-D-OCR-CALAMARI/OCR-D-OCR-CALAMARI_00000024.xml https://transfer.sh/my_ocrd_workflow_$RANDOM.xml 1>&2
+        #- curl --upload-file OCR-D-OCR-CALAMARI/OCR-D-OCR-CALAMARI_00000024.xml https://transfer.sh/my_ocrd_workflow_$RANDOM.xml 1>&2
         - grep -q 'auswa.rtige Rechtsgela.hrte ha.tten mu...en bef.aget werden' OCR-D-OCR-CALAMARI/OCR-D-OCR-CALAMARI_00000024.xml
         - grep -q 'auswa.rtige Rechtsgela.hrte ha.tten mu...en bef.aget werden' OCR-D-OCR-TESS/OCR-D-OCR-TESS_00000024.xml
 
