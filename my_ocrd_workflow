@@ -59,18 +59,14 @@ do_binarization() {
   ocrd_olena_binarize_parameters='{
     "impl": "sauvola-ms-split"
   }'
-  ocrd workspace remove-group -rf OCR-D-IMG-BINPAGE
-  ocrd workspace remove-group -rf OCR-D-IMG-BIN
-  ocrd-olena-binarize -I $INPUT_FILE_GRP -O OCR-D-IMG-BINPAGE,OCR-D-IMG-BIN -p "$ocrd_olena_binarize_parameters"
+  ocrd-olena-binarize --overwrite -I $INPUT_FILE_GRP -O OCR-D-IMG-BINPAGE,OCR-D-IMG-BIN -p "$ocrd_olena_binarize_parameters"
 }
 
 do_linesegmentation_tesserocr() {
   # Segment the lines in the binarized images
 
-  ocrd workspace remove-group -rf OCR-D-SEG-REGION
-  ocrd workspace remove-group -rf OCR-D-SEG-LINE
-  ocrd-tesserocr-segment-region -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-REGION
-  ocrd-tesserocr-segment-line -I OCR-D-SEG-REGION -O OCR-D-SEG-LINE
+  ocrd-tesserocr-segment-region --overwrite -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-REGION
+  ocrd-tesserocr-segment-line --overwrite -I OCR-D-SEG-REGION -O OCR-D-SEG-LINE
 }
 
 do_linesegmentation_sbb() {
@@ -79,9 +75,7 @@ do_linesegmentation_sbb() {
   ocrd_sbb_textline_detector_parameters='{
     "model": "/var/lib/textline_detection"
   }'
-  ocrd workspace remove-group -rf OCR-D-SEG-REGION
-  ocrd workspace remove-group -rf OCR-D-SEG-LINE
-  ocrd-sbb-textline-detector -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-LINE -p "$ocrd_sbb_textline_detector_parameters"
+  ocrd-sbb-textline-detector --overwrite -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-LINE -p "$ocrd_sbb_textline_detector_parameters"
 }
 
 do_ocr() {
@@ -91,8 +85,7 @@ do_ocr() {
     "model": "GT4HistOCR_2000000",
     "textequiv_level": "'$TEXTEQUIV_LEVEL'"
   }'
-  ocrd workspace remove-group -rf OCR-D-OCR-TESS
-  ocrd-tesserocr-recognize -I OCR-D-SEG-LINE -O OCR-D-OCR-TESS -p "$ocrd_tesserocr_recognize_parameters"
+  ocrd-tesserocr-recognize --overwrite -I OCR-D-SEG-LINE -O OCR-D-OCR-TESS -p "$ocrd_tesserocr_recognize_parameters"
 }
 
 do_ocr_calamari() {
@@ -102,8 +95,7 @@ do_ocr_calamari() {
     "checkpoint": "/var/lib/calamari-models/GT4HistOCR/2019-07-22T15:49+0200/*.ckpt.json",
     "textequiv_level": "'$TEXTEQUIV_LEVEL'"
   }'
-  ocrd workspace remove-group -rf OCR-D-OCR-CALAMARI
-  ocrd-calamari-recognize -I OCR-D-SEG-LINE -O OCR-D-OCR-CALAMARI -p "$ocrd_calamari_recognize_parameters"
+  ocrd-calamari-recognize --overwrite -I OCR-D-SEG-LINE -O OCR-D-OCR-CALAMARI -p "$ocrd_calamari_recognize_parameters"
 }
 
 page_validate_xml() {
@@ -159,8 +151,7 @@ main() {
     do_validate
 
     if ocrd workspace list-group | grep -q OCR-D-GT-PAGE; then
-      ocrd workspace remove-group -rf $ocr_filegrp-EVAL
-      ocrd-dinglehopper -I OCR-D-GT-PAGE,$ocr_filegrp -O $ocr_filegrp-EVAL
+      ocrd-dinglehopper --overwrite -I OCR-D-GT-PAGE,$ocr_filegrp -O $ocr_filegrp-EVAL
     fi
 
   done
