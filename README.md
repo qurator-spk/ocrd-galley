@@ -46,7 +46,9 @@ the example above.
 You may then examine the results using
 [PRImA's PAGE Viewer](https://www.primaresearch.org/tools/PAGEViewer):
 ~~~
-java -jar /path/to/JPageViewer.jar --resolve-dir . OCR-D-OCR-CALAMARI/OCR-D-OCR-CALAMARI_00000024.xml
+java -jar /path/to/JPageViewer.jar \
+  --resolve-dir . \
+  OCR-D-OCR-CALAMARI/OCR-D-OCR-CALAMARI_00000024.xml
 ~~~
 
 The workflow also produces OCR evaluation reports using
