@@ -7,7 +7,8 @@ ENV TESSDATA_BEST_VERSION 4.0.0
 ENV TESSDATA_PREFIX /usr/local/share/tessdata
 
 
-RUN apt-get update && \
+RUN echo "APT::Acquire::Retries \"3\";" > /etc/apt/apt.conf.d/80-retries && \
+    apt-get update && \
     apt-get install -y \
       curl xz-utils \
       python3-pip \
@@ -41,14 +42,14 @@ COPY ocrd_logging.py /etc/
 
 # Build ocrd_olena
 # XXX .deb needs an update
-RUN curl -sSL -O https://qurator-data.de/~mike.gerber/olena_2.1-0+ocrd-git/olena-bin_2.1-0+ocrd-git_amd64.deb && \
+RUN curl -sSL --retry 3 -O https://qurator-data.de/~mike.gerber/olena_2.1-0+ocrd-git/olena-bin_2.1-0+ocrd-git_amd64.deb && \
     dpkg -i --force-depends olena-bin_2.1-0+ocrd-git_amd64.deb && \
     rm -f olena-bin_2.1-0+ocrd-git_amd64.deb && \
     apt-get update && \
     apt-get -f install -y && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN pip3 install --no-cache-dir --upgrade pip && \
-   curl -sSL -o ocrd_olena.tar.gz https://github.com/OCR-D/ocrd_olena/archive/v${OCRD_OLENA_VERSION}.tar.gz && \
+   curl -sSL --retry 3 -o ocrd_olena.tar.gz https://github.com/OCR-D/ocrd_olena/archive/v${OCRD_OLENA_VERSION}.tar.gz && \
    mkdir ocrd_olena && \
    tar xvz -C ocrd_olena --strip-components=1 -f ocrd_olena.tar.gz && \
    cd ocrd_olena && \
