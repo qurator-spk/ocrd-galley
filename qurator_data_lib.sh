@@ -23,8 +23,8 @@ check_data_subdir() {
   if ! [ -e $DATA_SUBDIR/.git/annex ]; then
     echo "$DATA_SUBDIR/ is not a git annex repository"; result=1
   fi
-  if ! (cd $DATA_SUBDIR && git annex version | grep -q 'local repository version: 7'); then
-    echo "$DATA_SUBDIR/ is not a git annex repository version 7"; result=1
+  if ! (cd $DATA_SUBDIR && git annex version | egrep -q 'local repository version: (7|8)'); then
+    echo "$DATA_SUBDIR/ is not a git annex repository version 7 or 8"; result=1
   fi
   if ! (cd $DATA_SUBDIR && git remote | grep -q '^nfs$'); then
     echo "$DATA_SUBDIR/ has no git remote 'nfs'"; result=1
@@ -63,17 +63,29 @@ annex_get() {
 }
 
 download_to() {
+  unpack=1
+  if [[ "$1" = '--no-unpack' ]]; then
+    unpack=0
+    shift
+  fi
+  file_pattern="$1"
   download_source="$1"
-  unpack_to="$2"
+  dest="$2"
 
   (
     cd $DATA_SUBDIR
     tmpf=`mktemp 'tmp.XXXXX'`
     curl -sSL -o $tmpf "$download_source"
-    mkdir -p "$unpack_to"
-    # Unpacking relies on tar -a unpacking any tar compression
-    tar -C "$unpack_to" -af $tmpf -xv
-    rm -f $tmpf
+    if [[ $unpack = 1 ]]; then
+      mkdir -p "$dest"
+      # Unpacking relies on tar -a unpacking any tar compression
+      tar -C "$dest" -af $tmpf -xv
+      rm -f $tmpf
+    else
+      dest_dir=`dirname "$dest"`
+      mkdir -p "$dest_dir"
+      mv $tmpf "$dest"
+    fi
   )
 }
 
@@ -82,7 +94,7 @@ suggest_commands() {
   echo
   echo "git submodule update --init"
   echo "(cd $DATA_SUBDIR && git annex init --version=7)"
-  echo "(cd $DATA_SUBDIR && git remote add nfs /<... path to ...>/GitNX-Repository/qurator/qurator-data)"
+  echo "(cd $DATA_SUBDIR && git remote add nfs annex@b-lx0053.sbb.spk-berlin.de:/var/lib/annex/qurator-data.git)"
 }
 
 handle_data() {
