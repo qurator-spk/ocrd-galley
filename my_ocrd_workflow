@@ -53,116 +53,30 @@ do_validate() {
   fi
 }
 
-do_binarization() {
-  # Binarize the images
-
-  ocrd_olena_binarize_parameters='{
-    "impl": "sauvola-ms-split"
-  }'
-  ocrd workspace remove-group -rf OCR-D-IMG-BINPAGE
-  ocrd workspace remove-group -rf OCR-D-IMG-BIN
-  ocrd-olena-binarize -I $INPUT_FILE_GRP -O OCR-D-IMG-BINPAGE,OCR-D-IMG-BIN -p "$ocrd_olena_binarize_parameters"
-}
-
-do_linesegmentation_tesserocr() {
-  # Segment the lines in the binarized images
-
-  ocrd workspace remove-group -rf OCR-D-SEG-REGION
-  ocrd workspace remove-group -rf OCR-D-SEG-LINE
-  ocrd-tesserocr-segment-region -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-REGION
-  ocrd-tesserocr-segment-line -I OCR-D-SEG-REGION -O OCR-D-SEG-LINE
-}
-
-do_linesegmentation_sbb() {
-  # Segment the lines in the images
-
-  ocrd_sbb_textline_detector_parameters='{
-    "model": "/var/lib/textline_detection"
-  }'
-  ocrd workspace remove-group -rf OCR-D-SEG-REGION
-  ocrd workspace remove-group -rf OCR-D-SEG-LINE
-  ocrd-sbb-textline-detector -I OCR-D-IMG-BINPAGE -O OCR-D-SEG-LINE -p "$ocrd_sbb_textline_detector_parameters"
-}
-
-do_ocr() {
-  # Perform OCR on the segmented lines
-
-  ocrd_tesserocr_recognize_parameters='{
-    "model": "GT4HistOCR_2000000",
-    "textequiv_level": "'$TEXTEQUIV_LEVEL'"
-  }'
-  ocrd workspace remove-group -rf OCR-D-OCR-TESS
-  ocrd-tesserocr-recognize -I OCR-D-SEG-LINE -O OCR-D-OCR-TESS -p "$ocrd_tesserocr_recognize_parameters"
-}
-
-do_ocr_calamari() {
-  # Perform OCR on the segmented lines
-
-  ocrd_calamari_recognize_parameters='{
-    "checkpoint": "/var/lib/calamari-models/GT4HistOCR/2019-07-22T15_49+0200/*.ckpt.json",
-    "textequiv_level": "'$TEXTEQUIV_LEVEL'"
-  }'
-  ocrd workspace remove-group -rf OCR-D-OCR-CALAMARI
-  ocrd-calamari-recognize -I OCR-D-SEG-LINE -O OCR-D-OCR-CALAMARI -p "$ocrd_calamari_recognize_parameters"
-}
-
-page_validate_xml() {
-  # Validate all PAGE XML against the XML schema
-
-  filegrp=$1
-
-  local file
-  for file in `ocrd workspace find -G $filegrp`; do
-    XSD_DIR=`dirname $0`/xsd
-    if [ ! -d "$XSD_DIR" ]; then
-      XSD_DIR=/usr/share/xml
-    fi
-    xmllint --noout --schema $XSD_DIR/pagecontent.2019-07-15.xsd $file
-  done
-}
-
-page_upgrade_to_2019() {
-  # Upgrade PAGE files to 2019-07-15
-
-  filegrp=$1
-
-  local file
-  for file in `ocrd workspace find -G $filegrp`; do
-    sed -i 's#pagecontent/[0-9-]*#pagecontent/2019-07-15#g' $file
-  done
-}
-
 
 main() {
   do_validate
 
-  do_binarization
+
+  ocrd-olena-binarize --overwrite -I $INPUT_FILE_GRP -O OCR-D-IMG-BIN -P impl "sauvola-ms-split"
   do_validate
 
 
-  do_linesegmentation_sbb
-  page_upgrade_to_2019             OCR-D-SEG-LINE
-  page_validate_xml                OCR-D-SEG-REGION
-  page_validate_xml                OCR-D-SEG-LINE
+  #ocrd-tesserocr-segment-region --overwrite -I OCR-D-IMG-BIN -O OCR-D-SEG-REGION
+  #ocrd-tesserocr-segment-line --overwrite -I OCR-D-SEG-REGION -O OCR-D-SEG-LINE
+  ocrd-sbb-textline-detector --overwrite -I OCR-D-IMG-BIN -O OCR-D-SEG-LINE -P model "/var/lib/textline_detection"
   do_validate
 
 
-  do_ocr_calamari
-
-
-  do_ocr
+  ocrd-calamari-recognize --overwrite -I OCR-D-SEG-LINE -O OCR-D-OCR-CALAMARI -P checkpoint "/var/lib/calamari-models/GT4HistOCR/2019-07-22T15:49+0200/*.ckpt.json" -P textequiv_level "$TEXTEQUIV_LEVEL"
+  ocrd-tesserocr-recognize --overwrite -I OCR-D-SEG-LINE -O OCR-D-OCR-TESS -P model "GT4HistOCR_2000000" -P textequiv_level "$TEXTEQUIV_LEVEL"
+  do_validate
 
 
   for ocr_filegrp in OCR-D-OCR-CALAMARI OCR-D-OCR-TESS; do
-
-    page_validate_xml           $ocr_filegrp
-    do_validate
-
     if ocrd workspace list-group | grep -q OCR-D-GT-PAGE; then
-      ocrd workspace remove-group -rf $ocr_filegrp-EVAL
-      ocrd-dinglehopper -I OCR-D-GT-PAGE,$ocr_filegrp -O $ocr_filegrp-EVAL
+      ocrd-dinglehopper --overwrite -I OCR-D-GT-PAGE,$ocr_filegrp -O $ocr_filegrp-EVAL
     fi
-
   done
 }
 
