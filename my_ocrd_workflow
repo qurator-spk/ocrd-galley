@@ -99,7 +99,7 @@ do_ocr_calamari() {
   # Perform OCR on the segmented lines
 
   ocrd_calamari_recognize_parameters='{
-    "checkpoint": "/var/lib/calamari-models/GT4HistOCR/2019-07-22T15:49+0200/*.ckpt.json",
+    "checkpoint": "/var/lib/calamari-models/GT4HistOCR/2019-07-22T15_49+0200/*.ckpt.json",
     "textequiv_level": "'$TEXTEQUIV_LEVEL'"
   }'
   ocrd workspace remove-group -rf OCR-D-OCR-CALAMARI
