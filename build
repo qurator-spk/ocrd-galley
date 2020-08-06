@@ -15,7 +15,7 @@ get_from_web() {
   download_to 'https://qurator-data.de/calamari-models/GT4HistOCR/model.tar.xz' 'calamari-models/GT4HistOCR/2019-07-22T15_49+0200'
   download_to 'https://qurator-data.de/tesseract-models/GT4HistOCR/models.tar'  'tesseract-models/GT4HistOCR'
   download_to 'https://qurator-data.de/sbb_textline_detector/models.tar.gz'     'textline_detection'
-  download_to --no-unpack 'https://qurator-data.de/mirror/github.com/tesseract-ocr/tessdata_best/archive/4.0.0-repacked.tar.gz' 'mirror/github.com/tesseract-ocr/tessdata_best/archive/'
+  download_to --no-unpack 'https://qurator-data.de/mirror/github.com/tesseract-ocr/tessdata_best/archive/4.0.0-repacked.tar.gz' 'mirror/github.com/tesseract-ocr/tessdata_best/archive/4.0.0-repacked.tar.gz'
 }
 . $self_dir/qurator_data_lib.sh
 handle_data
