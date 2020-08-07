@@ -1,6 +1,6 @@
 tensorflow-gpu < 2.0  # Needed for sbb_text_linedetector
 
-ocrd >= 2.13.0
+ocrd >= 2.13.1
 
 # XXX See https://github.com/OCR-D/ocrd_tesserocr/issues/135
 # ocrd_tesserocr >= 0.8.XXX
