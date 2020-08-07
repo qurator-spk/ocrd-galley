@@ -55,7 +55,7 @@ RUN pip3 install --no-cache-dir --upgrade pip && \
    tar xvz -C ocrd_olena --strip-components=1 -f ocrd_olena.tar.gz && \
    cd ocrd_olena && \
    sed -i 's/^install: deps$/install:/' Makefile && \
-   pip3 install --no-cache-dir ocrd && \
+   pip3 install --no-cache-dir --use-feature=2020-resolver ocrd && \
    make install PREFIX=/usr/local && \
    cd .. && rm -rf ocrd_olena ocrd_olena.tar.gz
 
@@ -73,7 +73,7 @@ COPY data/textline_detection /var/lib/textline_detection
 # Using pipdeptree here to get more info than from pip3 check
 COPY requirements.txt /tmp/
 RUN pip3 install --no-cache-dir --upgrade pip && \
-    pip3 install --no-cache-dir -r /tmp/requirements.txt && \
+    pip3 install --no-cache-dir --use-feature=2020-resolver -r /tmp/requirements.txt && \
     pip3 install --no-cache-dir pipdeptree && \
     pipdeptree -w fail
 
