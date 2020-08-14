@@ -7,7 +7,7 @@ git:
   submodules: false  # Avoid trying to checkout private data/ submodule
 
 stages:
-  - name: "Build Docker image"
+  - name: "Build Docker images"
   - name: "Test"
   - name: "Deploy Docker image - latest"
     if: branch = master
