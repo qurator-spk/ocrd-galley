@@ -16,21 +16,31 @@ stages:
 
 jobs:
   include:
-    - stage: "Build Docker image"
+    - stage: "Build Docker images"
       script:
+        - sub_images=`ls -1 Dockerfile-* | sed 's/Dockerfile-//'`
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
-        # We are using the image my_ocrd_workflow to cache, so pull and tag it
-        # FIXME
-        #- docker pull $DOCKER_USERNAME/my_ocrd_workflow
-        #- docker tag $DOCKER_USERNAME/my_ocrd_workflow my_ocrd_workflow
+        # We are using the images to cache, so pull and tag it
+        - |
+          for x in sub_images; do
+            docker pull $DOCKER_USERNAME/my_ocrd_workflow-$x || true
+            docker tag $DOCKER_USERNAME/my_ocrd_workflow-$x my_ocrd_workflow-$x || true
+          done
 
         - FORCE_DOWNLOAD=y ./build
 
-        # FIXME
-        #- docker tag my_ocrd_workflow $DOCKER_USERNAME/my_ocrd_workflow:$TRAVIS_COMMIT
-        #- docker images
-        #- docker push $DOCKER_USERNAME/my_ocrd_workflow:$TRAVIS_COMMIT
+        - |
+          set -e
+          for x in sub_images; do
+            docker tag my_ocrd_workflow-$x $DOCKER_USERNAME/my_ocrd_workflow-$x:$TRAVIS_COMMIT
+          done
+        - docker images
+        - |
+          set -e
+          for x in sub_images; do
+            docker push $DOCKER_USERNAME/my_ocrd_workflow-$x:$TRAVIS_COMMIT
+          done
 
     - stage: "Test"
       script:
