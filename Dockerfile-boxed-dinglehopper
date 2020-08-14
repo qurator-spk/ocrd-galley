@@ -1,4 +1,4 @@
-FROM boxed-base
+FROM boxed-core
 
 
 ENV DINGLEHOPPER_COMMIT 2b98f69

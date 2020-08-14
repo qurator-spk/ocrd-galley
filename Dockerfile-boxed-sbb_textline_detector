@@ -1,4 +1,4 @@
-FROM boxed-base
+FROM boxed-core
 
 
 ENV SBB_TEXTLINE_DETECTOR_COMMIT 8b01d9e

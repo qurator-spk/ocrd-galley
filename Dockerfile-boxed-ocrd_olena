@@ -1,4 +1,4 @@
-FROM boxed-base
+FROM boxed-core
 
 ENV OCRD_OLENA_VERSION 1.2.0
 

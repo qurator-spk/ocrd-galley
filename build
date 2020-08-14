@@ -21,7 +21,7 @@ get_from_web() {
 handle_data
 
 
-docker build -t boxed-base                  -f Dockerfile-boxed-base                  .
+docker build -t boxed-core                  -f Dockerfile-boxed-core                  .
 docker build -t boxed-ocrd_calamari         -f Dockerfile-boxed-ocrd_calamari         .
 docker build -t boxed-dinglehopper          -f Dockerfile-boxed-dinglehopper          .
 docker build -t boxed-ocrd_olena            -f Dockerfile-boxed-ocrd_olena            .

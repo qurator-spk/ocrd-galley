@@ -1,4 +1,4 @@
-FROM boxed-base
+FROM boxed-core
 
 
 ENV TESSDATA_BEST_VERSION 4.0.0

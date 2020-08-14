@@ -1,4 +1,4 @@
-FROM boxed-base
+FROM boxed-core
 
 
 # Build pip installable stuff

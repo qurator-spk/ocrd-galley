@@ -31,7 +31,7 @@ build_alias() {
   alias $command="docker run $docker_run_options $docker_image $command"
 }
 shopt -s expand_aliases  # Required for non-interactive shells
-build_alias ocrd                       boxed-base
+build_alias ocrd                       boxed-core
 build_alias ocrd-olena-binarize        boxed-ocrd_olena
 build_alias ocrd-sbb-textline-detector boxed-sbb_textline_detector
 build_alias ocrd-calamari-recognize    boxed-ocrd_calamari
