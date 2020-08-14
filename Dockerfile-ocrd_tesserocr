@@ -1,4 +1,4 @@
-FROM boxed-core
+FROM my_ocrd_workflow-core
 
 
 ENV TESSDATA_BEST_VERSION 4.0.0

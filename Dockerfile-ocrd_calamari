@@ -1,4 +1,4 @@
-FROM boxed-core
+FROM my_ocrd_workflow-core
 
 
 # Build pip installable stuff

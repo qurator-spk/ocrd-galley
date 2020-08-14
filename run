@@ -31,12 +31,12 @@ build_alias() {
   alias $command="docker run $docker_run_options $docker_image $command"
 }
 shopt -s expand_aliases  # Required for non-interactive shells
-build_alias ocrd                       boxed-core
-build_alias ocrd-olena-binarize        boxed-ocrd_olena
-build_alias ocrd-sbb-textline-detector boxed-sbb_textline_detector
-build_alias ocrd-calamari-recognize    boxed-ocrd_calamari
-build_alias ocrd-tesserocr-recognize   boxed-ocrd_tesserocr
-build_alias ocrd-dinglehopper          boxed-dinglehopper
+build_alias ocrd                       my_ocrd_workflow-core
+build_alias ocrd-olena-binarize        my_ocrd_workflow-ocrd_olena
+build_alias ocrd-sbb-textline-detector my_ocrd_workflow-sbb_textline_detector
+build_alias ocrd-calamari-recognize    my_ocrd_workflow-ocrd_calamari
+build_alias ocrd-tesserocr-recognize   my_ocrd_workflow-ocrd_tesserocr
+build_alias ocrd-dinglehopper          my_ocrd_workflow-dinglehopper
 
 
 . $self_dir/my_ocrd_workflow

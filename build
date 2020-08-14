@@ -21,9 +21,9 @@ get_from_web() {
 handle_data
 
 
-docker build -t boxed-core                  -f Dockerfile-boxed-core                  .
-docker build -t boxed-ocrd_calamari         -f Dockerfile-boxed-ocrd_calamari         .
-docker build -t boxed-dinglehopper          -f Dockerfile-boxed-dinglehopper          .
-docker build -t boxed-ocrd_olena            -f Dockerfile-boxed-ocrd_olena            .
-docker build -t boxed-ocrd_tesserocr        -f Dockerfile-boxed-ocrd_tesserocr        .
-docker build -t boxed-sbb_textline_detector -f Dockerfile-boxed-sbb_textline_detector .
+docker build -t my_ocrd_workflow-core                  -f Dockerfile-core                  .
+docker build -t my_ocrd_workflow-ocrd_calamari         -f Dockerfile-ocrd_calamari         .
+docker build -t my_ocrd_workflow-dinglehopper          -f Dockerfile-dinglehopper          .
+docker build -t my_ocrd_workflow-ocrd_olena            -f Dockerfile-ocrd_olena            .
+docker build -t my_ocrd_workflow-ocrd_tesserocr        -f Dockerfile-ocrd_tesserocr        .
+docker build -t my_ocrd_workflow-sbb_textline_detector -f Dockerfile-sbb_textline_detector .

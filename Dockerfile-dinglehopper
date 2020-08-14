@@ -1,4 +1,4 @@
-FROM boxed-core
+FROM my_ocrd_workflow-core
 
 
 ENV DINGLEHOPPER_COMMIT 2b98f69

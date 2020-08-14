@@ -1,4 +1,4 @@
-FROM boxed-core
+FROM my_ocrd_workflow-core
 
 
 ENV SBB_TEXTLINE_DETECTOR_COMMIT 8b01d9e
