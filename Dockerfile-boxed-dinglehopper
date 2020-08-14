@@ -1,0 +1,18 @@
+FROM boxed-base
+
+
+ENV DINGLEHOPPER_COMMIT 2b98f69
+
+
+# Build pip installable stuff
+RUN pip3 install --no-cache-dir \
+# Now the real stuff:
+    https://github.com/qurator-spk/dinglehopper/archive/$DINGLEHOPPER_COMMIT.tar.gz
+
+
+# Check pip dependencies
+RUN pip3 check
+
+
+# Default command
+CMD ["ocrd-dinglehopper"]

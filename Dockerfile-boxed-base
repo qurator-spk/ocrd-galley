@@ -1,0 +1,41 @@
+FROM ubuntu:18.04
+
+ENV LC_ALL=C.UTF-8 LANG=C.UTF-8
+ENV PIP_DEFAULT_TIMEOUT=120
+
+
+RUN echo "APT::Acquire::Retries \"3\";" > /etc/apt/apt.conf.d/80-retries && \
+    apt-get update && \
+    apt-get install -y \
+      curl xz-utils \
+      python3-pip \
+# For add-apt-repository:
+      software-properties-common \
+# XML utils
+      libxml2-utils \
+      xmlstarlet \
+    && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+
+# Set up OCR-D logging
+COPY ocrd_logging.py /etc/
+
+
+# Build pip installable stuff
+RUN pip3 install --no-cache-dir --upgrade pip && \
+    pip3 install --no-cache-dir \
+# Resolve conflicts early:
+        'setuptools >= 41.0.0' \
+        'ocrd >= 2.13.1'
+
+
+# Check pip dependencies
+RUN pip3 check
+
+
+WORKDIR /data
+
+# Default command
+CMD ['ocrd']

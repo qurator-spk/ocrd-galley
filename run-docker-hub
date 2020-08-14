@@ -1,4 +1,0 @@
-#!/bin/sh
-# Run the my_ocrd_workflow container on the current workspace
-
-DOCKER_IMAGE=mikegerber/my_ocrd_workflow:stable `dirname $0`/run "$@"

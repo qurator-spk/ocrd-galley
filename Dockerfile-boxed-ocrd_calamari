@@ -1,0 +1,24 @@
+FROM boxed-base
+
+
+# Build pip installable stuff
+RUN pip3 install --no-cache-dir \
+# Resolve conflicts early:
+        'tensorflow-gpu == 1.15.*' \
+        'calamari-ocr == 0.3.5' \
+# Now the real stuff:
+        'ocrd_calamari >= 0.0.7'
+
+
+# Copy OCR models
+RUN mkdir -p /var/lib/calamari-models
+COPY data/calamari-models/GT4HistOCR /var/lib/calamari-models/GT4HistOCR
+
+
+
+# Check pip dependencies
+RUN pip3 check
+
+
+# Default command
+CMD ["ocrd-calamari-recognize"]

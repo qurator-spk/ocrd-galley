@@ -1,0 +1,35 @@
+FROM boxed-base
+
+
+ENV TESSDATA_BEST_VERSION 4.0.0
+ENV TESSDATA_PREFIX /usr/local/share/tessdata
+
+
+# Install Leptonica and Tesseract.
+RUN add-apt-repository ppa:alex-p/tesseract-ocr && \
+    apt-get update && \
+    apt-get install -y \
+        tesseract-ocr \
+        libtesseract-dev \
+    && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
+# Copy OCR models
+RUN mkdir -p $TESSDATA_PREFIX
+ADD data/mirror/github.com/tesseract-ocr/tessdata_best/archive/${TESSDATA_BEST_VERSION}-repacked.tar.gz $TESSDATA_PREFIX/
+COPY data/tesseract-models/GT4HistOCR/GT4HistOCR_2000000.traineddata $TESSDATA_PREFIX/
+
+
+# Build pip installable stuff
+RUN pip3 install --no-cache-dir \
+# Now the real stuff:
+    'ocrd_tesserocr >= 0.9.0'
+
+
+# Check pip dependencies
+RUN pip3 check
+
+
+# Default command
+CMD ["ocrd-tesserocr-recognize"]

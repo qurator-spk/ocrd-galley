@@ -21,4 +21,9 @@ get_from_web() {
 handle_data
 
 
-docker build --cache-from my_ocrd_workflow -t my_ocrd_workflow .
+docker build -t boxed-base                  -f Dockerfile-boxed-base                  .
+docker build -t boxed-ocrd_calamari         -f Dockerfile-boxed-ocrd_calamari         .
+docker build -t boxed-dinglehopper          -f Dockerfile-boxed-dinglehopper          .
+docker build -t boxed-ocrd_olena            -f Dockerfile-boxed-ocrd_olena            .
+docker build -t boxed-ocrd_tesserocr        -f Dockerfile-boxed-ocrd_tesserocr        .
+docker build -t boxed-sbb_textline_detector -f Dockerfile-boxed-sbb_textline_detector .
