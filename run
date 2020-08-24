@@ -1,31 +1,42 @@
-#!/bin/sh
-# Run the my_ocrd_workflow container on the current workspace
+#!/bin/bash
 
 set -e  # Abort on error
 
-DOCKER_IMAGE=${DOCKER_IMAGE:-my_ocrd_workflow:latest}  # default to locally built
-
-if echo "$DOCKER_IMAGE" | grep -q "/"; then
-  docker pull "$DOCKER_IMAGE"
-fi
+self=`realpath $0`
+self_dir=`dirname "$self"`
 
 
-# XXX Work around podman vs docker uid behaviour
+# Docker run options
+docker_run_options="--rm -t"
+docker_run_options="$docker_run_options --mount type=bind,src=\"$(pwd)\",target=/data"
+# In podman, the container always runs as the real user == uid 0 in container
 if docker -v 2>&1 | grep -q podman; then
   user="0:0"
 else
   user="`id -u`:`id -g`"
 fi
-
-
-# The container currently needs to run privileged to allow it to read from e.g.
+docker_run_options="$docker_run_options --user $user"
+docker_run_options="$docker_run_options -e LOG_LEVEL=$LOG_LEVEL"
+# The containers currently need to run privileged to allow it to read from e.g.
 # /home on SELinux secured systems such as Fedora. We might want to use udica
 # instead in the future.
+docker_run_options="$docker_run_options --privileged=true"
 
-docker run --privileged=true --rm -t \
-  \
-  --user $user \
-  --mount type=bind,src="$(pwd)",target=/data \
-  \
-  -e LOG_LEVEL=$LOG_LEVEL \
-  $DOCKER_IMAGE "$@"
+
+# Build aliases for the containerized ocrd processors
+build_alias() {
+  local command=$1
+  local docker_image=$2
+
+  alias $command="docker run $docker_run_options $docker_image $command"
+}
+shopt -s expand_aliases  # Required for non-interactive shells
+build_alias ocrd                       my_ocrd_workflow-core
+build_alias ocrd-olena-binarize        my_ocrd_workflow-ocrd_olena
+build_alias ocrd-sbb-textline-detector my_ocrd_workflow-sbb_textline_detector
+build_alias ocrd-calamari-recognize    my_ocrd_workflow-ocrd_calamari
+build_alias ocrd-tesserocr-recognize   my_ocrd_workflow-ocrd_tesserocr
+build_alias ocrd-dinglehopper          my_ocrd_workflow-dinglehopper
+
+
+. $self_dir/my_ocrd_workflow

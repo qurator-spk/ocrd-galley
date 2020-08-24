@@ -1,0 +1,32 @@
+FROM my_ocrd_workflow-core
+
+ENV OCRD_OLENA_VERSION 1.2.0
+
+# Build ocrd_olena
+RUN apt-get update && \
+    apt-get install -y \
+      imagemagick \
+    && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN curl -sSL --retry 3 -O https://qurator-data.de/~mike.gerber/olena_2.1-0+ocrd-git/olena-bin_2.1-0+ocrd-git_amd64.deb && \
+    dpkg -i --force-depends olena-bin_2.1-0+ocrd-git_amd64.deb && \
+    rm -f olena-bin_2.1-0+ocrd-git_amd64.deb && \
+    apt-get update && \
+    apt-get -f install -y && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN curl -sSL --retry 3 -o ocrd_olena.tar.gz https://github.com/OCR-D/ocrd_olena/archive/v${OCRD_OLENA_VERSION}.tar.gz && \
+   mkdir ocrd_olena && \
+   tar xvz -C ocrd_olena --strip-components=1 -f ocrd_olena.tar.gz && \
+   cd ocrd_olena && \
+   sed -i 's/^install: deps$/install:/' Makefile && \
+   pip3 install --no-cache-dir --use-feature=2020-resolver ocrd && \
+   make install PREFIX=/usr/local && \
+   cd .. && rm -rf ocrd_olena ocrd_olena.tar.gz
+
+
+# Check pip dependencies
+RUN pip3 check
+
+
+# Default command
+CMD ['ocrd-olena-binarize']

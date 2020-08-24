@@ -21,4 +21,9 @@ get_from_web() {
 handle_data
 
 
-docker build --cache-from my_ocrd_workflow -t my_ocrd_workflow .
+docker build -t my_ocrd_workflow-core                  -f Dockerfile-core                  .
+docker build -t my_ocrd_workflow-ocrd_calamari         -f Dockerfile-ocrd_calamari         .
+docker build -t my_ocrd_workflow-dinglehopper          -f Dockerfile-dinglehopper          .
+docker build -t my_ocrd_workflow-ocrd_olena            -f Dockerfile-ocrd_olena            .
+docker build -t my_ocrd_workflow-ocrd_tesserocr        -f Dockerfile-ocrd_tesserocr        .
+docker build -t my_ocrd_workflow-sbb_textline_detector -f Dockerfile-sbb_textline_detector .
