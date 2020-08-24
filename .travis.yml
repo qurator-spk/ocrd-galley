@@ -44,8 +44,11 @@ jobs:
 
     - stage: "Test"
       script:
-        - docker pull $DOCKER_USERNAME/my_ocrd_workflow:$TRAVIS_COMMIT
-        - docker tag $DOCKER_USERNAME/my_ocrd_workflow:$TRAVIS_COMMIT my_ocrd_workflow
+        - |
+          for x in $sub_images; do
+            docker pull $DOCKER_USERNAME/my_ocrd_workflow-$x || true
+            docker tag $DOCKER_USERNAME/my_ocrd_workflow-$x my_ocrd_workflow-$x || true
+          done
 
         - curl -O https://qurator-data.de/examples/actevedef_718448162.first-page.zip
         - unzip actevedef_718448162.first-page.zip
