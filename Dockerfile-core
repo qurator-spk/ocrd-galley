@@ -22,7 +22,7 @@ RUN echo "APT::Acquire::Retries \"3\";" > /etc/apt/apt.conf.d/80-retries && \
 
 
 # Set up OCR-D logging
-COPY ocrd_logging.py /etc/
+RUN echo "setOverrideLogLevel(os.getenv('LOG_LEVEL', 'INFO'))" >/etc/ocrd_logging.py
 
 
 # Install pip (and setuptools)
