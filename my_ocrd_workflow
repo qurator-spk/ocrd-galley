@@ -82,7 +82,9 @@ main() {
 
 
 if [ "$LOG_LEVEL" = "DEBUG" -o "$LOG_LEVEL" = "TRACE" ]; then
-  pip3 list
+  if which pip3; then
+    pip3 list
+  fi
 fi
 main
 
