@@ -44,6 +44,7 @@ jobs:
 
     - stage: "Test"
       script:
+        - sub_images=`ls -1 Dockerfile-* | sed 's/Dockerfile-//'`
         - |
           for x in $sub_images; do
             docker pull $DOCKER_USERNAME/my_ocrd_workflow-$x:$TRAVIS_COMMIT
@@ -63,6 +64,7 @@ jobs:
     - stage: "Deploy Docker image - latest"
       env: DOCKER_TAG=latest
       script:
+        - sub_images=`ls -1 Dockerfile-* | sed 's/Dockerfile-//'`
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
         - |
@@ -75,6 +77,7 @@ jobs:
     - stage: "Deploy Docker image - tagged"
       env: DOCKER_TAG=$TRAVIS_TAG
       script:
+        - sub_images=`ls -1 Dockerfile-* | sed 's/Dockerfile-//'`
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
         - |
