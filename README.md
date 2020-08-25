@@ -11,15 +11,21 @@ this workflow produces:
 * OCR text (using Calamari and Tesseract, both with GT4HistOCR models)
 * (Given ground truth in OCR-D-GT-PAGE, also an OCR text evaluation report)
 
-If you're interested in the exact processors, versions and parameters, please take a look at the [script](my_ocrd_workflow) and possibly the [Dockerfile](Dockerfile) and the [requirements](requirements.txt).
+If you're interested in the exact processors, versions and parameters, please
+take a look at the [script](my_ocrd_workflow) and possibly the individual
+Dockerfiles.
 
 Goal
 ----
-Provide a **test environment** to produce OCR output for historical prints, using OCR-D, especially [ocrd_calamari](https://github.com/OCR-D/ocrd_calamari) and [sbb_textline_detection](https://github.com/qurator-spk/sbb_textline_detection), including all dependencies in Docker.
+Provide a **test environment** to produce OCR output for historical prints,
+using OCR-D, especially [ocrd_calamari](https://github.com/OCR-D/ocrd_calamari)
+and
+[sbb_textline_detection](https://github.com/qurator-spk/sbb_textline_detection),
+including all dependencies in Docker.
 
 How to use
 ----------
-It's easiest to use it as a pre-built container. To run the container on an
+It's easiest to use it as pre-built containers. To run the containers on an
 example workspace:
 
 ~~~
@@ -33,13 +39,13 @@ cd actevedef_718448162.first-page
 ~/devel/my_ocrd_workflow/run-docker-hub
 ~~~
 
-### Build the container yourself
-To build the container yourself using Docker:
+### Build the containers yourself
+To build the containers yourself using Docker:
 ~~~
 cd ~/devel/my_ocrd_workflow
 ./build
 ~~~
-You may then use the script `run` to use your self-built container, analogous to
+You may then use the script `run` to use your self-built containers, analogous to
 the example above.
 
 ### Viewing results
