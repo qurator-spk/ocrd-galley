@@ -1,0 +1,6 @@
+#!/bin/sh
+# Run the my_ocrd_workflow containers on the current workspace
+
+DOCKER_IMAGE_PREFIX=mikegerber/my_ocrd_workflow \
+DOCKER_IMAGE_TAG=stable \
+  `dirname $0`/run "$@"

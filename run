@@ -2,6 +2,9 @@
 
 set -e  # Abort on error
 
+DOCKER_IMAGE_PREFIX=${DOCKER_IMAGE_PREFIX:-my_ocrd_workflow}  # default to locally built
+DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG:-latest}
+
 self=`realpath $0`
 self_dir=`dirname "$self"`
 
@@ -31,12 +34,12 @@ build_alias() {
   alias $command="docker run $docker_run_options $docker_image $command"
 }
 shopt -s expand_aliases  # Required for non-interactive shells
-build_alias ocrd                       my_ocrd_workflow-core
-build_alias ocrd-olena-binarize        my_ocrd_workflow-ocrd_olena
-build_alias ocrd-sbb-textline-detector my_ocrd_workflow-sbb_textline_detector
-build_alias ocrd-calamari-recognize    my_ocrd_workflow-ocrd_calamari
-build_alias ocrd-tesserocr-recognize   my_ocrd_workflow-ocrd_tesserocr
-build_alias ocrd-dinglehopper          my_ocrd_workflow-dinglehopper
+build_alias ocrd                       ${DOCKER_IMAGE_PREFIX}-core:${DOCKER_IMAGE_TAG}
+build_alias ocrd-olena-binarize        ${DOCKER_IMAGE_PREFIX}-ocrd_olena:${DOCKER_IMAGE_TAG}
+build_alias ocrd-sbb-textline-detector ${DOCKER_IMAGE_PREFIX}-sbb_textline_detector:${DOCKER_IMAGE_TAG}
+build_alias ocrd-calamari-recognize    ${DOCKER_IMAGE_PREFIX}-ocrd_calamari:${DOCKER_IMAGE_TAG}
+build_alias ocrd-tesserocr-recognize   ${DOCKER_IMAGE_PREFIX}-ocrd_tesserocr:${DOCKER_IMAGE_TAG}
+build_alias ocrd-dinglehopper          ${DOCKER_IMAGE_PREFIX}-dinglehopper:${DOCKER_IMAGE_TAG}
 
 
 . $self_dir/my_ocrd_workflow
