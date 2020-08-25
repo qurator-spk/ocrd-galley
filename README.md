@@ -80,6 +80,6 @@ This produces a workspace directory `PPN77164308X` with the OCR results in it;
 the results are viewable as explained above.
 
 ppn2ocr requires a working Docker setup and properly set up environment
-variables for the proxy configuration. At SBB, this following
+variables for the proxy configuration. At SBB, please read
 `howto/docker-proxy.md` and `howto/proxy-settings-for-shell+python.md`
 (in qurator's mono-repo).
