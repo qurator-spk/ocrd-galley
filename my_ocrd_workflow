@@ -3,7 +3,7 @@
 set -e  # Abort on error
 
 # Configuration
-export LOG_LEVEL=${LOG_LEVEL:-DEBUG}  # /etc/ocrd_logging.py uses this to set level for all OCR-D modules
+export LOG_LEVEL=${LOG_LEVEL:-INFO}  # /etc/ocrd_logging.py uses this to set level for all OCR-D modules
 export TEXTEQUIV_LEVEL=glyph
 
 # Command line parameters

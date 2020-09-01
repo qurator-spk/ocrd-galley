@@ -4,6 +4,7 @@ set -e  # Abort on error
 
 DOCKER_IMAGE_PREFIX=${DOCKER_IMAGE_PREFIX:-my_ocrd_workflow}  # default to locally built
 DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG:-latest}
+LOG_LEVEL=${LOG_LEVEL:-INFO}
 
 self=`realpath $0`
 self_dir=`dirname "$self"`
