@@ -91,7 +91,6 @@ def make_workspace(ppn, workspace):
     remove_file_grp(mets, 'PRESENTATION')
     remove_file_grp(mets, 'LOCAL')
 
-
     # Duplicate DEFAULT file group into a new file group BEST
     format_ = 'tif'
     file_grp_default = mets.find('//mets:fileGrp[@USE="DEFAULT"]', namespaces=XMLNS)
@@ -117,7 +116,6 @@ def make_workspace(ppn, workspace):
 
     mets.find('//mets:fileSec', namespaces=XMLNS).append(file_grp_best)
 
-
     # Write mets.xml
     mets.write('mets.xml', pretty_print=True)
 
@@ -134,32 +132,34 @@ def make_workspace(ppn, workspace):
 
 
 def validate_ppn(ctx, param, value):
+    """Validate a PPN argument"""
     if not value.startswith('PPN'):
         raise click.BadParameter('PPN must be in format PPNxxxxxxxx')
     else:
         return value
 
+
 @click.command()
 @click.argument('ppn', callback=validate_ppn)
 def ppn2ocr(ppn):
-   """
-   Get METS with best images for a document PPN
+    """
+    Get METS with best images for a document PPN
 
-   For example, to get the document "PROPOSITIONES PHILOSOPHICAE: [...]" use this:
+    For example, to get the document "PROPOSITIONES PHILOSOPHICAE: [...]" use this:
 
-   \b
-   ppn2ocr PPN699887615
-   ls PPN699887615
-   """
-   self_dir = os.path.realpath(os.path.dirname(sys.argv[0]))
-   make_workspace(ppn, ppn)
+    \b
+    ppn2ocr PPN699887615
+    ls PPN699887615
+    """
+    self_dir = os.path.realpath(os.path.dirname(sys.argv[0]))
+    make_workspace(ppn, ppn)
 
-   # XXX
-   #  subprocess.run([
-   #     os.path.join(self_dir, 'run-docker-hub'),
-   #     '-I', 'BEST',
-   #     '--skip-validation'
-   #  ])
+    # XXX
+    #  subprocess.run([
+    #     os.path.join(self_dir, 'run-docker-hub'),
+    #     '-I', 'BEST',
+    #     '--skip-validation'
+    #  ])
 
 
 if __name__ == '__main__':
