@@ -69,7 +69,7 @@ ppn2ocr
 The `ppn2ocr` script produces a METS file with the best images for a given
 document in the State Library Berlin (SBB)'s digitized collection. 
 
-Install it, preferably in a venv:
+Install it with an up-to-date pip (otherwise this will fail due to [a opencv-python-headless build failure](https://github.com/skvark/opencv-python#frequently-asked-questions)):
 ~~~
 pip install -r ~/devel/my_ocrd_workflow/requirements-ppn2ocr.txt
 ~~~
