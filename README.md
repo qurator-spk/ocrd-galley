@@ -67,10 +67,15 @@ firefox OCR-D-OCR-CALAMARI-EVAL/OCR-D-OCR-CALAMARI-EVAL_00000024.html
 ppn2ocr
 -------
 The `ppn2ocr` script produces a METS file with the best images for a given
-document in the State Library Berlin (SBB)'s digitized collection. The document
-must be specified by its PPN, for example:
+document in the State Library Berlin (SBB)'s digitized collection. 
+
+Install it, preferably in a venv:
 ~~~
 pip install -r ~/devel/my_ocrd_workflow/requirements-ppn2ocr.txt
+~~~
+
+The document must be specified by its PPN, for example:
+~~~
 ~/devel/my_ocrd_workflow/ppn2ocr PPN77164308X
 cd PPN77164308X
 ~/devel/my_ocrd_workflow/run-docker-hub -I BEST --skip-validation
