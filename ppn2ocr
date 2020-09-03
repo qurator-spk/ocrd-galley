@@ -133,8 +133,14 @@ def make_workspace(ppn, workspace):
     #sed -i 's#file:///goobi/tiff001/sbb/#file:///srv/digisam_images/sbb/#g' mets.xml
 
 
+def validate_ppn(ctx, param, value):
+    if not value.startswith('PPN'):
+        raise click.BadParameter('PPN must be in format PPNxxxxxxxx')
+    else:
+        return value
+
 @click.command()
-@click.argument('ppn')
+@click.argument('ppn', callback=validate_ppn)
 def ppn2ocr(ppn):
    """
    Get METS with best images for a document PPN
