@@ -7,3 +7,4 @@ Releasing
   * This - the tags - triggers Travis builds for the mikegerber repo,
     including building the Docker images and pushing them to Docker Hub.
   * Make sure that qurator-spk gets tags pushed (for consistency).
+* Create release on GitHub
