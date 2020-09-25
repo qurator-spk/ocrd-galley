@@ -1,11 +1,11 @@
 FROM my_ocrd_workflow-core
 
-
+ARG PIP_INSTALL="pip3 install --no-cache-dir --use-feature=2020-resolver"
 ENV SBB_TEXTLINE_DETECTOR_COMMIT 0f09f4a
 
 
 # Build pip installable stuff
-RUN pip3 install --no-cache-dir \
+RUN ${PIP_INSTALL} \
 # Now the real stuff:
     https://github.com/qurator-spk/sbb_textline_detector/archive/$SBB_TEXTLINE_DETECTOR_COMMIT.tar.gz
 

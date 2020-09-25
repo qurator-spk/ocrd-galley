@@ -1,8 +1,10 @@
 FROM my_ocrd_workflow-core
 
+ARG PIP_INSTALL="pip3 install --no-cache-dir --use-feature=2020-resolver"
+
 
 # Build pip installable stuff
-RUN pip3 install --no-cache-dir \
+RUN ${PIP_INSTALL} \
 # Resolve conflicts early:
         'tensorflow-gpu == 1.15.*' \
         'calamari-ocr == 0.3.5' \

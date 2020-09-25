@@ -1,6 +1,8 @@
 FROM my_ocrd_workflow-core
 
+ARG PIP_INSTALL="pip3 install --no-cache-dir --use-feature=2020-resolver"
 ENV OCRD_OLENA_VERSION 1.2.0
+
 
 # Build ocrd_olena
 RUN apt-get update && \
@@ -19,7 +21,7 @@ RUN curl -sSL --retry 3 -o ocrd_olena.tar.gz https://github.com/OCR-D/ocrd_olena
    tar xvz -C ocrd_olena --strip-components=1 -f ocrd_olena.tar.gz && \
    cd ocrd_olena && \
    sed -i 's/^install: deps$/install:/' Makefile && \
-   pip3 install --no-cache-dir --use-feature=2020-resolver ocrd && \
+   ${PIP_INSTALL} ocrd && \
    make install PREFIX=/usr/local && \
    cd .. && rm -rf ocrd_olena ocrd_olena.tar.gz
 
