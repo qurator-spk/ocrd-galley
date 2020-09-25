@@ -1,7 +1,7 @@
 FROM my_ocrd_workflow-core
 
 ARG PIP_INSTALL="pip3 install --no-cache-dir --use-feature=2020-resolver"
-ENV OCRD_OLENA_VERSION 1.2.0
+ARG OCRD_OLENA_VERSION="1.2.0"
 
 
 # Build ocrd_olena

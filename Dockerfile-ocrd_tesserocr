@@ -1,7 +1,7 @@
 FROM my_ocrd_workflow-core
 
 ARG PIP_INSTALL="pip3 install --no-cache-dir --use-feature=2020-resolver"
-ENV TESSDATA_BEST_VERSION 4.0.0
+ARG TESSDATA_BEST_VERSION="4.0.0"
 ENV TESSDATA_PREFIX /usr/local/share/tessdata
 
 
