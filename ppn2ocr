@@ -8,6 +8,7 @@ import re
 import subprocess
 import click
 from copy import deepcopy
+from collections import defaultdict
 
 
 XMLNS = {
@@ -114,7 +115,31 @@ def make_workspace(ppn, workspace):
         url_iiif_full = iiif_url_for_dms_url(old_url, ppn, 'full', format_)
         flocat.attrib[f"{{{XMLNS['xlink']}}}href"] = url_iiif_full
 
-    mets.find('//mets:fileSec', namespaces=XMLNS).append(file_grp_best)
+    mets.find("//mets:fileSec", namespaces=XMLNS).append(file_grp_best)
+
+    # Check image dimensions if FULLTEXT exists
+    file_grp_fulltext = mets.find('//mets:fileGrp[@USE="FULLTEXT"]', namespaces=XMLNS)
+    if file_grp_fulltext is not None:
+        # Collect all file IDs for every file group
+        file_ids_for_group = defaultdict(list)
+        for file_grp in mets.findall("//mets:fileGrp", namespaces=XMLNS):
+            for file_ in file_grp.findall("mets:file", namespaces=XMLNS):
+                print(file_.attrib["ID"])
+                file_ids_for_group[file_grp.attrib["USE"]].append(file_.attrib["ID"])
+
+        for page in mets.findall(
+            '//mets:structMap[@TYPE="PHYSICAL"]/mets:div[@TYPE="physSequence"]/mets:div[@TYPE="page"]',
+            namespaces=XMLNS,
+        ):
+            print()
+            for fptr in page.findall("mets:fptr", namespaces=XMLNS):
+                print(fptr)
+        # XXX
+        # For every TYPE="page" in <mets:structMap TYPE="PHYSICAL">:
+        #   Check image dimenstion of
+        #       <mets:fptr FILEID="FILE_0001_FULLTEXT"/>
+        #       <mets:fptr FILEID="FILE_0001_BEST"/>
+        #       (need to find FILEID for pageid in given file group)
 
     # Write mets.xml
     mets.write('mets.xml', pretty_print=True)
