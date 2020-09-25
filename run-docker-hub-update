@@ -1,0 +1,11 @@
+#!/bin/sh
+# Update the my_ocrd_workflow containers
+
+DOCKER_IMAGE_PREFIX=mikegerber/my_ocrd_workflow
+DOCKER_IMAGE_TAG=stable
+
+
+sub_images=`ls -1 Dockerfile-* | sed 's/Dockerfile-//'`
+for x in $sub_images; do
+  docker pull $DOCKER_IMAGE_PREFIX-$x:$DOCKER_IMAGE_TAG
+done

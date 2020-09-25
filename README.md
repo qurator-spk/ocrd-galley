@@ -29,6 +29,9 @@ It's easiest to use it as pre-built containers. To run the containers on an
 example workspace:
 
 ~~~
+# Update to the latest stable containers
+~/devel/my_ocrd_workflow/run-docker-hub-update
+
 # Download an example workspace
 cd /tmp
 wget https://qurator-data.de/examples/actevedef_718448162.first-page.zip
