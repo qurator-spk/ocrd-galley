@@ -30,7 +30,7 @@ example workspace:
 
 ~~~
 # Update to the latest stable containers
-~/devel/my_ocrd_workflow/run-docker-hub-update
+(cd ~/devel/my_ocrd_workflow/; ./run-docker-hub-update)
 
 # Download an example workspace
 cd /tmp
