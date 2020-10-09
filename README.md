@@ -98,8 +98,8 @@ for the given images.
 
 ~~~
 ~/devel/my_ocrd_workflow/ocrd-workspace-from-images 0005.png
-cd workspace-sj4EH
-~/devel/my_ocrd_workflow/run-docker-hub -I BEST --skip-validation
+cd workspace-xxxxx  # output by the last command
+~/devel/my_ocrd_workflow/run-docker-hub
 ~~~
 
 This produces a workspace from the files and then runs the OCR workflow on it.
