@@ -1,0 +1,38 @@
+#!/bin/bash
+# Create an OCR-D workspace from images
+#
+#   ocrd-workspace-from-images *.png
+#
+# In order to produce a workspace that validates, this script makes best effort
+# to generate random IDs and to create the necessary structures like the
+# physical page sequence.
+
+workspace_dir=`mktemp -d "workspace-XXXXX"`
+workspace_id=`basename $workspace_dir`
+
+ocrd workspace -d $workspace_dir init
+ocrd workspace -d $workspace_dir set-id $workspace_id
+
+make_file_id_from_filename() {
+  filename="$1"
+  file_id="$filename"
+  file_id=`echo $file_id | sed 's#(.png|.tif|.jpe?g)$##i'`
+  file_id=`echo $file_id | sed 's#[^A-Za-z0-9_-]#_#g'`
+
+  echo "$file_id"
+}
+
+mkdir $workspace_dir/OCR-D-IMG
+page_count=0
+for img_orig in "$@"; do
+  page_count=$(($page_count + 1))
+  img="$workspace_dir/OCR-D-IMG/`basename $img_orig`"
+  cp -L "$img_orig" "$img"
+  file_id=`make_file_id_from_filename "$img"`
+  mime_type=`file -b --mime-type "$img"`
+  page_id=`printf "P%05d" $page_count`
+  ocrd workspace -d $workspace_dir add -G OCR-D-IMG "$img" --file-id $file_id --page-id $page_id --mimetype $mime_type
+done
+
+ocrd workspace -d $workspace_dir validate
+echo $workspace_dir

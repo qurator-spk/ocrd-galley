@@ -69,8 +69,8 @@ firefox OCR-D-OCR-CALAMARI-EVAL/OCR-D-OCR-CALAMARI-EVAL_00000024.html
 
 ppn2ocr
 -------
-The `ppn2ocr` script produces a METS file with the best images for a given
-document in the State Library Berlin (SBB)'s digitized collection. 
+The `ppn2ocr` script produces a workspace and METS file with the best images for
+a given document in the State Library Berlin (SBB)'s digitized collection.
 
 Install it with an up-to-date pip (otherwise this will fail due to [a opencv-python-headless build failure](https://github.com/skvark/opencv-python#frequently-asked-questions)):
 ~~~
@@ -87,7 +87,19 @@ cd PPN77164308X
 This produces a workspace directory `PPN77164308X` with the OCR results in it;
 the results are viewable as explained above.
 
-ppn2ocr requires a working Docker setup and properly set up environment
-variables for the proxy configuration. At SBB, please read
-`howto/docker-proxy.md` and `howto/proxy-settings-for-shell+python.md`
-(in qurator's mono-repo).
+ppn2ocr requires properly set up environment variables for the proxy
+configuration. At SBB, please read `howto/docker-proxy.md` and
+`howto/proxy-settings-for-shell+python.md` (in qurator's mono-repo).
+
+ocrd-workspace-from-images
+--------------------------
+The `ocrd-workspace-from-images` script produces a OCR-D workspace (incl. METS)
+for the given images.
+
+~~~
+~/devel/my_ocrd_workflow/ocrd-workspace-from-images 0005.png
+cd workspace-sj4EH
+~/devel/my_ocrd_workflow/run-docker-hub -I BEST --skip-validation
+~~~
+
+This produces a workspace from the files and then runs the OCR workflow on it.
