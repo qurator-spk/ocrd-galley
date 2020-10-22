@@ -37,6 +37,7 @@ build_alias() {
 shopt -s expand_aliases  # Required for non-interactive shells
 build_alias ocrd                       ${DOCKER_IMAGE_PREFIX}-core:${DOCKER_IMAGE_TAG}
 build_alias ocrd-olena-binarize        ${DOCKER_IMAGE_PREFIX}-ocrd_olena:${DOCKER_IMAGE_TAG}
+build_alias ocrd-sbb-binarize          ${DOCKER_IMAGE_PREFIX}-sbb_binarization:${DOCKER_IMAGE_TAG}
 build_alias ocrd-sbb-textline-detector ${DOCKER_IMAGE_PREFIX}-sbb_textline_detector:${DOCKER_IMAGE_TAG}
 build_alias ocrd-calamari-recognize    ${DOCKER_IMAGE_PREFIX}-ocrd_calamari:${DOCKER_IMAGE_TAG}
 build_alias ocrd-tesserocr-recognize   ${DOCKER_IMAGE_PREFIX}-ocrd_tesserocr:${DOCKER_IMAGE_TAG}

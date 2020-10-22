@@ -58,6 +58,7 @@ main() {
   do_validate
 
 
+  #ocrd-sbb-binarize --overwrite -I $INPUT_FILE_GRP -O OCR-D-IMG-BIN -P model "/var/lib/sbb_binarization"
   ocrd-olena-binarize --overwrite -I $INPUT_FILE_GRP -O OCR-D-IMG-BIN -P impl "sauvola-ms-split"
   do_validate
 

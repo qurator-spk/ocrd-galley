@@ -62,13 +62,37 @@ annex_get() {
   )
 }
 
+# Options:
+# --no-unpack                Do NOT unpack the file
+# --strip-components NUMBER  (as tar's option)
 download_to() {
   unpack=1
-  if [[ "$1" = '--no-unpack' ]]; then
-    unpack=0
-    shift
+  tar_options=""
+
+  _options=$(getopt --long no-unpack,strip-components: -- "" "$@")
+  if [[ $? != 0 ]]; then
+    echo "Bad parameters for download_to" >&2
+    exit 1
   fi
-  file_pattern="$1"
+  eval set -- "$_options"
+  while true; do
+    case "$1" in
+    --no-unpack)
+      unpack=0
+      ;;
+    --strip-components)
+      shift
+      components=$1
+      tar_options="$tar_options --strip-components $components"
+      ;;
+    --)
+      shift
+      break
+      ;;
+    esac
+    shift
+  done
+
   download_source="$1"
   dest="$2"
 
@@ -79,7 +103,7 @@ download_to() {
     if [[ $unpack = 1 ]]; then
       mkdir -p "$dest"
       # Unpacking relies on tar -a unpacking any tar compression
-      tar -C "$dest" -af $tmpf -xv
+      tar -C "$dest" $tar_options -af $tmpf -xv
       rm -f $tmpf
     else
       dest_dir=`dirname "$dest"`
