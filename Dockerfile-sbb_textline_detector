@@ -1,7 +1,7 @@
 FROM my_ocrd_workflow-core
 
 ARG PIP_INSTALL="pip3 install --no-cache-dir --use-feature=2020-resolver"
-ARG SBB_TEXTLINE_DETECTOR_COMMIT="0f09f4a"
+ARG SBB_TEXTLINE_DETECTOR_COMMIT="247d5f9"
 
 
 # Build pip installable stuff
