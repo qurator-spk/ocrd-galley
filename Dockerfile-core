@@ -1,6 +1,7 @@
 FROM ubuntu:18.04
 
 ARG PIP_INSTALL="pip3 install --no-cache-dir --use-feature=2020-resolver"
+ARG OCRD_VERSION_MINIMUM="2.18.1"
 ENV LC_ALL=C.UTF-8 LANG=C.UTF-8
 ENV PIP_DEFAULT_TIMEOUT=120
 
@@ -37,7 +38,7 @@ RUN curl -sSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
 
 # Install pip installable-stuff
 RUN ${PIP_INSTALL} \
-        'ocrd >= 2.13.1'
+        "ocrd >= ${OCRD_VERSION_MINIMUM}"
 
 
 # Check pip dependencies
