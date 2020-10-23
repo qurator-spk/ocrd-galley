@@ -1,7 +1,7 @@
 FROM my_ocrd_workflow-core
 
 ARG PIP_INSTALL="pip3 install --no-cache-dir --use-feature=2020-resolver"
-ARG SBB_BINARIZATION_COMMIT="3e60a62"
+ARG SBB_BINARIZATION_COMMIT="4d145cc"
 
 
 # Build pip installable stuff
