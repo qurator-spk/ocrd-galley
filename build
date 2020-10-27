@@ -30,3 +30,4 @@ docker build --cache-from=my_ocrd_workflow-ocrd_olena            -t my_ocrd_work
 docker build --cache-from=my_ocrd_workflow-ocrd_tesserocr        -t my_ocrd_workflow-ocrd_tesserocr        -f Dockerfile-ocrd_tesserocr        .
 docker build --cache-from=my_ocrd_workflow-sbb_textline_detector -t my_ocrd_workflow-sbb_textline_detector -f Dockerfile-sbb_textline_detector .
 docker build --cache-from=my_ocrd_workflow-sbb_binarization      -t my_ocrd_workflow-sbb_binarization      -f Dockerfile-sbb_binarization      .
+docker build --cache-from=my_ocrd_workflow-ocrd_cis              -t my_ocrd_workflow-ocrd_cis              -f Dockerfile-ocrd_cis              .

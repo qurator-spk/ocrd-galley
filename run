@@ -42,6 +42,14 @@ build_alias ocrd-sbb-textline-detector ${DOCKER_IMAGE_PREFIX}-sbb_textline_detec
 build_alias ocrd-calamari-recognize    ${DOCKER_IMAGE_PREFIX}-ocrd_calamari:${DOCKER_IMAGE_TAG}
 build_alias ocrd-tesserocr-recognize   ${DOCKER_IMAGE_PREFIX}-ocrd_tesserocr:${DOCKER_IMAGE_TAG}
 build_alias ocrd-dinglehopper          ${DOCKER_IMAGE_PREFIX}-dinglehopper:${DOCKER_IMAGE_TAG}
+build_alias ocrd-cis-ocropy-clip       ${DOCKER_IMAGE_PREFIX}-ocrd_cis:${DOCKER_IMAGE_TAG}
+build_alias ocrd-cis-ocropy-resegment  ${DOCKER_IMAGE_PREFIX}-ocrd_cis:${DOCKER_IMAGE_TAG}
+build_alias ocrd-cis-ocropy-segment    ${DOCKER_IMAGE_PREFIX}-ocrd_cis:${DOCKER_IMAGE_TAG}
+build_alias ocrd-cis-ocropy-deskew     ${DOCKER_IMAGE_PREFIX}-ocrd_cis:${DOCKER_IMAGE_TAG}
+build_alias ocrd-cis-ocropy-denoise    ${DOCKER_IMAGE_PREFIX}-ocrd_cis:${DOCKER_IMAGE_TAG}
+build_alias ocrd-cis-ocropy-binarize   ${DOCKER_IMAGE_PREFIX}-ocrd_cis:${DOCKER_IMAGE_TAG}
+build_alias ocrd-cis-ocropy-dewarp     ${DOCKER_IMAGE_PREFIX}-ocrd_cis:${DOCKER_IMAGE_TAG}
+build_alias ocrd-cis-ocropy-recognize  ${DOCKER_IMAGE_PREFIX}-ocrd_cis:${DOCKER_IMAGE_TAG}
 
 
 . $self_dir/my_ocrd_workflow
