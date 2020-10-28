@@ -1,0 +1,18 @@
+FROM my_ocrd_workflow-core
+
+ARG PIP_INSTALL="pip3 install --no-cache-dir --use-feature=2020-resolver"
+ARG OCRD_CIS_VERSION="0.1.5"
+
+
+# Build pip installable stuff
+RUN ${PIP_INSTALL} \
+# Now the real stuff:
+        "https://github.com/cisocrgroup/ocrd_cis/archive/v${OCRD_CIS_VERSION}.tar.gz"
+
+
+# Check pip dependencies
+RUN pip3 check
+
+
+# Default command
+CMD ["ocrd-cis-ocropy-segment"]
