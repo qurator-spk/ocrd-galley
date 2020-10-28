@@ -6,7 +6,7 @@ ocrd-galley
 A Dockerized test environment for OCR-D processors 🚢
 
 WIP. Given a OCR-D workspace with document images in the OCR-D-IMG file group,
-this workflow produces:
+the example workflow produces:
 
 * Binarized images
 * Line segmentation
@@ -62,7 +62,7 @@ java -jar /path/to/JPageViewer.jar \
   OCR-D-OCR-CALAMARI/OCR-D-OCR-CALAMARI_00000024.xml
 ~~~
 
-The workflow also produces OCR evaluation reports using
+The example workflow also produces OCR evaluation reports using
 [dinglehopper](https://github.com/qurator-spk/dinglehopper), if ground truth was
 available:
 ~~~
