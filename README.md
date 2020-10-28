@@ -32,7 +32,7 @@ example workspace:
 
 ~~~
 # Update to the latest stable containers
-(cd ~/devel/my_ocrd_workflow/; ./run-docker-hub-update)
+(cd ~/devel/ocrd-galley/; ./run-docker-hub-update)
 
 # Download an example workspace
 cd /tmp
@@ -41,13 +41,13 @@ unzip actevedef_718448162.first-page.zip
 
 # Run the workflow on it
 cd actevedef_718448162.first-page
-~/devel/my_ocrd_workflow/run-docker-hub
+~/devel/ocrd-galley/run-docker-hub
 ~~~
 
 ### Build the containers yourself
 To build the containers yourself using Docker:
 ~~~
-cd ~/devel/my_ocrd_workflow
+cd ~/devel/ocrd-galley/
 ./build
 ~~~
 You may then use the script `run` to use your self-built containers, analogous to
@@ -76,14 +76,14 @@ a given document in the State Library Berlin (SBB)'s digitized collection.
 
 Install it with an up-to-date pip (otherwise this will fail due to [a opencv-python-headless build failure](https://github.com/skvark/opencv-python#frequently-asked-questions)):
 ~~~
-pip install -r ~/devel/my_ocrd_workflow/requirements-ppn2ocr.txt
+pip install -r ~/devel/ocrd-galley/requirements-ppn2ocr.txt
 ~~~
 
 The document must be specified by its PPN, for example:
 ~~~
-~/devel/my_ocrd_workflow/ppn2ocr PPN77164308X
+~/devel/ocrd-galley/ppn2ocr PPN77164308X
 cd PPN77164308X
-~/devel/my_ocrd_workflow/run-docker-hub -I BEST --skip-validation
+~/devel/ocrd-galley/run-docker-hub -I BEST --skip-validation
 ~~~
 
 This produces a workspace directory `PPN77164308X` with the OCR results in it;
@@ -99,9 +99,9 @@ The `ocrd-workspace-from-images` script produces a OCR-D workspace (incl. METS)
 for the given images.
 
 ~~~
-~/devel/my_ocrd_workflow/ocrd-workspace-from-images 0005.png
+~/devel/ocrd-galley/ocrd-workspace-from-images 0005.png
 cd workspace-xxxxx  # output by the last command
-~/devel/my_ocrd_workflow/run-docker-hub
+~/devel/ocrd-galley/run-docker-hub
 ~~~
 
 This produces a workspace from the files and then runs the OCR workflow on it.
