@@ -1,7 +1,9 @@
-My OCR-D workflow
-=================
+ocrd-galley
+===========
 
-[![Build Status](https://travis-ci.org/mikegerber/my_ocrd_workflow.svg?branch=master)](https://travis-ci.org/mikegerber/my_ocrd_workflow)
+[![Build Status](https://travis-ci.com/qurator-spk/ocrd-galley.svg?branch=master)](https://travis-ci.com/qurator-spk/ocrd-galley)
+
+A Dockerized test environment for OCR-D processors 🚢
 
 WIP. Given a OCR-D workspace with document images in the OCR-D-IMG file group,
 this workflow produces:
