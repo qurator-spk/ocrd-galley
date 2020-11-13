@@ -50,6 +50,7 @@ build_alias ocrd-cis-ocropy-denoise    ${DOCKER_IMAGE_PREFIX}-ocrd_cis:${DOCKER_
 build_alias ocrd-cis-ocropy-binarize   ${DOCKER_IMAGE_PREFIX}-ocrd_cis:${DOCKER_IMAGE_TAG}
 build_alias ocrd-cis-ocropy-dewarp     ${DOCKER_IMAGE_PREFIX}-ocrd_cis:${DOCKER_IMAGE_TAG}
 build_alias ocrd-cis-ocropy-recognize  ${DOCKER_IMAGE_PREFIX}-ocrd_cis:${DOCKER_IMAGE_TAG}
+build_alias ocrd-fileformat-transform  ${DOCKER_IMAGE_PREFIX}-ocrd_transform:${DOCKER_IMAGE_TAG}
 
 
 . $self_dir/my_ocrd_workflow
