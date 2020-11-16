@@ -6,14 +6,17 @@ ARG OCRD_FILEFORMAT_VERSION="0.1.1"
 
 RUN apt-get update && \
     apt-get install -y \
+      git \
       openjdk-11-jdk-headless \
+      wget \
+      unzip \
     && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
-RUN curl -sSL --retry 3 -O https://github.com/OCR-D/ocrd_fileformat/archive/v${OCRD_FILEFORMAT_VERSION}.tar.gz && \
-    tar xvzf v${OCRD_FILEFORMAT_VERSION}.tar.gz && \
-    cd ocrd_fileformat-${OCRD_FILEFORMAT_VERSION}/ && \
+RUN git clone --depth 1 --branch v${OCRD_FILEFORMAT_VERSION} https://github.com/OCR-D/ocrd_fileformat.git && \
+    cd ocrd_fileformat/ && \
+    git submodule update --init && \
     make install-fileformat install PREFIX=/usr/local && \
-    rm -rf v${OCRD_FILEFORMAT_VERSION}.tar.gz ocrd_fileformat-${OCRD_FILEFORMAT_VERSION}/
+    cd .. && rm -rf ocrd_fileformat/
 
 
 # Default command
