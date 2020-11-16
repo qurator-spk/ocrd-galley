@@ -6,7 +6,8 @@ ARG SBB_TEXTLINE_DETECTOR_COMMIT="247d5f9"
 
 # Build pip installable stuff
 RUN ${PIP_INSTALL} \
-# Now the real stuff:
+    # https://github.com/qurator-spk/sbb_textline_detection/issues/50
+    "h5py < 3" \
     https://github.com/qurator-spk/sbb_textline_detector/archive/$SBB_TEXTLINE_DETECTOR_COMMIT.tar.gz
 
 
