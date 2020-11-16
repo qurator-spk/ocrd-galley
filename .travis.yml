@@ -31,13 +31,11 @@ jobs:
         - FORCE_DOWNLOAD=y ./build
 
         - |
-          set -e
           for x in $sub_images; do
             docker tag my_ocrd_workflow-$x $DOCKER_USERNAME/my_ocrd_workflow-$x:$TRAVIS_COMMIT
           done
         - docker images
         - |
-          set -e
           for x in $sub_images; do
             docker push $DOCKER_USERNAME/my_ocrd_workflow-$x:$TRAVIS_COMMIT
           done
