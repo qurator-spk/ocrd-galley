@@ -79,6 +79,7 @@ main() {
     if ocrd workspace list-group | grep -q OCR-D-GT-PAGE; then
       ocrd-dinglehopper --overwrite -I OCR-D-GT-PAGE,$ocr_filegrp -O $ocr_filegrp-EVAL
     fi
+    #ocrd-fileformat-transform -I $ocr_filegrp -O ${ocr_filegrp}-ALTO
   done
 }
 
