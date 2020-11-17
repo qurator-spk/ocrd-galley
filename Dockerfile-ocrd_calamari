@@ -13,8 +13,8 @@ RUN ${PIP_INSTALL} \
 
 
 # Copy OCR models
-RUN mkdir -p /var/lib/calamari-models
-COPY data/calamari-models/GT4HistOCR /var/lib/calamari-models/GT4HistOCR
+RUN mkdir -p /var/lib/calamari-models/GT4HistOCR
+COPY data/calamari-models/GT4HistOCR/2019-07-22T15_49+0200 /var/lib/calamari-models/GT4HistOCR/2019-07-22T15_49+0200
 
 
 
