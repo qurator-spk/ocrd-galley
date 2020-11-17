@@ -13,6 +13,21 @@ setup(
     entry_points={
         "console_scripts": [
             "ocrd=qurator.ocrd_galley.cli:main",
+            "ocrd-olena-binarize=qurator.ocrd_galley.cli:main",
+            "ocrd-sbb-binarize=qurator.ocrd_galley.cli:main",
+            "ocrd-sbb-textline-detector=qurator.ocrd_galley.cli:main",
+            "ocrd-calamari-recognize=qurator.ocrd_galley.cli:main",
+            "ocrd-tesserocr-recognize=qurator.ocrd_galley.cli:main",
+            "ocrd-dinglehopper=qurator.ocrd_galley.cli:main",
+            "ocrd-cis-ocropy-clip=qurator.ocrd_galley.cli:main",
+            "ocrd-cis-ocropy-resegment=qurator.ocrd_galley.cli:main",
+            "ocrd-cis-ocropy-segment=qurator.ocrd_galley.cli:main",
+            "ocrd-cis-ocropy-deskew=qurator.ocrd_galley.cli:main",
+            "ocrd-cis-ocropy-denoise=qurator.ocrd_galley.cli:main",
+            "ocrd-cis-ocropy-binarize=qurator.ocrd_galley.cli:main",
+            "ocrd-cis-ocropy-dewarp=qurator.ocrd_galley.cli:main",
+            "ocrd-cis-ocropy-recognize=qurator.ocrd_galley.cli:main",
+            "ocrd-fileformat-transform=qurator.ocrd_galley.cli:main",
         ]
     },
 )

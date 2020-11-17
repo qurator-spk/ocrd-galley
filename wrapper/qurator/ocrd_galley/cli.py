@@ -8,12 +8,32 @@ DOCKER_IMAGE_TAG = os.environ.get("DOCKER_IMAGE_TAG", "latest")
 LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")
 
 
+sub_images = {
+        "ocrd": "core",
+        "ocrd-olena-binarize": "ocrd_olena",
+        "ocrd-sbb-binarize": "sbb_binarization",
+        "ocrd-sbb-textline-detector": "sbb_textline_detector",
+        "ocrd-calamari-recognize": "ocrd_calamari",
+        "ocrd-tesserocr-recognize": "ocrd_tesserocr",
+        "ocrd-dinglehopper": "dinglehopper",
+        "ocrd-cis-ocropy-clip": "ocrd_cis",
+        "ocrd-cis-ocropy-resegment": "ocrd_cis",
+        "ocrd-cis-ocropy-segment": "ocrd_cis",
+        "ocrd-cis-ocropy-deskew": "ocrd_cis",
+        "ocrd-cis-ocropy-denoise": "ocrd_cis",
+        "ocrd-cis-ocropy-binarize": "ocrd_cis",
+        "ocrd-cis-ocropy-dewarp": "ocrd_cis",
+        "ocrd-cis-ocropy-recognize": "ocrd_cis",
+        "ocrd-fileformat-transform": "ocrd_fileformat",
+}
+
+
 def main():
     argv = sys.argv.copy()
     argv[0] = os.path.basename(argv[0])
 
-    if argv[0] == "ocrd":
-        docker_image = "%s-core:%s" % (DOCKER_IMAGE_PREFIX, DOCKER_IMAGE_TAG)
+    sub_image = sub_images[argv[0]]
+    docker_image = "%s-%s:%s" % (DOCKER_IMAGE_PREFIX, sub_image, DOCKER_IMAGE_TAG)
 
     docker_run(argv, docker_image)
 
