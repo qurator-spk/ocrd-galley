@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-ARG PIP_INSTALL="pip3 install --no-cache-dir --use-feature=2020-resolver"
+ARG PIP_INSTALL="pip install --no-cache-dir --use-feature=2020-resolver"
 ARG OCRD_VERSION_MINIMUM="2.18.1"
 ENV LC_ALL=C.UTF-8 LANG=C.UTF-8
 ENV PIP_DEFAULT_TIMEOUT=120
@@ -42,7 +42,7 @@ RUN ${PIP_INSTALL} \
 
 
 # Check pip dependencies
-RUN pip3 check
+RUN pip check
 
 
 WORKDIR /data

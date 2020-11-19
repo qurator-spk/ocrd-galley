@@ -1,6 +1,6 @@
 FROM my_ocrd_workflow-core
 
-ARG PIP_INSTALL="pip3 install --no-cache-dir --use-feature=2020-resolver"
+ARG PIP_INSTALL="pip install --no-cache-dir --use-feature=2020-resolver"
 ARG OCRD_OLENA_VERSION="1.2.0"
 
 
@@ -27,7 +27,7 @@ RUN curl -sSL --retry 3 -o ocrd_olena.tar.gz https://github.com/OCR-D/ocrd_olena
 
 
 # Check pip dependencies
-RUN pip3 check
+RUN pip check
 
 
 # Default command

@@ -1,6 +1,6 @@
 FROM my_ocrd_workflow-core
 
-ARG PIP_INSTALL="pip3 install --no-cache-dir --use-feature=2020-resolver"
+ARG PIP_INSTALL="pip install --no-cache-dir --use-feature=2020-resolver"
 ARG OCRD_CIS_VERSION="0.1.5"
 
 
@@ -11,7 +11,7 @@ RUN ${PIP_INSTALL} \
 
 
 # Check pip dependencies
-RUN pip3 check
+RUN pip check
 
 
 # Default command

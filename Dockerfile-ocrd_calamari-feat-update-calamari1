@@ -2,8 +2,8 @@ FROM my_ocrd_workflow-core
 
 
 # XXX https://github.com/OCR-D/core/issues/642
-#ARG PIP_INSTALL="pip3 install --no-cache-dir --use-feature=2020-resolver"
-ARG PIP_INSTALL="pip3 install --no-cache-dir"
+#ARG PIP_INSTALL="pip install --no-cache-dir --use-feature=2020-resolver"
+ARG PIP_INSTALL="pip install --no-cache-dir"
 
 
 # Build pip installable stuff
@@ -19,7 +19,7 @@ COPY data/calamari-models/GT4HistOCR/2019-12-11T11_10+0100 /var/lib/calamari-mod
 
 # Check pip dependencies
 # XXX https://github.com/OCR-D/core/issues/642
-#RUN pip3 check
+#RUN pip check
 
 
 # Default command
