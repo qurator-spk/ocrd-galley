@@ -23,4 +23,5 @@ COPY data/calamari-models/GT4HistOCR/2019-12-11T11_10+0100 /var/lib/calamari-mod
 
 
 # Default command
+RUN ln -s ocrd-calamari-recognize /usr/local/bin/ocrd-calamari-recognize-feat-update-calamari1
 CMD ["ocrd-calamari-recognize"]

@@ -17,6 +17,7 @@ setup(
             "ocrd-sbb-binarize=qurator.ocrd_galley.cli:main",
             "ocrd-sbb-textline-detector=qurator.ocrd_galley.cli:main",
             "ocrd-calamari-recognize=qurator.ocrd_galley.cli:main",
+            "ocrd-calamari-recognize-feat-update-calamari1=qurator.ocrd_galley.cli:main",
             "ocrd-tesserocr-recognize=qurator.ocrd_galley.cli:main",
             "ocrd-dinglehopper=qurator.ocrd_galley.cli:main",
             "ocrd-cis-ocropy-clip=qurator.ocrd_galley.cli:main",

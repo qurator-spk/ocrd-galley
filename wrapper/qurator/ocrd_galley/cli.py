@@ -14,6 +14,7 @@ sub_images = {
         "ocrd-sbb-binarize": "sbb_binarization",
         "ocrd-sbb-textline-detector": "sbb_textline_detector",
         "ocrd-calamari-recognize": "ocrd_calamari",
+        "ocrd-calamari-recognize-feat-update-calamari1": "ocrd_calamari-feat-update-calamari1",
         "ocrd-tesserocr-recognize": "ocrd_tesserocr",
         "ocrd-dinglehopper": "dinglehopper",
         "ocrd-cis-ocropy-clip": "ocrd_cis",
