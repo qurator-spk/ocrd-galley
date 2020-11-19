@@ -15,7 +15,7 @@ get_from_annex() {
 }
 get_from_web() {
   download_to 'https://qurator-data.de/calamari-models/GT4HistOCR/model.tar.xz' 'calamari-models/GT4HistOCR/2019-07-22T15_49+0200'
-  # XXX Calamari 1 model
+  download_to 'https://qurator-data.de/calamari-models/GT4HistOCR/2019-12-11T11_10+0100/model.tar.xz' 'calamari-models/GT4HistOCR/2019-12-11T11_10+0100'
   download_to 'https://qurator-data.de/tesseract-models/GT4HistOCR/models.tar'  'tesseract-models/GT4HistOCR'
   download_to 'https://qurator-data.de/sbb_textline_detector/models.tar.gz'     'textline_detection'
   download_to --strip-components 1 'https://qurator-data.de/sbb_binarization/models.tar.gz' 'sbb_binarization'
