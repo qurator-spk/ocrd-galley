@@ -23,8 +23,7 @@ COPY data/tesseract-models/GT4HistOCR/GT4HistOCR_2000000.traineddata $TESSDATA_P
 
 # Build pip installable stuff
 RUN ${PIP_INSTALL} \
-# Now the real stuff:
-    'ocrd_tesserocr >= 0.9.5'
+    'ocrd_tesserocr == 0.9.2'  # XXX https://github.com/OCR-D/ocrd_tesserocr/issues/160
 
 
 # Check pip dependencies
