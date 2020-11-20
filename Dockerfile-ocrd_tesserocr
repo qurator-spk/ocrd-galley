@@ -19,7 +19,8 @@ RUN add-apt-repository ppa:alex-p/tesseract-ocr && \
 RUN mkdir -p $TESSDATA_PREFIX
 ADD data/mirror/github.com/tesseract-ocr/tessdata_best/archive/${TESSDATA_BEST_VERSION}-repacked.tar.gz $TESSDATA_PREFIX/
 COPY data/tesseract-models/GT4HistOCR/GT4HistOCR_2000000.traineddata $TESSDATA_PREFIX/
-
+RUN curl -sSL -O https://ub-backup.bib.uni-mannheim.de/~stweil/ocrd-train/data/Fraktur_5000000/tessdata_fast/Fraktur_50000000.502_198857.traineddata && \
+    mv *.traineddata $TESSDATA_PREFIX/
 
 # Build pip installable stuff
 RUN ${PIP_INSTALL} \
