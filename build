@@ -35,6 +35,5 @@ docker build --cache-from=my_ocrd_workflow-sbb_binarization      -t my_ocrd_work
 docker build --cache-from=my_ocrd_workflow-ocrd_cis              -t my_ocrd_workflow-ocrd_cis              -f Dockerfile-ocrd_cis              .
 docker build --cache-from=my_ocrd_workflow-ocrd_fileformat       -t my_ocrd_workflow-ocrd_fileformat       -f Dockerfile-ocrd_fileformat       .
 
-
-# XXX
-docker build --cache-from=my_ocrd_workflow-ocrd_calamari-feat-update-calamari1 -t my_ocrd_workflow-ocrd_calamari-feat-update-calamari1 -f Dockerfile-ocrd_calamari-feat-update-calamari1 .
+# legacy
+docker build --cache-from=my_ocrd_workflow-ocrd_calamari03       -t my_ocrd_workflow-ocrd_calamari03       -f Dockerfile-ocrd_calamari03       .

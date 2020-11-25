@@ -1,0 +1,27 @@
+FROM my_ocrd_workflow-core
+
+ARG PIP_INSTALL="pip install --no-cache-dir --use-feature=2020-resolver"
+
+
+# Build pip installable stuff
+RUN ${PIP_INSTALL} \
+# Resolve conflicts early:
+        'tensorflow-gpu == 1.15.*' \
+        'calamari-ocr == 0.3.5' \
+# Now the real stuff:
+        'ocrd_calamari >= 0.0.7'
+
+
+# Copy OCR models
+RUN mkdir -p /var/lib/calamari-models/GT4HistOCR
+COPY data/calamari-models/GT4HistOCR/2019-07-22T15_49+0200 /var/lib/calamari-models/GT4HistOCR/2019-07-22T15_49+0200
+
+
+
+# Check pip dependencies
+RUN pip check
+
+
+# Default command
+RUN ln -s ocrd-calamari-recognize /usr/local/bin/ocrd-calamari-recognize03
+CMD ["ocrd-calamari-recognize"]
