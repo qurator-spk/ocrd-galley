@@ -2,9 +2,6 @@ name: Test
 
 on: push
 
-env:
-
-
 jobs:
   build:
     name: Setup, Build, Publish, and Deploy
