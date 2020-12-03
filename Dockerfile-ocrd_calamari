@@ -20,8 +20,7 @@ COPY data/mirror/github.com/Calamari-OCR/calamari_models/gt4histocr             
 
 
 # Check pip dependencies
-# XXX https://github.com/OCR-D/core/issues/642
-#RUN pip check
+RUN pip check
 
 
 # Default command
