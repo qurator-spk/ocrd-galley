@@ -86,7 +86,7 @@ The document must be specified by its PPN, for example:
 ~~~
 ~/devel/ocrd-galley/ppn2ocr PPN77164308X
 cd PPN77164308X
-~/devel/ocrd-galley/run-docker-hub -I BEST --skip-validation
+~/devel/ocrd-galley/my_ocrd_workflow -I BEST --skip-validation
 ~~~
 
 This produces a workspace directory `PPN77164308X` with the OCR results in it;
@@ -104,7 +104,7 @@ for the given images.
 ~~~
 ~/devel/ocrd-galley/ocrd-workspace-from-images 0005.png
 cd workspace-xxxxx  # output by the last command
-~/devel/ocrd-galley/run-docker-hub
+~/devel/ocrd-galley/my_ocrd_workflow
 ~~~
 
 This produces a workspace from the files and then runs the OCR workflow on it.
