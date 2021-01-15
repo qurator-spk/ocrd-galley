@@ -26,16 +26,8 @@ get_from_web() {
 . $self_dir/qurator_data_lib.sh
 handle_data
 
-
-docker build --cache-from=my_ocrd_workflow-core                  -t my_ocrd_workflow-core                  -f Dockerfile-core                  .
-docker build --cache-from=my_ocrd_workflow-ocrd_calamari         -t my_ocrd_workflow-ocrd_calamari         -f Dockerfile-ocrd_calamari         .
-docker build --cache-from=my_ocrd_workflow-dinglehopper          -t my_ocrd_workflow-dinglehopper          -f Dockerfile-dinglehopper          .
-docker build --cache-from=my_ocrd_workflow-ocrd_olena            -t my_ocrd_workflow-ocrd_olena            -f Dockerfile-ocrd_olena            .
-docker build --cache-from=my_ocrd_workflow-ocrd_tesserocr        -t my_ocrd_workflow-ocrd_tesserocr        -f Dockerfile-ocrd_tesserocr        .
-docker build --cache-from=my_ocrd_workflow-sbb_textline_detector -t my_ocrd_workflow-sbb_textline_detector -f Dockerfile-sbb_textline_detector .
-docker build --cache-from=my_ocrd_workflow-sbb_binarization      -t my_ocrd_workflow-sbb_binarization      -f Dockerfile-sbb_binarization      .
-docker build --cache-from=my_ocrd_workflow-ocrd_cis              -t my_ocrd_workflow-ocrd_cis              -f Dockerfile-ocrd_cis              .
-docker build --cache-from=my_ocrd_workflow-ocrd_fileformat       -t my_ocrd_workflow-ocrd_fileformat       -f Dockerfile-ocrd_fileformat       .
-
-# legacy
-docker build --cache-from=my_ocrd_workflow-ocrd_calamari03       -t my_ocrd_workflow-ocrd_calamari03       -f Dockerfile-ocrd_calamari03       .
+sub_images=`ls -1 Dockerfile-core* | sed 's/Dockerfile-//'`
+sub_images="$sub_images `ls -1 Dockerfile-* | sed 's/Dockerfile-//'`"
+for sub_image in $sub_images; do
+  docker build --cache-from=my_ocrd_workflow-$sub_image -t my_ocrd_workflow-$sub_image -f Dockerfile-$sub_image .
+done

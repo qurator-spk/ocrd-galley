@@ -1,4 +1,4 @@
-FROM my_ocrd_workflow-core
+FROM my_ocrd_workflow-core-cuda10.1
 
 
 # XXX https://github.com/OCR-D/core/issues/642
