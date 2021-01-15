@@ -27,13 +27,25 @@ including all dependencies in Docker.
 
 How to use
 ----------
-It's easiest to use it as pre-built containers. To run the containers on an
-example workspace:
+**Currently, due to problems with the Travis CI, we do not provide pre-built
+containers anymore.***
+
+To build the containers yourself using Docker:
+~~~
+cd ~/devel/ocrd-galley/
+./build
+~~~
+
+You can then install the wrappers into a Python venv:
+~~~
+cd ~/devel/ocrd-galley/wrapper
+pip install .
+~~~
+
+You may then use the script `my_ocrd_workflow` to use your self-built
+containers on an example workspace:
 
 ~~~
-# Update to the latest stable containers
-(cd ~/devel/ocrd-galley/; ./run-docker-hub-update)
-
 # Download an example workspace
 cd /tmp
 wget https://qurator-data.de/examples/actevedef_718448162.first-page.zip
@@ -41,17 +53,8 @@ unzip actevedef_718448162.first-page.zip
 
 # Run the workflow on it
 cd actevedef_718448162.first-page
-~/devel/ocrd-galley/run-docker-hub
+~/devel/ocrd-galley/my_ocrd_workflow
 ~~~
-
-### Build the containers yourself
-To build the containers yourself using Docker:
-~~~
-cd ~/devel/ocrd-galley/
-./build
-~~~
-You may then use the script `run` to use your self-built containers, analogous to
-the example above.
 
 ### Viewing results
 You may then examine the results using
@@ -83,7 +86,7 @@ The document must be specified by its PPN, for example:
 ~~~
 ~/devel/ocrd-galley/ppn2ocr PPN77164308X
 cd PPN77164308X
-~/devel/ocrd-galley/run-docker-hub -I BEST --skip-validation
+~/devel/ocrd-galley/my_ocrd_workflow -I BEST --skip-validation
 ~~~
 
 This produces a workspace directory `PPN77164308X` with the OCR results in it;
@@ -101,7 +104,7 @@ for the given images.
 ~~~
 ~/devel/ocrd-galley/ocrd-workspace-from-images 0005.png
 cd workspace-xxxxx  # output by the last command
-~/devel/ocrd-galley/run-docker-hub
+~/devel/ocrd-galley/my_ocrd_workflow
 ~~~
 
 This produces a workspace from the files and then runs the OCR workflow on it.

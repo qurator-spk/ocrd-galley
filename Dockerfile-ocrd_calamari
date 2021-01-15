@@ -2,7 +2,7 @@ FROM my_ocrd_workflow-core-cuda10.1
 
 
 # XXX https://github.com/OCR-D/core/issues/642
-#ARG PIP_INSTALL="pip install --no-cache-dir --use-feature=2020-resolver"
+#ARG PIP_INSTALL="pip install --no-cache-dir"
 ARG PIP_INSTALL="pip install --no-cache-dir"
 ARG OCRD_CALAMARI_VERSION="1.0.0"
 
@@ -20,8 +20,7 @@ COPY data/mirror/github.com/Calamari-OCR/calamari_models/gt4histocr             
 
 
 # Check pip dependencies
-# XXX https://github.com/OCR-D/core/issues/642
-#RUN pip check
+RUN pip check
 
 
 # Default command

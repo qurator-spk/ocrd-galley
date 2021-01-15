@@ -1,6 +1,6 @@
 FROM my_ocrd_workflow-core
 
-ARG PIP_INSTALL="pip install --no-cache-dir --use-feature=2020-resolver"
+ARG PIP_INSTALL="pip install --no-cache-dir"
 ARG DINGLEHOPPER_COMMIT="6e47acd"
 
 
