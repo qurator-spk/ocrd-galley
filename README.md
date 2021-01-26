@@ -75,7 +75,7 @@ firefox OCR-D-OCR-CALAMARI-EVAL/OCR-D-OCR-CALAMARI-EVAL_00000024.html
 ppn2ocr
 -------
 The `ppn2ocr` script produces a workspace and METS file with the best images for
-a given document in the State Library Berlin (SBB)'s digitized collection.
+a given document in the Berlin State Library (SBB)'s digitized collection.
 
 Install it with an up-to-date pip (otherwise this will fail due to [a opencv-python-headless build failure](https://github.com/skvark/opencv-python#frequently-asked-questions)):
 ~~~
