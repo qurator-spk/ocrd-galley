@@ -26,8 +26,12 @@ get_from_web() {
 . $self_dir/qurator_data_lib.sh
 handle_data
 
-sub_images=`ls -1 Dockerfile-core* | sed 's/Dockerfile-//'`
-sub_images="$sub_images `ls -1 Dockerfile-* | sed 's/Dockerfile-//'`"
+if [ -n "$1" ]; then
+  sub_images=`echo "$@" | sed 's/Dockerfile-//'`
+else
+  sub_images=`ls -1 Dockerfile-core* | sed 's/Dockerfile-//'`
+  sub_images="$sub_images `ls -1 Dockerfile-* | sed 's/Dockerfile-//'`"
+fi
 for sub_image in $sub_images; do
   docker build --cache-from=my_ocrd_workflow-$sub_image -t my_ocrd_workflow-$sub_image -f Dockerfile-$sub_image .
 done
