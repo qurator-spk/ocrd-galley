@@ -15,7 +15,7 @@ RUN ${PIP_INSTALL} \
 RUN mkdir -p /var/lib/calamari-models/GT4HistOCR
 COPY data/calamari-models/GT4HistOCR/2019-12-11T11_10+0100 /var/lib/calamari-models/GT4HistOCR/2019-12-11T11_10+0100
 # XXX experimental
-COPY data/calamari-models/GT4HistOCR/2019-12-18T17_24+0100-with-augmentation-UNTESTED /var/lib/calamari-models/GT4HistOCR/2019-12-18T17_24+0100
+#COPY data/calamari-models/GT4HistOCR/2019-12-18T17_24+0100-with-augmentation-UNTESTED /var/lib/calamari-models/GT4HistOCR/2019-12-18T17_24+0100
 COPY data/mirror/github.com/Calamari-OCR/calamari_models/gt4histocr                   /var/lib/calamari-models/GT4HistOCR-chreul
 
 
