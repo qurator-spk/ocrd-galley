@@ -2,6 +2,7 @@ FROM my_ocrd_workflow-core
 
 ARG PIP_INSTALL="pip install --no-cache-dir"
 ARG TESSDATA_BEST_VERSION="4.0.0"
+ARG OCRD_TESSEROCR_VERSION="0.11.0"
 ENV TESSDATA_PREFIX /usr/local/share/tessdata
 
 
@@ -24,7 +25,7 @@ RUN curl -sSL -O https://ub-backup.bib.uni-mannheim.de/~stweil/ocrd-train/data/F
 
 # Build pip installable stuff
 RUN ${PIP_INSTALL} \
-    'ocrd_tesserocr == 0.11.0'
+    "ocrd_tesserocr == ${OCRD_TESSEROCR_VERSION}"
 
 
 # Check pip dependencies
