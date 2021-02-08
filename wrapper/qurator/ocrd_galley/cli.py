@@ -28,6 +28,13 @@ sub_images = {
         "ocrd-cis-ocropy-dewarp": "ocrd_cis",
         "ocrd-cis-ocropy-recognize": "ocrd_cis",
         "ocrd-fileformat-transform": "ocrd_fileformat",
+        "ocrd-segment-extract-pages": "ocrd_segment",
+        "ocrd-segment-extract-regions": "ocrd_segment",
+        "ocrd-segment-extract-lines": "ocrd_segment",
+        "ocrd-segment-from-masks": "ocrd_segment",
+        "ocrd-segment-from-coco": "ocrd_segment",
+        "ocrd-segment-repair": "ocrd_segment",
+        "ocrd-segment-evaluate": "ocrd_segment",
 }
 
 
