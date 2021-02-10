@@ -1,7 +1,9 @@
 ocrd-galley
 ===========
 
+<!--
 [![Build Status](https://travis-ci.com/qurator-spk/ocrd-galley.svg?branch=master)](https://travis-ci.com/qurator-spk/ocrd-galley)
+-->
 
 A Dockerized test environment for OCR-D processors 🚢
 
