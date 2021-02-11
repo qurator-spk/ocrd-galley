@@ -5,6 +5,7 @@ steps:
 - name: prepare data
   image: alpine
   commands:
+  - ls
   - ./build-tmp-XXX
 - name: build core
   image: plugins/docker
