@@ -2,11 +2,9 @@ def main(ctx):
   if ctx.build.event == "tag":
     name = "release"
     dry_run = False
-    auto_tag = True
   elif ctx.build.branch == "master":
     name = "master"
     dry_run = True
-    auto_tag = False
   else:
     return
 
@@ -22,17 +20,22 @@ def main(ctx):
           "FORCE_DOWNLOAD=y ./build-tmp-XXX"
         ]
       },
-      {
-        "name": "build core",
-        "image": "plugins/docker",
-        "settings": {
-          "dry_run": dry_run,
-          "auto_tag": auto_tag,
-          "username": { "from_secret": "docker_username" },
-          "password": { "from_secret": "docker_password" },
-          "repo": "mikegerber/my_ocrd_workflow-core",
-          "dockerfile": "Dockerfile-core",
-        }
-      }
+      step_for("core", dry_run),
+      step_for("ocrd_tesserocr", dry_run),
     ]
+  }
+
+def step_for(sub_image, dry_run):
+  auto_tag = not dry_run
+  return {
+    "name": "build %s" % sub_image,
+    "image": "plugins/docker",
+    "settings": {
+      "dry_run": dry_run,
+      "auto_tag": auto_tag,
+      "username": { "from_secret": "docker_username" },
+      "password": { "from_secret": "docker_password" },
+      "repo": "mikegerber/my_ocrd_workflow-%s" % sub_image,
+      "dockerfile": "Dockerfile-%s" % sub_image,
+    }
   }
