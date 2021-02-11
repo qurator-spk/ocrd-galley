@@ -6,7 +6,7 @@ steps:
   image: alpine
   commands:
   - apk update && apk add bash
-  - ./build-tmp-XXX
+  - FORCE_DOWNLOAD=y ./build-tmp-XXX
 - name: build core
   image: plugins/docker
   dockerfile: Dockerfile-core
