@@ -98,7 +98,7 @@ download_to() {
 
   (
     cd $DATA_SUBDIR
-    tmpf=`mktemp 'tmp.XXXXX'`
+    tmpf=`mktemp 'tmp.XXXXXX'`
     curl -sSL -o $tmpf "$download_source"
     if [[ $unpack = 1 ]]; then
       mkdir -p "$dest"
