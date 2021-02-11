@@ -10,5 +10,9 @@ steps:
 - name: build core
   image: plugins/docker
   settings:
-    repo: my_ocrd_workflow-core
+    repo: mikegerber/my_ocrd_workflow-core
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
     dockerfile: Dockerfile-core
