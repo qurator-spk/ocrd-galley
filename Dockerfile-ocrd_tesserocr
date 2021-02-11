@@ -1,4 +1,4 @@
-FROM my_ocrd_workflow-core
+FROM mikegerber/my_ocrd_workflow-core
 
 ARG PIP_INSTALL="pip install --no-cache-dir"
 ARG TESSDATA_BEST_VERSION="4.0.0"
