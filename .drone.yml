@@ -10,4 +10,5 @@ steps:
 - name: build core
   image: plugins/docker
   settings:
+    repo: my_ocrd_workflow-core
     dockerfile: Dockerfile-core
