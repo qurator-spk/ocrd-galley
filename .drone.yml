@@ -10,9 +10,36 @@ steps:
 - name: build core
   image: plugins/docker
   settings:
+    dry_run: true
     repo: mikegerber/my_ocrd_workflow-core
+    dockerfile: Dockerfile-core
+
+trigger:
+  branch:
+  - master
+
+
+---
+kind: pipeline
+name: release
+
+steps:
+- name: prepare data
+  image: alpine
+  commands:
+  - apk update && apk add bash curl
+  - FORCE_DOWNLOAD=y ./build-tmp-XXX
+- name: build core
+  image: plugins/docker
+  settings:
+    auto_tag: true
     username:
       from_secret: docker_username
     password:
       from_secret: docker_password
+    repo: mikegerber/my_ocrd_workflow-core
     dockerfile: Dockerfile-core
+
+trigger:
+  event:
+  - tag
