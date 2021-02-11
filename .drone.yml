@@ -5,7 +5,7 @@ steps:
 - name: prepare data
   image: alpine
   commands:
-  - ls
+  - apk update && apk add bash
   - ./build-tmp-XXX
 - name: build core
   image: plugins/docker
