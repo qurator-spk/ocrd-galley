@@ -5,7 +5,7 @@ steps:
 - name: prepare data
   image: alpine
   commands:
-  - apk update && apk add bash
+  - apk update && apk add bash curl
   - FORCE_DOWNLOAD=y ./build-tmp-XXX
 - name: build core
   image: plugins/docker
