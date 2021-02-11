@@ -1,0 +1,12 @@
+kind: pipeline
+name: default
+
+steps:
+- name: prepare data
+  image: alpine
+  commands:
+  - ./build-tmp-XXX
+- name: build core
+  image: plugins/docker
+  dockerfile: Dockerfile-core
+
