@@ -9,5 +9,5 @@ steps:
   - FORCE_DOWNLOAD=y ./build-tmp-XXX
 - name: build core
   image: plugins/docker
-  dockerfile: Dockerfile-core
-
+  settings:
+    dockerfile: Dockerfile-core
