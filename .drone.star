@@ -31,8 +31,8 @@ def main(ctx):
       step_for(ctx, "ocrd_olena"),
       step_for(ctx, "ocrd_segment"),
       step_for(ctx, "ocrd_tesserocr"),
-      step_dor(ctx, "sbb_binarization"),
-      step_dor(ctx, "sbb_textline_detector"),
+      step_for(ctx, "sbb_binarization"),
+      step_for(ctx, "sbb_textline_detector"),
     ]
   }
 
