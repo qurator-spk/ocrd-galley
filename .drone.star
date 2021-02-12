@@ -18,9 +18,16 @@ def main(ctx):
           "FORCE_DOWNLOAD=y ./build-tmp-XXX"
         ]
       },
+      # We can't glob and have to add here manually...
       step_for(ctx, "core"),
+      step_for(ctx, "core-cuda10.0"),
+      step_for(ctx, "core-cuda10.1"),
+
+      step_for(ctx, "dinglehopper"),
+      step_for(ctx, "ocrd_calamari"),
       step_for(ctx, "ocrd_olena"),
       step_for(ctx, "ocrd_tesserocr"),
+      step_for(ctx, "ocrd_segment"),
     ]
   }
 

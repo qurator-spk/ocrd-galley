@@ -1,4 +1,5 @@
-FROM my_ocrd_workflow-core
+ARG DRONE_COMMIT="latest"
+FROM mikegerber/my_ocrd_workflow-core:$DRONE_COMMIT
 
 ARG PIP_INSTALL="pip install --no-cache-dir"
 ARG DINGLEHOPPER_COMMIT="6e47acd"

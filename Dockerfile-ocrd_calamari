@@ -1,4 +1,5 @@
-FROM my_ocrd_workflow-core-cuda10.1
+ARG DRONE_COMMIT="latest"
+FROM mikegerber/my_ocrd_workflow-core-cuda10.1:$DRONE_COMMIT
 
 
 # XXX https://github.com/OCR-D/core/issues/642
