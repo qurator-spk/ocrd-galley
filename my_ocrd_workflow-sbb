@@ -1,0 +1,88 @@
+#!/bin/bash
+
+set -e  # Abort on error
+
+# Configuration
+export LOG_LEVEL=${LOG_LEVEL:-INFO}  # /etc/ocrd_logging.py uses this to set level for all OCR-D modules
+export TEXTEQUIV_LEVEL=word
+
+# Command line parameters
+OPTS=`getopt -o I: --long input-file-grp:,skip-validation -- "$@"`
+eval set -- "$OPTS"
+INPUT_FILE_GRP=OCR-D-IMG
+SKIP_VALIDATION=false
+while true; do
+  case "$1" in
+    -I|--input-file-grp) INPUT_FILE_GRP=$2; shift 2;;
+    --skip-validation) SKIP_VALIDATION=true; shift;;
+
+    --) shift; break;;
+    *) break;;
+  esac
+done
+
+# Set up logging
+if [ "$LOG_LEVEL" = "DEBUG" -o "$LOG_LEVEL" = "TRACE" ]; then
+  set -x
+fi
+
+
+do_validate() {
+  # Validate the workspace
+
+  # Both ocrd_tesserocr + ocrd_calamari produce segment coordinates that are not strictly within their parent's
+  # coordinates:
+  #
+  #     INCONSISTENCY in [...] coords [...] not within parent coords
+  #
+  # → --page-coordinate-consistency off
+  #
+  # ocrd_tesserocr sometimes produces segment text results that aren't concatenating as expected by the validator:
+  #
+  #     INCONSISTENCY in [...]: text results '[...]' != concatenated '[...]'
+  #
+  # → --page-strictness lax
+  #
+  validate_options='
+    --skip dimension
+    --skip pixel_density
+    --page-strictness lax
+    --page-coordinate-consistency off'
+  if [ "$SKIP_VALIDATION" = false ]; then
+    ocrd workspace validate $validate_options
+  fi
+}
+
+
+main() {
+  do_validate
+
+
+  ocrd-sbb-binarize --overwrite -I $INPUT_FILE_GRP -O OCR-D-IMG-BIN -P model "/var/lib/sbb_binarization"
+  do_validate
+
+
+  ocrd-sbb-textline-detector --overwrite -I OCR-D-IMG-BIN -O OCR-D-SEG-LINE -P model "/var/lib/textline_detection"
+  do_validate
+
+
+  ocrd-calamari-recognize --overwrite -I OCR-D-SEG-LINE -O OCR-D-OCR-CALAMARI -P checkpoint "/var/lib/calamari-models/GT4HistOCR/2019-12-11T11_10+0100/*.ckpt.json" -P textequiv_level "$TEXTEQUIV_LEVEL"
+  do_validate
+
+
+  for ocr_filegrp in OCR-D-OCR-CALAMARI OCR-D-OCR-TESS; do
+    if ocrd workspace list-group | grep -q OCR-D-GT-PAGE; then
+      ocrd-dinglehopper --overwrite -I OCR-D-GT-PAGE,$ocr_filegrp -O $ocr_filegrp-EVAL
+    fi
+    ocrd-fileformat-transform --overwrite -I $ocr_filegrp -O ${ocr_filegrp}-ALTO
+  done
+}
+
+
+if [ "$LOG_LEVEL" = "DEBUG" -o "$LOG_LEVEL" = "TRACE" ]; then
+  pip list || true
+fi
+main
+
+
+# vim:tw=120:
