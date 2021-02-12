@@ -19,6 +19,7 @@ def main(ctx):
         ]
       },
       step_for(ctx, "core"),
+      step_for(ctx, "ocrd_olena"),
       step_for(ctx, "ocrd_tesserocr"),
     ]
   }
