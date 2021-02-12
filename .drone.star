@@ -1,8 +1,11 @@
 def main(ctx):
+  tags = [ctx.build.commit]
+
   if ctx.build.event == "tag":
     name = "release"
   elif ctx.build.branch == "master":
     name = "master"
+    tags.append("latest")
   else:
     return
 
@@ -19,24 +22,24 @@ def main(ctx):
         ]
       },
       # We can't glob and have to add here manually...
-      step_for(ctx, "core"),
-      step_for(ctx, "core-cuda10.0"),
-      step_for(ctx, "core-cuda10.1"),
+      step_for(ctx, "core", tags),
+      step_for(ctx, "core-cuda10.0", tags),
+      step_for(ctx, "core-cuda10.1", tags),
 
-      step_for(ctx, "dinglehopper"),
-      step_for(ctx, "ocrd_calamari"),
-      step_for(ctx, "ocrd_calamari03"),
-      step_for(ctx, "ocrd_cis"),
-      step_for(ctx, "ocrd_fileformat"),
-      step_for(ctx, "ocrd_olena"),
-      step_for(ctx, "ocrd_segment"),
-      step_for(ctx, "ocrd_tesserocr"),
-      step_for(ctx, "sbb_binarization"),
-      step_for(ctx, "sbb_textline_detector"),
+      step_for(ctx, "dinglehopper", tags),
+      step_for(ctx, "ocrd_calamari", tags),
+      step_for(ctx, "ocrd_calamari03", tags),
+      step_for(ctx, "ocrd_cis", tags),
+      step_for(ctx, "ocrd_fileformat", tags),
+      step_for(ctx, "ocrd_olena", tags),
+      step_for(ctx, "ocrd_segment", tags),
+      step_for(ctx, "ocrd_tesserocr", tags),
+      step_for(ctx, "sbb_binarization", tags),
+      step_for(ctx, "sbb_textline_detector", tags),
     ]
   }
 
-def step_for(ctx, sub_image):
+def step_for(ctx, sub_image, tags):
   return {
     "name": "build %s" % sub_image,
     "image": "plugins/docker",
@@ -44,9 +47,7 @@ def step_for(ctx, sub_image):
       "build_args": [
         "DRONE_COMMIT=%s" % ctx.build.commit,
       ],
-      "tags": [
-        ctx.build.commit,
-      ],
+      "tags": tags,
       "username": { "from_secret": "docker_username" },
       "password": { "from_secret": "docker_password" },
       "repo": "mikegerber/my_ocrd_workflow-%s" % sub_image,
