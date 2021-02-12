@@ -29,7 +29,6 @@ def step_for(ctx, sub_image):
     "name": "build %s" % sub_image,
     "image": "plugins/docker",
     "settings": {
-      "purge": False,
       "build_args": [
         "DRONE_COMMIT=%s" % ctx.build.commit,
       ],
