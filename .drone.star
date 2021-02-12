@@ -28,10 +28,12 @@ def step_for(ctx, sub_image):
     "name": "build %s" % sub_image,
     "image": "plugins/docker",
     "settings": {
-      "auto_tag": True,
       "purge": False,
       "build_args": [
         "DRONE_COMMIT=%s" % ctx.build.commit,
+      ],
+      "tags: [
+        ctx.build.commit,
       ],
       "username": { "from_secret": "docker_username" },
       "password": { "from_secret": "docker_password" },
