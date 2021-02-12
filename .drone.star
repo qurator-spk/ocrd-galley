@@ -30,9 +30,9 @@ def step_for(ctx, sub_image):
     "settings": {
       "auto_tag": True,
       "purge": False,
-      "build_args": {
-        "DRONE_COMMIT": ctx.build.commit,
-      },
+      "build_args": [
+        "DRONE_COMMIT=%s" % ctx.build.commit,
+      ],
       "username": { "from_secret": "docker_username" },
       "password": { "from_secret": "docker_password" },
       "repo": "mikegerber/my_ocrd_workflow-%s" % sub_image,
