@@ -32,7 +32,7 @@ def step_for(ctx, sub_image):
       "build_args": [
         "DRONE_COMMIT=%s" % ctx.build.commit,
       ],
-      "tags: [
+      "tags": [
         ctx.build.commit,
       ],
       "username": { "from_secret": "docker_username" },
