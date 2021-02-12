@@ -25,9 +25,14 @@ def main(ctx):
 
       step_for(ctx, "dinglehopper"),
       step_for(ctx, "ocrd_calamari"),
+      step_for(ctx, "ocrd_calamari03"),
+      step_for(ctx, "ocrd_cis"),
+      step_for(ctx, "ocrd_fileformat"),
       step_for(ctx, "ocrd_olena"),
-      step_for(ctx, "ocrd_tesserocr"),
       step_for(ctx, "ocrd_segment"),
+      step_for(ctx, "ocrd_tesserocr"),
+      step_dor(ctx, "sbb_binarization"),
+      step_dor(ctx, "sbb_textline_detector"),
     ]
   }
 

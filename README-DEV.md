@@ -1,3 +1,9 @@
+How to add a processor
+----------------------
+* Add a Dockerfile
+* Add to `build`
+* Add to `.drone.star`
+
 Releasing
 ---------
 * `git tag -m 'v<version>' 'v<version>'`
