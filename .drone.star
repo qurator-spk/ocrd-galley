@@ -33,6 +33,7 @@ def step_for(sub_image, dry_run):
     "settings": {
       "dry_run": dry_run,
       "auto_tag": auto_tag,
+      "purge": False,
       "username": { "from_secret": "docker_username" },
       "password": { "from_secret": "docker_password" },
       "repo": "mikegerber/my_ocrd_workflow-%s" % sub_image,
