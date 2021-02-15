@@ -3,7 +3,7 @@ import subprocess
 import sys
 
 
-DOCKER_IMAGE_PREFIX = os.environ.get("DOCKER_IMAGE_PREFIX", "my_ocrd_workflow")
+DOCKER_IMAGE_PREFIX = os.environ.get("DOCKER_IMAGE_PREFIX", "quratorspk/ocrd-galley")
 DOCKER_IMAGE_TAG = os.environ.get("DOCKER_IMAGE_TAG", "latest")
 LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")
 
