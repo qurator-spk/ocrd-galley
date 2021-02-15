@@ -33,5 +33,5 @@ else
   sub_images="$sub_images `ls -1 Dockerfile-* | sed 's/Dockerfile-//'`"
 fi
 for sub_image in $sub_images; do
-  docker build --cache-from=my_ocrd_workflow-$sub_image -t my_ocrd_workflow-$sub_image -f Dockerfile-$sub_image .
+  docker build --cache-from=ocrd-galley-$sub_image -t ocrd-galley-$sub_image -f Dockerfile-$sub_image .
 done

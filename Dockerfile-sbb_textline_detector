@@ -1,5 +1,5 @@
 ARG DRONE_COMMIT="latest"
-FROM mikegerber/my_ocrd_workflow-core-cuda10.0:$DRONE_COMMIT
+FROM mikegerber/ocrd-galley-core-cuda10.0:$DRONE_COMMIT
 
 ARG PIP_INSTALL="pip install --no-cache-dir"
 ARG SBB_TEXTLINE_DETECTOR_COMMIT="451b71f"
