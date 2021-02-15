@@ -1,5 +1,5 @@
 ARG DRONE_COMMIT="latest"
-FROM mikegerber/ocrd-galley-core-cuda10.0:$DRONE_COMMIT
+FROM quratorspk/ocrd-galley-core-cuda10.0:$DRONE_COMMIT
 
 ARG PIP_INSTALL="pip install --no-cache-dir"
 ARG SBB_BINARIZATION_COMMIT="ea69494"

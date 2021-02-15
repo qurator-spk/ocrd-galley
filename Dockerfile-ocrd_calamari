@@ -1,5 +1,5 @@
 ARG DRONE_COMMIT="latest"
-FROM mikegerber/ocrd-galley-core-cuda10.1:$DRONE_COMMIT
+FROM quratorspk/ocrd-galley-core-cuda10.1:$DRONE_COMMIT
 
 
 # XXX https://github.com/OCR-D/core/issues/642

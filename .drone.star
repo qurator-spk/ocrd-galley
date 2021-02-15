@@ -50,7 +50,7 @@ def step_for(ctx, sub_image, tags):
       "tags": tags,
       "username": { "from_secret": "docker_username" },
       "password": { "from_secret": "docker_password" },
-      "repo": "mikegerber/ocrd-galley-%s" % sub_image,
+      "repo": "quratorspk/ocrd-galley-%s" % sub_image,
       "dockerfile": "Dockerfile-%s" % sub_image,
     }
   }
