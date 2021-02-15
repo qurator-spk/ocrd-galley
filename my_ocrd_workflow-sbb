@@ -70,12 +70,8 @@ main() {
   do_validate
 
 
-  for ocr_filegrp in OCR-D-OCR-CALAMARI OCR-D-OCR-TESS; do
-    if ocrd workspace list-group | grep -q OCR-D-GT-PAGE; then
-      ocrd-dinglehopper --overwrite -I OCR-D-GT-PAGE,$ocr_filegrp -O $ocr_filegrp-EVAL
-    fi
-    ocrd-fileformat-transform --overwrite -I $ocr_filegrp -O ${ocr_filegrp}-ALTO
-  done
+  ocrd-fileformat-transform --overwrite -I OCR-D-OCR-CALAMARI -O OCR-D-OCR-CALAMARI-ALTO
+  do_validate
 }
 
 
