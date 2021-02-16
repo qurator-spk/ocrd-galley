@@ -9,35 +9,49 @@ def main(ctx):
   else:
     return
 
-  return {
-    "kind": "pipeline",
-    "name": name,
-    "steps": [
-      {
-        "name":  "prepare data",
-        "image": "alpine",
-        "commands": [
-          "apk update && apk add bash curl",
-          "FORCE_DOWNLOAD=y ./build-tmp-XXX"
-        ]
-      },
-      # We can't glob and have to add here manually...
-      step_for(ctx, "core", tags),
-      step_for(ctx, "core-cuda10.0", tags),
-      step_for(ctx, "core-cuda10.1", tags),
+  return [
+    {
+      "kind": "pipeline",
+      "name": name,
+      "steps": [
+        {
+          "name":  "prepare data",
+          "image": "alpine",
+          "commands": [
+            "apk update && apk add bash curl",
+            "FORCE_DOWNLOAD=y ./build-tmp-XXX"
+          ]
+        },
+        # We can't glob and have to add here manually...
+        step_for(ctx, "core", tags),
+        step_for(ctx, "core-cuda10.0", tags),
+        step_for(ctx, "core-cuda10.1", tags),
 
-      step_for(ctx, "dinglehopper", tags),
-      step_for(ctx, "ocrd_calamari", tags),
-      step_for(ctx, "ocrd_calamari03", tags),
-      step_for(ctx, "ocrd_cis", tags),
-      step_for(ctx, "ocrd_fileformat", tags),
-      step_for(ctx, "ocrd_olena", tags),
-      step_for(ctx, "ocrd_segment", tags),
-      step_for(ctx, "ocrd_tesserocr", tags),
-      step_for(ctx, "sbb_binarization", tags),
-      step_for(ctx, "sbb_textline_detector", tags),
-    ]
-  }
+        step_for(ctx, "dinglehopper", tags),
+        step_for(ctx, "ocrd_calamari", tags),
+        step_for(ctx, "ocrd_calamari03", tags),
+        step_for(ctx, "ocrd_cis", tags),
+        step_for(ctx, "ocrd_fileformat", tags),
+        step_for(ctx, "ocrd_olena", tags),
+        step_for(ctx, "ocrd_segment", tags),
+        step_for(ctx, "ocrd_tesserocr", tags),
+        step_for(ctx, "sbb_binarization", tags),
+        step_for(ctx, "sbb_textline_detector", tags),
+        {
+          "name": "notify",
+          "image": "drillster/drone-email",
+          "settings": {
+            "host": "172.17.0.1",
+            "from": "drone@ci.moegen-wir.net",
+          },
+          "when": {
+            "status": [ "success", "failure" ]
+          }
+        }
+      ]
+    }
+  ]
+
 
 def step_for(ctx, sub_image, tags):
   return {
