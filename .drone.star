@@ -35,6 +35,7 @@ def main(ctx):
         step_for(ctx, "ocrd_olena", tags),
         step_for(ctx, "ocrd_segment", tags),
         step_for(ctx, "ocrd_tesserocr", tags),
+        step_for(ctx, "ocrd_wrap", tags),
         step_for(ctx, "sbb_binarization", tags),
         step_for(ctx, "sbb_textline_detector", tags),
         {

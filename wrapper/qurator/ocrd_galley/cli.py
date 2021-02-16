@@ -35,6 +35,11 @@ sub_images = {
         "ocrd-segment-from-coco": "ocrd_segment",
         "ocrd-segment-repair": "ocrd_segment",
         "ocrd-segment-evaluate": "ocrd_segment",
+        "ocrd-preprocess-image": "ocrd_wrap",
+        "ocrd-skimage-normalize": "ocrd_wrap",
+        "ocrd-skimage-denoise-raw": "ocrd_wrap",
+        "ocrd-skimage-binarize": "ocrd_wrap",
+        "ocrd-skimage-denoise": "ocrd_wrap",
 }
 
 
