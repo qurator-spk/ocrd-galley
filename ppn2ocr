@@ -91,15 +91,20 @@ def make_workspace(ppn, workspace):
     remove_file_grp(mets, 'PRESENTATION')
     remove_file_grp(mets, 'LOCAL')
 
-    # Duplicate DEFAULT file group into a new file group BEST
+
+    # Delete MAX file group - we assume that, if it exists, it is not as
+    # we expect it, e.g. IIIF full URLs
+    remove_file_grp(mets, 'MAX')
+
+    # Duplicate DEFAULT file group into a new file group MAX
     format_ = 'tif'
     file_grp_default = mets.find('//mets:fileGrp[@USE="DEFAULT"]', namespaces=XMLNS)
     file_grp_best = deepcopy(file_grp_default)
 
-    file_grp_best.attrib['USE'] = 'BEST'
+    file_grp_best.attrib['USE'] = 'MAX'
     for f in file_grp_best.findall('./mets:file', namespaces=XMLNS):
         old_id = f.attrib['ID']
-        new_id = re.sub('DEFAULT', 'BEST', old_id)
+        new_id = re.sub('DEFAULT', 'MAX', old_id)
         f.attrib['ID'] = new_id
         f.attrib['MIMETYPE'] = mime_type_for_format(format_)
 
@@ -157,7 +162,7 @@ def ppn2ocr(ppn):
     # XXX
     #  subprocess.run([
     #     os.path.join(self_dir, 'run-docker-hub'),
-    #     '-I', 'BEST',
+    #     '-I', 'MAX',
     #     '--skip-validation'
     #  ])
 

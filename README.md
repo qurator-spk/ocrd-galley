@@ -88,7 +88,7 @@ The document must be specified by its PPN, for example:
 ~~~
 ~/devel/ocrd-galley/ppn2ocr PPN77164308X
 cd PPN77164308X
-~/devel/ocrd-galley/my_ocrd_workflow -I BEST --skip-validation
+~/devel/ocrd-galley/my_ocrd_workflow -I MAX --skip-validation
 ~~~
 
 This produces a workspace directory `PPN77164308X` with the OCR results in it;
