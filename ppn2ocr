@@ -99,6 +99,10 @@ def make_workspace(ppn, workspace):
     # Duplicate DEFAULT file group into a new file group MAX
     format_ = 'tif'
     file_grp_default = mets.find('//mets:fileGrp[@USE="DEFAULT"]', namespaces=XMLNS)
+
+    if file_grp_default is None:
+         raise ValueError("This document has no DEFAULT file group, could be a multi-volume work")
+
     file_grp_best = deepcopy(file_grp_default)
 
     file_grp_best.attrib['USE'] = 'MAX'
