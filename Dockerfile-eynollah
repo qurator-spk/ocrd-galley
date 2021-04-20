@@ -1,0 +1,23 @@
+ARG DRONE_COMMIT="latest"
+FROM quratorspk/ocrd-galley-core-cuda10.0:$DRONE_COMMIT
+
+ARG PIP_INSTALL="pip install --no-cache-dir"
+ARG EYNOLLAH_COMMIT="1184d3d"
+
+
+# Build pip installable stuff
+RUN ${PIP_INSTALL} \
+    https://github.com/qurator-spk/eynollah/archive/$EYNOLLAH_COMMIT.tar.gz
+
+
+# Copy OCR models
+# XXX
+
+
+# Check pip dependencies
+RUN pip check
+
+
+# Default command
+# XXX needs to be changed when OCR-D support is ready
+CMD ["eynollah"]
