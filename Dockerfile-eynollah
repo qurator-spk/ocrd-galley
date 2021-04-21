@@ -11,7 +11,7 @@ RUN ${PIP_INSTALL} \
 
 
 # Copy OCR models
-# XXX
+COPY data/eynollah /var/lib/eynollah
 
 
 # Check pip dependencies
