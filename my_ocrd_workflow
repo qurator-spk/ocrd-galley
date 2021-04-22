@@ -66,6 +66,7 @@ main() {
   #ocrd-tesserocr-segment-region --overwrite -I OCR-D-IMG-BIN -O OCR-D-SEG-REGION
   #ocrd-tesserocr-segment-line --overwrite -I OCR-D-SEG-REGION -O OCR-D-SEG-LINE
   #ocrd-cis-ocropy-segment --overwrite -I OCR-D-IMG-BIN -O OCR-D-SEG-LINE -P level-of-operation page
+  #ocrd-eynollah-segment -I OCR-D-IMG -O OCR-D-SEG-LINE -P models /var/lib/eynollah
   ocrd-sbb-textline-detector --overwrite -I OCR-D-IMG-BIN -O OCR-D-SEG-LINE -P model "/var/lib/textline_detection"
   do_validate
 
