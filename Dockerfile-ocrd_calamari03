@@ -10,7 +10,7 @@ RUN ${PIP_INSTALL} \
         'tensorflow-gpu == 1.15.*' \
         'calamari-ocr == 0.3.5' \
 # Now the real stuff:
-        'ocrd_calamari >= 0.0.7'
+        'ocrd_calamari == 0.0.7'
 
 
 # Copy OCR models
