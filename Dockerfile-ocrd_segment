@@ -8,7 +8,7 @@ ARG OCRD_SEGMENT_VERSION="0.1.8"
 # Build pip installable stuff
 RUN ${PIP_INSTALL} \
 # Now the real stuff:
-        "https://github.com/OCR-D/ocrd_segment/archive/v${OCRD_SEGMENT_VERSION}.tar.gz"
+        "ocrd-segment == ${OCRD_SEGMENT_VERSION}"
 
 
 # Check pip dependencies
