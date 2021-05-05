@@ -3,7 +3,7 @@ FROM quratorspk/ocrd-galley-core-cuda10.0:$DRONE_COMMIT
 
 ARG PIP_INSTALL="pip install --no-cache-dir"
 #ARG EYNOLLAH_VERSION="0.0.1"
-ARG EYNOLLAH_COMMIT="c4b2c71e"
+ARG EYNOLLAH_COMMIT="aa2e916"
 
 
 # Build pip installable stuff
