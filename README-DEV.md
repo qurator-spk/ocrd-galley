@@ -15,3 +15,15 @@ Releasing
     including building the Docker images and pushing them to Docker Hub.
   * Make sure that qurator-spk gets tags pushed (for consistency).
 * Create release on GitHub
+
+Inclusion policy
+----------------
+1. Only use PyPI version where possible.
+2. If that is not possible (= available) use a versioned release from GitHub
+3. Otherwise, use a GitHub commit
+
+If, for some reason, we must deviate from this, to e.g. hotfix something, an
+issue should be open that reminds us to go back to a versioned release again.
+
+Other than relying on "proper releases", this also has a second purpose: Review
+releases of qurator-spk releases.
