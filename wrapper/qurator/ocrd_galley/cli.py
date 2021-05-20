@@ -40,7 +40,9 @@ sub_images = {
         "ocrd-skimage-denoise-raw": "ocrd_wrap",
         "ocrd-skimage-binarize": "ocrd_wrap",
         "ocrd-skimage-denoise": "ocrd_wrap",
-        "ocrd-eynollah-segment": "eynollah"
+        "ocrd-eynollah-segment": "eynollah",
+        "ocrd-anybaseocr-crop": "ocrd_anybaseocr",
+        "ocrd-anybaseocr-deskew": "ocrd_anybaseocr",
 }
 
 

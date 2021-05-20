@@ -1,0 +1,19 @@
+ARG DRONE_COMMIT="latest"
+FROM quratorspk/ocrd-galley-core-cuda10.1:$DRONE_COMMIT
+
+ARG PIP_INSTALL="pip install --no-cache-dir"
+ARG OCRD_ANYBASEOCR_VERSION="1.5.0"
+
+
+
+# Build pip installable stuff
+RUN ${PIP_INSTALL} \
+    "ocrd_anybaseocr == ${OCRD_ANYBASEOCR_VERSION}"
+
+
+# Check pip dependencies
+RUN pip check
+
+
+# Default command
+CMD ["ocrd-anybaseocr-crop"]

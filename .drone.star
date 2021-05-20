@@ -39,6 +39,7 @@ def main(ctx):
         step_for(ctx, "sbb_binarization", tags),
         step_for(ctx, "sbb_textline_detector", tags),
         step_for(ctx, "eynollah", tags),
+        step_for(ctx, "ocrd_anybaseocr", tags),
         {
           "name": "notify",
           "image": "drillster/drone-email",
