@@ -63,6 +63,10 @@ def docker_run(argv, docker_image):
     docker_run_options.extend(["--user", "%s:%s" % (os.getuid(), os.getgid())])
     docker_run_options.extend(["-e", "LOG_LEVEL=%s" % LOG_LEVEL])
 
+    # JAVA_TOOL_OPTIONS is used for Java proxy settings
+    if os.environ.get("JAVA_TOOL_OPTIONS"):
+        docker_run_options.extend(["-e", "JAVA_TOOL_OPTIONS"])
+
     # The containers currently need to run privileged to allow it to read from e.g.
     # /home on SELinux secured systems such as Fedora. We might want to use udica
     # instead in the future.
