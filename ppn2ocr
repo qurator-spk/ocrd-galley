@@ -79,11 +79,22 @@ def mime_type_for_format(format_):
 
 
 def prune_file_grps(mets):
-    # XXX
-    # Delete PRESENTATION + LOCAL file groups
-    # (local file:/// or file:/ links, not handled well by "ocrd workspace")
-    remove_file_grp(mets, 'PRESENTATION')
-    remove_file_grp(mets, 'LOCAL')
+    """
+    Prune unwanted file groups
+
+    We only want to keep the MAX file group (we created it ourselves) and
+    possibly ABBYY full texts in FULLTEXT.
+
+    For the PRESENTATION + LOCAL file groups we definitely want to delete
+    because they contain local file:/// or file:/ links, which are not handled
+    well by "ocrd workspace". They are not explicitly mentioned, as we
+    only keep a whitelist.
+    """
+    wanted_file_grps = ["MAX", "FULLTEXT"]
+
+    for u in mets.xpath('//mets:fileGrp/@USE', namespaces=XMLNS):
+       if u not in wanted_file_grps:
+          remove_file_grp(mets, u)
 
 
 def make_workspace(ppn, workspace):
