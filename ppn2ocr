@@ -14,7 +14,7 @@ XMLNS = {
    'mets': 'http://www.loc.gov/METS/',
    'xlink': 'http://www.w3.org/1999/xlink'
 }
-API_URL = 'https://digital.staatsbibliothek-berlin.de/oai'
+API_URL = 'https://oai.sbb.berlin'
 IDENTIFIER_TEMPLATE = 'oai:digital.staatsbibliothek-berlin.de:%s'
 
 
