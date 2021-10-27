@@ -62,6 +62,7 @@ def docker_run(argv, docker_image):
     docker_run_options.extend(["--mount", "type=bind,src=%s,target=/data" % os.getcwd()])
     docker_run_options.extend(["--user", "%s:%s" % (os.getuid(), os.getgid())])
     docker_run_options.extend(["-e", "LOG_LEVEL=%s" % LOG_LEVEL])
+    docker_run_options.extend(["-e", "_OCRD_COMPLETE"])
 
     # JAVA_TOOL_OPTIONS is used for Java proxy settings
     if os.environ.get("JAVA_TOOL_OPTIONS"):
