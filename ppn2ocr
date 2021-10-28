@@ -11,10 +11,10 @@ from copy import deepcopy
 
 
 XMLNS = {
-   'mets': 'http://www.loc.gov/METS/',
-   'xlink': 'http://www.w3.org/1999/xlink'
+    'mets': 'http://www.loc.gov/METS/',
+    'xlink': 'http://www.w3.org/1999/xlink'
 }
-API_URL = 'https://digital.staatsbibliothek-berlin.de/oai'
+API_URL = 'https://oai.sbb.berlin'
 IDENTIFIER_TEMPLATE = 'oai:digital.staatsbibliothek-berlin.de:%s'
 
 
@@ -78,6 +78,25 @@ def mime_type_for_format(format_):
     return mime_type
 
 
+def prune_file_grps(mets):
+    """
+    Prune unwanted file groups
+
+    We only want to keep the MAX file group (we created it ourselves) and
+    possibly ABBYY full texts in FULLTEXT.
+
+    For the PRESENTATION + LOCAL file groups we definitely want to delete
+    because they contain local file:/// or file:/ links, which are not handled
+    well by "ocrd workspace". They are not explicitly mentioned, as we
+    only keep a whitelist.
+    """
+    wanted_file_grps = ["MAX", "FULLTEXT"]
+
+    for u in mets.xpath('//mets:fileGrp/@USE', namespaces=XMLNS):
+        if u not in wanted_file_grps:
+            remove_file_grp(mets, u)
+
+
 def make_workspace(ppn, workspace):
     # Make workspace directory
     os.mkdir(workspace)
@@ -85,11 +104,6 @@ def make_workspace(ppn, workspace):
 
     mets = oai_mets(ppn)
 
-    # XXX
-    # Delete PRESENTATION + LOCAL file groups
-    # (local file:/// or file:/ links, not handled well by "ocrd workspace")
-    remove_file_grp(mets, 'PRESENTATION')
-    remove_file_grp(mets, 'LOCAL')
 
 
     # Delete MAX file group - we assume that, if it exists, it is not as
@@ -101,7 +115,7 @@ def make_workspace(ppn, workspace):
     file_grp_default = mets.find('//mets:fileGrp[@USE="DEFAULT"]', namespaces=XMLNS)
 
     if file_grp_default is None:
-         raise ValueError("This document has no DEFAULT file group, could be a multi-volume work")
+        raise ValueError("This document has no DEFAULT file group, could be a multi-volume work")
 
     file_grp_best = deepcopy(file_grp_default)
 
@@ -125,19 +139,16 @@ def make_workspace(ppn, workspace):
 
     mets.find('//mets:fileSec', namespaces=XMLNS).append(file_grp_best)
 
+
+    prune_file_grps(mets)
+
+
     # Write mets.xml
     mets.write('mets.xml', pretty_print=True)
 
     # TODO
     # Validate workspace
     #ocrd workspace validate mets.xml | grep -v "<notice>Won't download remote image"
-
-    # XXX
-    # Fix 'file:/' URLs to 'file:///'
-    #sed -i 's#file:/\([^/]\)#file:///\1#' mets.xml
-
-    # Patch mets.xml to use our NFS mount
-    #sed -i 's#file:///goobi/tiff001/sbb/#file:///srv/digisam_images/sbb/#g' mets.xml
 
 
 def validate_ppn(ctx, param, value):
