@@ -45,6 +45,7 @@ def main(ctx):
           "image": "drillster/drone-email",
           "settings": {
             "host": "172.17.0.1",
+            "port": "25",
             "from": "drone@ci.moegen-wir.net",
           },
           "when": {
