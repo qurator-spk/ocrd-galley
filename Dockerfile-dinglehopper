@@ -2,7 +2,7 @@ ARG DRONE_COMMIT="latest"
 FROM quratorspk/ocrd-galley-core:$DRONE_COMMIT
 
 ARG PIP_INSTALL="pip install --no-cache-dir"
-ARG DINGLEHOPPER_COMMIT="6e47acd"
+ARG DINGLEHOPPER_COMMIT="d726396"
 
 
 # Build pip installable stuff
