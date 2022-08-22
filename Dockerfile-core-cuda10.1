@@ -31,7 +31,7 @@ RUN echo "setOverrideLogLevel(os.getenv('LOG_LEVEL', 'INFO'))" >/etc/ocrd_loggin
 # We use get-pip.py here to avoid
 # a. having to upgrade from Ubuntu's pip
 # b. the dreaded "old script wrapper" error message
-RUN curl -sSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+RUN curl -sSL https://bootstrap.pypa.io/pip/3.6/get-pip.py -o get-pip.py && \
     python3 get-pip.py && \
     rm -f get-pip.py
 
