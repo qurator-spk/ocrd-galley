@@ -28,12 +28,21 @@ get_from_web() {
 . $self_dir/qurator_data_lib.sh
 handle_data
 
+
 if [ -n "$1" ]; then
   sub_images=`echo "$@" | sed 's/Dockerfile-//'`
 else
   sub_images=`ls -1 Dockerfile-core* | sed 's/Dockerfile-//'`
   sub_images="$sub_images `ls -1 Dockerfile-* | sed 's/Dockerfile-//'`"
 fi
+
+# Update base images if we build a core image
+if echo "$sub_images" | grep -q core; then
+  docker pull ubuntu:18.04
+  docker pull nvidia/cuda:10.0-cudnn7-runtime-ubuntu18.04
+  docker pull nvidia/cuda:10.1-cudnn7-runtime-ubuntu18.04
+fi
+
 for sub_image in $sub_images; do
   docker build --cache-from=quratorspk/ocrd-galley-$sub_image -t quratorspk/ocrd-galley-$sub_image -f Dockerfile-$sub_image .
 done
