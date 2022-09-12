@@ -2,7 +2,7 @@ ARG DRONE_COMMIT="latest"
 FROM quratorspk/ocrd-galley-core:$DRONE_COMMIT
 
 ARG PIP_INSTALL="pip install --no-cache-dir"
-ARG OCRD_FILEFORMAT_VERSION="0.2.0"
+ARG OCRD_FILEFORMAT_VERSION="0.5.0"
 
 
 RUN apt-get update && \
