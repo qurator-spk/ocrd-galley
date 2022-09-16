@@ -5,7 +5,7 @@ FROM quratorspk/ocrd-galley-core-cuda10.1:$DRONE_COMMIT
 # XXX https://github.com/OCR-D/core/issues/642
 #ARG PIP_INSTALL="pip install --no-cache-dir"
 ARG PIP_INSTALL="pip install --no-cache-dir"
-ARG OCRD_CALAMARI_VERSION="1.0.3"
+ARG OCRD_CALAMARI_VERSION="1.0.5"
 
 # Build pip installable stuff
 RUN ${PIP_INSTALL} \

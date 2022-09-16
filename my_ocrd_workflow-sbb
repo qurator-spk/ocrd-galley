@@ -66,7 +66,7 @@ main() {
   do_validate
 
 
-  ocrd-calamari-recognize --overwrite -I OCR-D-SEG-LINE -O OCR-D-OCR-CALAMARI -P checkpoint "/var/lib/calamari-models/GT4HistOCR/2019-12-11T11_10+0100/*.ckpt.json" -P textequiv_level "$TEXTEQUIV_LEVEL"
+  ocrd-calamari-recognize --overwrite -I OCR-D-SEG-LINE -O OCR-D-OCR-CALAMARI -P checkpoint_dir "/var/lib/calamari-models/GT4HistOCR/2019-12-11T11_10+0100/" -P textequiv_level "$TEXTEQUIV_LEVEL"
   do_validate
 
 
