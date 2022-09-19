@@ -4,6 +4,25 @@ set -e
 self=`realpath $0`
 self_dir=`dirname "$self"`
 
+
+
+if [ -n "$1" ]; then
+  sub_images=""
+  for arg in "$@"; do
+    arg_sub_image=`echo "$arg" | sed 's/Dockerfile-//'`
+    NL=$'\n'
+    sub_images+="$NL$arg_sub_image"
+  done
+else
+  sub_images=`ls -1 Dockerfile-core* | sed 's/Dockerfile-//'`
+  sub_images="$sub_images `ls -1 Dockerfile-* | sed 's/Dockerfile-//'`"
+fi
+echo "Building:"
+echo "$sub_images"
+echo
+
+
+
 DATA_SUBDIR=data
 get_from_annex() {
   annex_get 'calamari-models/GT4HistOCR/2019-07-22T15_49+0200/*.ckpt*'
@@ -29,12 +48,6 @@ get_from_web() {
 handle_data
 
 
-if [ -n "$1" ]; then
-  sub_images=`echo "$@" | sed 's/Dockerfile-//'`
-else
-  sub_images=`ls -1 Dockerfile-core* | sed 's/Dockerfile-//'`
-  sub_images="$sub_images `ls -1 Dockerfile-* | sed 's/Dockerfile-//'`"
-fi
 
 # Update base images if we build a core image
 if echo "$sub_images" | grep -q core; then
