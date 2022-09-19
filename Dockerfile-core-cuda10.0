@@ -18,6 +18,8 @@ RUN echo "APT::Acquire::Retries \"3\";" > /etc/apt/apt.conf.d/80-retries && \
 # XML utils
       libxml2-utils \
       xmlstarlet \
+# OCR-D uses ImageMagick for pixel density estimation
+      imagemagick \
     && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
