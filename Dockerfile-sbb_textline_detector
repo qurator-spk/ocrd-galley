@@ -2,7 +2,7 @@ ARG DRONE_COMMIT="latest"
 FROM quratorspk/ocrd-galley-core-cuda10.0:$DRONE_COMMIT
 
 ARG PIP_INSTALL="pip install --no-cache-dir"
-ARG SBB_TEXTLINE_DETECTOR_COMMIT="b0ef767"
+ARG SBB_TEXTLINE_DETECTOR_COMMIT="c4df3d6"
 
 
 # Build pip installable stuff
