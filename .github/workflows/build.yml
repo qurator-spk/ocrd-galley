@@ -12,11 +12,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
+        name: Checkout
+        uses: actions/checkout@v3
+        # We are checking out explicitly, so build-push-action isn't trying
+        # to checkout the (unreachable) submodule. (Using "context" there.)
+
+      -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       -
         name: Build
         uses: docker/build-push-action@v4
         with:
+          context: .
           file: Dockerfile-core
           push: false
