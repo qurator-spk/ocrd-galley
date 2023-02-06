@@ -26,4 +26,6 @@ jobs:
         with:
           context: .
           file: Dockerfile-core
+          build-args:
+            DRONE_COMMIT=${{ github.sha }}
           push: false
