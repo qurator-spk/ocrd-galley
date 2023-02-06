@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - 'master'
+      - 'test/github-actions'
 
 jobs:
   docker:
@@ -20,6 +21,10 @@ jobs:
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+
+      # TODO data
+      # TODO matrix for all Dockerfiles
+
       -
         name: Build
         uses: docker/build-push-action@v4
