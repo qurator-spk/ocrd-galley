@@ -39,7 +39,7 @@ jobs:
           build-args:
             DRONE_COMMIT=${{ github.sha }}
           push: true
-          tags: ${{ github.sha }}
+          tags: quratorspk/ocrd-galley-core:${{ github.sha }}
       -
         name: Build dinglehopper
         uses: docker/build-push-action@v4
@@ -49,4 +49,4 @@ jobs:
           build-args:
             DRONE_COMMIT=${{ github.sha }}
           push: true
-          tags: ${{ github.sha }}
+          tags: quratorspk/ocrd-galley-dinglehopper:${{ github.sha }}
