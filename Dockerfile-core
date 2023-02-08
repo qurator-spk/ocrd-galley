@@ -9,10 +9,10 @@ ENV PIP_DEFAULT_TIMEOUT=120
 RUN echo "APT::Acquire::Retries \"3\";" > /etc/apt/apt.conf.d/80-retries && \
     apt-get update && \
     apt-get install -y \
-      curl xz-utils \
-      build-essential python3-dev \
-# For get-pip.py:
-      python3-distutils \
+      build-essential \
+      curl \
+      git \
+      xz-utils \
 # For add-apt-repository:
       software-properties-common \
 # XML utils
