@@ -1,6 +1,7 @@
 name: build
 
 on:
+
   workflow_dispatch:
 
   push:
@@ -9,6 +10,7 @@ on:
       - 'test/github-actions'
 
 jobs:
+
   build-core:
     strategy:
       matrix:
@@ -16,9 +18,7 @@ jobs:
     uses: ./.github/workflows/build-subimage.yml
     with:
       subimage: ${{ matrix.subimage }}
-    secrets:
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    secrets: inherit
 
   build-rest:
     strategy:
@@ -27,6 +27,4 @@ jobs:
     uses: ./.github/workflows/build-subimage.yml
     with:
       subimage: ${{ matrix.subimage }}
-    secrets:
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    secrets: inherit
