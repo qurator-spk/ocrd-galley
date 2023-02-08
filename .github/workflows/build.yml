@@ -26,11 +26,24 @@ jobs:
       # TODO matrix for all Dockerfiles
 
       -
-        name: Build
+        name: Build core
         uses: docker/build-push-action@v4
         with:
           context: .
           file: Dockerfile-core
           build-args:
             DRONE_COMMIT=${{ github.sha }}
-          push: false
+          push: true
+          tags:
+            - ${{ github.sha }}
+      -
+        name: Build dinglehopper
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: Dockerfile-dinglehopper
+          build-args:
+            DRONE_COMMIT=${{ github.sha }}
+          push: true
+          tags:
+            - ${{ github.sha }}
