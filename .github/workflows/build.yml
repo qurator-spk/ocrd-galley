@@ -33,7 +33,7 @@ jobs:
           file: Dockerfile-core
           build-args:
             DRONE_COMMIT=${{ github.sha }}
-          push: true
+          push: false
           tags: ${{ github.sha }}
       -
         name: Build dinglehopper
@@ -43,5 +43,5 @@ jobs:
           file: Dockerfile-dinglehopper
           build-args:
             DRONE_COMMIT=${{ github.sha }}
-          push: true
+          push: false
           tags: ${{ github.sha }}
