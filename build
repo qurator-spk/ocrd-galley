@@ -45,7 +45,7 @@ get_from_web() {
   download_to --strip-components 1 'https://qurator-data.de/eynollah/models_eynollah.tar.gz' 'eynollah'
 }
 . $self_dir/qurator_data_lib.sh
-handle_data
+#handle_data
 
 
 
