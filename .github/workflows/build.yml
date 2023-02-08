@@ -9,10 +9,44 @@ on:
       - 'test/github-actions'
 
 jobs:
-  docker:
+  build-core:
     strategy:
       matrix:
-        subimage: ["core", "dinglehopper"]  # core images need to come first!
+        subimage: ["core"]
+    runs-on: ubuntu-latest
+    # TODO reuse workflow for core + rest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+        # We are checking out explicitly, so build-push-action isn't trying
+        # to checkout the (unreachable) submodule. (Using "context" there.)
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      # TODO data
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build ${{ matrix.subimage }}
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: Dockerfile-${{ matrix.subimage }}
+          build-args:
+            DRONE_COMMIT=${{ github.sha }}
+          push: true
+          tags: quratorspk/ocrd-galley-${{ matrix.subimage }}:${{ github.sha }}
+
+  build-rest:
+    needs: build-core
+    strategy:
+      matrix:
+        subimage: ["dinglehopper"]
     runs-on: ubuntu-latest
     steps:
       -
@@ -20,12 +54,9 @@ jobs:
         uses: actions/checkout@v3
         # We are checking out explicitly, so build-push-action isn't trying
         # to checkout the (unreachable) submodule. (Using "context" there.)
-
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-
-      # TODO data
       -
         name: Login to Docker Hub
         uses: docker/login-action@v2
