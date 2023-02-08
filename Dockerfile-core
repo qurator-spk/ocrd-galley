@@ -29,14 +29,17 @@ RUN echo "APT::Acquire::Retries \"3\";" > /etc/apt/apt.conf.d/80-retries && \
 RUN echo "setOverrideLogLevel(os.getenv('LOG_LEVEL', 'INFO'))" >/etc/ocrd_logging.py
 
 
-# Install pip (and setuptools)
-# We use get-pip.py here to avoid
-# a. having to upgrade from Ubuntu's pip
-# b. the dreaded "old script wrapper" error message
-RUN curl -sSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
-    python3 get-pip.py && \
-    rm -f get-pip.py
-
+# Install pyenv
+# TODO: do not run as root
+# TODO: does just saying "3.7" work as intended?
+ENV HOME=/root
+ENV PYENV_ROOT=$HOME/.pyenv
+ENV PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
+RUN \
+    git clone --depth=1 git://github.com/yyuu/pyenv.git .pyenv && \
+    pyenv install 3.7 && \
+    pyenv global 3.7 && \
+    pyenv rehash
 
 # Install pip installable-stuff
 RUN ${PIP_INSTALL} \
