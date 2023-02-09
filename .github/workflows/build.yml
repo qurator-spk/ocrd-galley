@@ -18,6 +18,8 @@ jobs:
     uses: ./.github/workflows/build-subimage.yml
     with:
       subimage: ${{ matrix.subimage }}
+      tags:
+        - quratorspk/ocrd-galley-${{ inputs.subimage }}:${{ github.sha }}
     secrets: inherit
 
   build-rest:
@@ -28,6 +30,8 @@ jobs:
     uses: ./.github/workflows/build-subimage.yml
     with:
       subimage: ${{ matrix.subimage }}
+      tags:
+        - quratorspk/ocrd-galley-${{ inputs.subimage }}:${{ github.sha }}
     secrets: inherit
 
 
