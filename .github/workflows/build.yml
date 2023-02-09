@@ -71,5 +71,4 @@ jobs:
       tags: |
         type=sha,format=long
         type=ref,event=tag
-      use-cache: true
     secrets: inherit
