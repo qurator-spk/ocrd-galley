@@ -18,7 +18,8 @@ jobs:
     uses: ./.github/workflows/build-subimage.yml
     with:
       subimage: ${{ matrix.subimage }}
-      tags: quratorspk/ocrd-galley-${{ matrix.subimage }}:${{ github.sha }}
+      tags: |
+        type=sha,format=long
     secrets: inherit
 
   build-rest:
@@ -29,7 +30,8 @@ jobs:
     uses: ./.github/workflows/build-subimage.yml
     with:
       subimage: ${{ matrix.subimage }}
-      tags: quratorspk/ocrd-galley-${{ matrix.subimage }}:${{ github.sha }}
+      tags: |
+        type=sha,format=long
     secrets: inherit
 
 
@@ -58,27 +60,16 @@ jobs:
   # tags. We do this by building again, but using the formerly built images to
   # cache from.
 
-  tag:
+  push-with-tags:
     needs: test
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         subimage: ["core", "dinglehopper"]
-      # TODO have one list, not multiple
-    steps:
-      -
-        name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: |
-            quratorspk/ocrd-galley-${{ matrix.subimage }}
-          tags: |
-            type=ref,event=branch
-      -
-        name: Push with tags (from cache)
-        uses: ./.github/workflows/build-subimage.yml
-        with:
-          subimage: ${{ matrix.subimage }}
-          cache-from: quratorspk/ocrd-galley-${{ matrix.subimage }}:${{ github.sha }}
-          tags: ${{ steps.meta.outputs.tags }}
+    uses: ./.github/workflows/build-subimage.yml
+    with:
+      subimage: ${{ matrix.subimage }}
+      tags: |
+        type=sha,format=long
+        type=ref,event=tag
+      use-cache: true
+    secrets: inherit
