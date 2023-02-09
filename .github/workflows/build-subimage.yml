@@ -51,4 +51,4 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           push: true
 
-          cache-from: quratorspk/ocrd-galley-${{ inputs.subimage }}:${{ github.sha }}
+          cache-from: quratorspk/ocrd-galley-${{ inputs.subimage }}:sha-${{ github.sha }}
