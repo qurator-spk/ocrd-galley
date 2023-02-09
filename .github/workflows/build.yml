@@ -39,7 +39,7 @@ jobs:
     needs: build-rest
     runs-on: ubuntu-latest
     env:
-      DOCKER_IMAGE_TAG: ${{ github.sha }}  # needed to run the correct version through the wrapper
+      DOCKER_IMAGE_TAG: sha-${{ github.sha }}  # needed to run the correct version through the wrapper
     steps:
       -
         name: Checkout
