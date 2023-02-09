@@ -30,6 +30,7 @@ jobs:
       subimage: ${{ matrix.subimage }}
     secrets: inherit
 
+
   test:
     needs: build-rest
     runs-on: ubuntu-latest
@@ -49,3 +50,21 @@ jobs:
         run: |
           ocrd --version
           ocrd-dinglehopper --version
+
+
+  # At this point, we have successfully built, uploaded and tested the images. We now just need to add
+  # tags.
+
+  tag:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            name/app
+          tags: |
+            type=ref,event=branch
