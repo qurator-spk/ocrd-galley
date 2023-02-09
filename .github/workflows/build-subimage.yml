@@ -6,7 +6,7 @@ on:
         type: string
       tags:
         required: true
-        type: String
+        type: string
     secrets:
       DOCKERHUB_USERNAME:
         required: true
