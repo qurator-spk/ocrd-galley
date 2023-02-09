@@ -6,7 +6,7 @@ on:
         type: string
       tags:
         required: true
-        type: List
+        type: String
     secrets:
       DOCKERHUB_USERNAME:
         required: true
@@ -40,4 +40,5 @@ jobs:
           file: Dockerfile-${{ inputs.subimage }}
           build-args:
             DRONE_COMMIT=${{ github.sha }}
+          tags: ${{ inputs.tags }}
           push: true
