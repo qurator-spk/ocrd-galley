@@ -47,7 +47,7 @@ jobs:
           context: .
           file: Dockerfile-${{ inputs.subimage }}
           build-args:
-            DRONE_COMMIT=${{ github.sha }}
+            DRONE_COMMIT=sha-${{ github.sha }}
           tags: ${{ steps.meta.outputs.tags }}
           push: true
 
