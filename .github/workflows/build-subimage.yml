@@ -7,6 +7,10 @@ on:
       tags:
         required: true
         type: string
+      cache-from:
+        required: false
+        type: string
+        default:
     secrets:
       DOCKERHUB_USERNAME:
         required: true
@@ -42,3 +46,5 @@ jobs:
             DRONE_COMMIT=${{ github.sha }}
           tags: ${{ inputs.tags }}
           push: true
+
+          cache-from: ${{ inputs.cache-from }}

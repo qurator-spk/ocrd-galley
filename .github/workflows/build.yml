@@ -55,11 +55,16 @@ jobs:
 
 
   # At this point, we have successfully built, uploaded and tested the images. We now just need to add
-  # tags.
+  # tags. We do this by building again, but using the formerly built images to
+  # cache from.
 
   tag:
     needs: test
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        subimage: ["core", "dinglehopper"]
+      # TODO have one list, not multiple
     steps:
       -
         name: Docker meta
@@ -67,6 +72,14 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            name/app
+            quratorspk/ocrd-galley-${{ matrix.subimage }}
           tags: |
             type=ref,event=branch
+      -
+        name: Push with tags (from cache)
+        uses: ./.github/workflows/build-subimage.yml
+        with:
+          subimage: ${{ matrix.subimage }}
+          cache-from: quratorspk/ocrd-galley-${{ matrix.subimage }}:${{ github.sha }}
+          tags: ${{ steps.meta.outputs.tags }}
+        secrets: inherit
