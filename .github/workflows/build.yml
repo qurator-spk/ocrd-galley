@@ -65,6 +65,7 @@ jobs:
       matrix:
         subimage: ["core", "dinglehopper"]
       # TODO have one list, not multiple
+    secrets: inherit
     steps:
       -
         name: Docker meta
@@ -82,4 +83,3 @@ jobs:
           subimage: ${{ matrix.subimage }}
           cache-from: quratorspk/ocrd-galley-${{ matrix.subimage }}:${{ github.sha }}
           tags: ${{ steps.meta.outputs.tags }}
-        secrets: inherit
