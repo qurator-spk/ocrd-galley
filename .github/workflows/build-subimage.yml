@@ -46,7 +46,7 @@ jobs:
         with:
           context: .
           file: Dockerfile-${{ inputs.subimage }}
-          build-args:
+          build-args: |
             DRONE_COMMIT=sha-${{ github.sha }}
             BUILDKIT_INLINE_CACHE=1
           tags: ${{ steps.meta.outputs.tags }}
