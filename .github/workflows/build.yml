@@ -65,7 +65,6 @@ jobs:
       matrix:
         subimage: ["core", "dinglehopper"]
       # TODO have one list, not multiple
-    secrets: inherit
     steps:
       -
         name: Docker meta
