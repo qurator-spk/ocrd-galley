@@ -28,6 +28,9 @@ jobs:
           echo "rest=$(./.github/list-subimages --rest --json)" >>$GITHUB_OUTPUT
           echo "all=$(./.github/list-subimages --json)" >>$GITHUB_OUTPUT
 
+          echo "GITHUB_OUTPUT:"
+          cat $GITHUB_OUTPUT
+
   build-core:
     needs: matrix
     strategy:
