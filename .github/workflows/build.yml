@@ -15,6 +15,7 @@ jobs:
     outputs:
       core: ${{ steps.step1.outputs.core }}
       rest: ${{ steps.step1.outputs.rest }}
+      all: ${{ steps.step1.outputs.all }}
     steps:
       -
         name: Checkout
@@ -25,6 +26,7 @@ jobs:
         run: |
           echo "core=$(./.github/list-subimages --core --json)" >>$GITHUB_OUTPUT
           echo "rest=$(./.github/list-subimages --rest --json)" >>$GITHUB_OUTPUT
+          echo "all=$(./.github/list-subimages --json)" >>$GITHUB_OUTPUT
 
   build-core:
     needs: matrix
@@ -42,7 +44,7 @@ jobs:
     needs: build-core
     strategy:
       matrix:
-        subimage: ["dinglehopper"]
+        subimage: ${{ fromJson(needs.matrix.outputs.rest) }}
     uses: ./.github/workflows/build-subimage.yml
     with:
       subimage: ${{ matrix.subimage }}
@@ -80,7 +82,7 @@ jobs:
     needs: test
     strategy:
       matrix:
-        subimage: ["core", "dinglehopper"]
+        subimage: ${{ fromJson(needs.matrix.outputs.all) }}
     uses: ./.github/workflows/build-subimage.yml
     with:
       subimage: ${{ matrix.subimage }}
