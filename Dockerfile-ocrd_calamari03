@@ -13,12 +13,6 @@ RUN ${PIP_INSTALL} \
         'ocrd_calamari == 0.0.7'
 
 
-# Copy OCR models
-RUN mkdir -p /var/lib/calamari-models/GT4HistOCR
-COPY data/calamari-models/GT4HistOCR/2019-07-22T15_49+0200 /var/lib/calamari-models/GT4HistOCR/2019-07-22T15_49+0200
-
-
-
 # Check pip dependencies
 RUN pip check
 

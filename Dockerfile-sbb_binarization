@@ -11,10 +11,6 @@ RUN ${PIP_INSTALL} \
     "sbb_binarization == $SBB_BINARIZATION_VERSION"
 
 
-# Copy models
-COPY data/sbb_binarization/2021-03-09 /var/lib/sbb_binarization
-
-
 # Check pip dependencies
 RUN pip check
 

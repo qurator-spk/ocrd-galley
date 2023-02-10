@@ -10,10 +10,6 @@ RUN ${PIP_INSTALL} \
     "eynollah == ${EYNOLLAH_VERSION}"
 
 
-# Copy OCR models
-COPY data/eynollah /var/lib/eynollah
-
-
 # Check pip dependencies
 RUN pip check
 

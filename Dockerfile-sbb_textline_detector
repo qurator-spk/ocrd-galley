@@ -12,10 +12,6 @@ RUN ${PIP_INSTALL} \
     https://github.com/qurator-spk/sbb_textline_detector/archive/$SBB_TEXTLINE_DETECTOR_COMMIT.tar.gz
 
 
-# Copy OCR models
-COPY data/textline_detection /var/lib/textline_detection
-
-
 # Check pip dependencies
 RUN pip check
 
