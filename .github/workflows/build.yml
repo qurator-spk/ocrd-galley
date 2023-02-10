@@ -10,6 +10,17 @@ on:
       - 'test/github-actions'
 
 jobs:
+  generate-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      core: ${{ steps.step1.outputs.core }}
+      rest: ${{ steps.step1.outputs.rest }}
+    steps:
+      -
+        id: step1
+        run: |
+          echo "core=$(./.github/list-subimages --core --csv)" >>$GITHUB_OUTPUT
+          echo "rest=$(./.github/list-subimages --rest --csv)" >>$GITHUB_OUTPUT
 
   build-core:
     strategy:

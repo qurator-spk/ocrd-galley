@@ -1,0 +1,36 @@
+#!/usr/bin/python3
+import glob
+import re
+import sys
+import argparse
+
+all_subimages = {re.sub(r"^Dockerfile-", "", dockerfile) for dockerfile in glob.glob("Dockerfile-*")}
+core_subimages = {si for si in all_subimages if si.startswith("core")}
+rest_subimages = all_subimages - core_subimages
+
+
+
+parser = argparse.ArgumentParser(description='List subimages.')
+parser.add_argument('--core', action='store_true',
+                    default=False, help='List core subimages')
+parser.add_argument('--rest', action='store_true',
+                    default=False, help='List rest subimages')
+parser.add_argument('--csv', action='store_true',
+                    default=False, help='Return list as CSV')
+args = parser.parse_args()
+
+
+def list_(subimages):
+    subimages = sorted(subimages)
+    if args.csv:
+        print(",".join(subimages))
+    else:
+        print("\n".join(subimages))
+
+
+if not args.core and not args.rest:
+    list_(core_subimages | rest_subimages)
+if args.core:
+    list_(core_subimages)
+if args.rest:
+    list_(rest_subimages)
