@@ -44,7 +44,7 @@ jobs:
     secrets: inherit
 
   build-rest:
-    needs: build-core
+    needs: [matrix, build-core]
     strategy:
       matrix:
         subimage: ${{ fromJson(needs.matrix.outputs.rest) }}
@@ -82,7 +82,7 @@ jobs:
   # cache from.
 
   push-with-tags:
-    needs: test
+    needs: [matrix, test]
     strategy:
       matrix:
         subimage: ${{ fromJson(needs.matrix.outputs.all) }}
