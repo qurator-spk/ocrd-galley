@@ -3,6 +3,8 @@ import glob
 import re
 import sys
 import argparse
+import json
+
 
 all_subimages = {re.sub(r"^Dockerfile-", "", dockerfile) for dockerfile in glob.glob("Dockerfile-*")}
 core_subimages = {si for si in all_subimages if si.startswith("core")}
@@ -15,15 +17,15 @@ parser.add_argument('--core', action='store_true',
                     default=False, help='List core subimages')
 parser.add_argument('--rest', action='store_true',
                     default=False, help='List rest subimages')
-parser.add_argument('--csv', action='store_true',
-                    default=False, help='Return list as CSV')
+parser.add_argument('--json', action='store_true',
+                    default=False, help='Return list as JSON')
 args = parser.parse_args()
 
 
 def list_(subimages):
     subimages = sorted(subimages)
-    if args.csv:
-        print(",".join(subimages))
+    if args.json:
+        print(json.dumps(subimages))
     else:
         print("\n".join(subimages))
 

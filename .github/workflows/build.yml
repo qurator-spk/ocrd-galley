@@ -10,7 +10,7 @@ on:
       - 'test/github-actions'
 
 jobs:
-  generate-matrix:
+  matrix:
     runs-on: ubuntu-latest
     outputs:
       core: ${{ steps.step1.outputs.core }}
@@ -23,13 +23,14 @@ jobs:
         name: Generate outputs
         id: step1
         run: |
-          echo "core=$(./.github/list-subimages --core --csv)" >>$GITHUB_OUTPUT
-          echo "rest=$(./.github/list-subimages --rest --csv)" >>$GITHUB_OUTPUT
+          echo "core=$(./.github/list-subimages --core --json)" >>$GITHUB_OUTPUT
+          echo "rest=$(./.github/list-subimages --rest --json)" >>$GITHUB_OUTPUT
 
   build-core:
+    needs: matrix
     strategy:
       matrix:
-        subimage: ["core"]
+        subimage: ${{ fromJson(needs.matrix.outputs.core) }}
     uses: ./.github/workflows/build-subimage.yml
     with:
       subimage: ${{ matrix.subimage }}
