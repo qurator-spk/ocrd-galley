@@ -41,9 +41,7 @@ jobs:
       subimage: ${{ matrix.subimage }}
       tags: |
         type=sha,format=long
-        type=edge,branch=master
-        type=ref,event=branch
-        type=semver,pattern={{version}}
+      # Here: NOT the full tags, just the sha! (they get added below)
     secrets: inherit
 
   build-rest:
@@ -94,5 +92,8 @@ jobs:
       subimage: ${{ matrix.subimage }}
       tags: |
         type=sha,format=long
-        type=ref,event=tag
+        type=edge,branch=master
+        type=ref,event=branch
+        type=semver,pattern={{version}}
+        # Here: full tags
     secrets: inherit
