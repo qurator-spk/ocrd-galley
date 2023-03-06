@@ -41,6 +41,9 @@ jobs:
       subimage: ${{ matrix.subimage }}
       tags: |
         type=sha,format=long
+        type=edge,branch=master
+        type=ref,event=branch
+        type=semver,pattern={{version}}
     secrets: inherit
 
   build-rest:
