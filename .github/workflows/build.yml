@@ -96,4 +96,7 @@ jobs:
         type=ref,event=branch
         type=semver,pattern={{version}}
         # Here: full tags
+        # Note: Do NOT use event=tag here, unless re-configuring the "latest"
+        # behavior too as that triggers on event=tag by default. By default,
+        # "latest" triggers on type=semver here, too (which is wanted).
     secrets: inherit
