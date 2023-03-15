@@ -1,11 +1,17 @@
 import os
 import subprocess
 import sys
+from pathlib import Path
 
 
 DOCKER_IMAGE_PREFIX = os.environ.get("DOCKER_IMAGE_PREFIX", "quratorspk/ocrd-galley")
 DOCKER_IMAGE_TAG = os.environ.get("DOCKER_IMAGE_TAG", "latest")
 LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")
+
+# xdg-user-dirs is only available under Python 3.10+ etc. pp. → it is simpler
+# to just roll it on our own.
+XDG_CONFIG_HOME = os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config")
+XDG_DATA_HOME = os.environ.get("XDG_DATA_HOME", Path.home() / ".local" / "share")
 
 
 sub_images = {
@@ -56,6 +62,8 @@ def main():
     sub_image = sub_images[argv[0]]
     docker_image = "%s-%s:%s" % (DOCKER_IMAGE_PREFIX, sub_image, DOCKER_IMAGE_TAG)
 
+    if DOCKER_IMAGE_TAG != "latest":
+        print(f"Using {docker_image}")
     docker_run(argv, docker_image)
 
 
@@ -66,6 +74,13 @@ def docker_run(argv, docker_image):
     docker_run_options.extend(["--user", "%s:%s" % (os.getuid(), os.getgid())])
     docker_run_options.extend(["-e", "LOG_LEVEL=%s" % LOG_LEVEL])
     docker_run_options.extend(["-e", "_OCRD_COMPLETE"])
+
+    docker_run_options.extend(["-e", "XDG_CONFIG_HOME=%s" % XDG_CONFIG_HOME])
+    docker_run_options.extend(["--mount", "type=bind,src=%s,target=%s" %
+        (XDG_CONFIG_HOME, XDG_CONFIG_HOME)])
+    docker_run_options.extend(["-e", "XDG_DATA_HOME=%s" % XDG_DATA_HOME])
+    docker_run_options.extend(["--mount", "type=bind,src=%s,target=%s" %
+        (XDG_DATA_HOME, XDG_DATA_HOME)])
 
     # JAVA_TOOL_OPTIONS is used for Java proxy settings
     if os.environ.get("JAVA_TOOL_OPTIONS"):
