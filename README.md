@@ -29,14 +29,9 @@ including all dependencies in Docker.
 
 How to use
 ----------
-**Currently, due to problems with the Travis CI, we do not provide pre-built
-containers anymore.***
-
-To build the containers yourself using Docker:
-~~~
-cd ~/devel/ocrd-galley/
-./build
-~~~
+ocrd-galley uses Docker to run the OCR-D images. We provide pre-built container
+images that get downloaded automatically when you run the provided wrappers for
+the OCR-D processors.
 
 You can then install the wrappers into a Python venv:
 ~~~
@@ -44,9 +39,13 @@ cd ~/devel/ocrd-galley/wrapper
 pip install .
 ~~~
 
+To download models, you need to use the `-a` flag of `ocrd resmgr`:
+~~~
+ocrd resmgr download -a ocrd-calamari-recognize default
+~~~
+
 You may then use the script `my_ocrd_workflow` to use your self-built
 containers on an example workspace:
-
 ~~~
 # Download an example workspace
 cd /tmp
@@ -110,3 +109,11 @@ cd workspace-xxxxx  # output by the last command
 ~~~
 
 This produces a workspace from the files and then runs the OCR workflow on it.
+
+Build the containers yourself
+-----------------------------
+To build the containers yourself using Docker:
+~~~
+cd ~/devel/ocrd-galley/
+./build
+~~~

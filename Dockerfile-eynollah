@@ -1,5 +1,5 @@
-ARG DRONE_COMMIT="latest"
-FROM quratorspk/ocrd-galley-core-cuda10.0:$DRONE_COMMIT
+ARG GIT_COMMIT="latest"
+FROM quratorspk/ocrd-galley-core-cuda10.0:$GIT_COMMIT
 
 ARG PIP_INSTALL="pip install --no-cache-dir"
 ARG EYNOLLAH_VERSION="0.0.10"
@@ -8,10 +8,6 @@ ARG EYNOLLAH_VERSION="0.0.10"
 # Build pip installable stuff
 RUN ${PIP_INSTALL} \
     "eynollah == ${EYNOLLAH_VERSION}"
-
-
-# Copy OCR models
-COPY data/eynollah /var/lib/eynollah
 
 
 # Check pip dependencies

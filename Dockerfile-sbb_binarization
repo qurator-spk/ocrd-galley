@@ -1,5 +1,5 @@
-ARG DRONE_COMMIT="latest"
-FROM quratorspk/ocrd-galley-core-cuda10.0:$DRONE_COMMIT
+ARG GIT_COMMIT="latest"
+FROM quratorspk/ocrd-galley-core-cuda10.0:$GIT_COMMIT
 
 ARG PIP_INSTALL="pip install --no-cache-dir"
 ARG SBB_BINARIZATION_VERSION="0.0.10"
@@ -9,10 +9,6 @@ ARG SBB_BINARIZATION_VERSION="0.0.10"
 RUN ${PIP_INSTALL} \
 # Now the real stuff:
     "sbb_binarization == $SBB_BINARIZATION_VERSION"
-
-
-# Copy models
-COPY data/sbb_binarization/2021-03-09 /var/lib/sbb_binarization
 
 
 # Check pip dependencies
