@@ -1,5 +1,5 @@
-ARG DRONE_COMMIT="latest"
-FROM quratorspk/ocrd-galley-core-cuda10.0:$DRONE_COMMIT
+ARG GIT_COMMIT="latest"
+FROM quratorspk/ocrd-galley-core-cuda10.0:$GIT_COMMIT
 
 ARG PIP_INSTALL="pip install --no-cache-dir"
 
