@@ -63,7 +63,19 @@ def main():
     argv = sys.argv.copy()
     argv[0] = os.path.basename(argv[0])
 
-    sub_image = sub_images[argv[0]]
+    # If we're running ocrd resmgr download we need to run the correct subimage.
+    if argv[:3] == ["ocrd", "resmgr", "download"] or \
+       argv[:3] == ["ocrd", "resmgr", "list-available"]:
+        # Default to the base image
+        sub_image = sub_images[argv[0]]
+        # But look for a match of the executable
+        for x in argv[3:]:
+            if x in sub_images:
+                sub_image = sub_images[x]
+                break
+    else:
+        sub_image = sub_images[argv[0]]
+
     docker_image = "%s-%s:%s" % (DOCKER_IMAGE_PREFIX, sub_image, DOCKER_IMAGE_TAG)
 
     if DOCKER_IMAGE_TAG != "latest":
