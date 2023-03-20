@@ -1,7 +1,9 @@
 import os
 import subprocess
 import sys
+import colorama
 from pathlib import Path
+from termcolor import colored
 
 
 DOCKER_IMAGE_PREFIX = os.environ.get("DOCKER_IMAGE_PREFIX", "quratorspk/ocrd-galley")
@@ -56,6 +58,8 @@ sub_images = {
 
 
 def main():
+    colorama.init()
+
     argv = sys.argv.copy()
     argv[0] = os.path.basename(argv[0])
 
@@ -63,7 +67,7 @@ def main():
     docker_image = "%s-%s:%s" % (DOCKER_IMAGE_PREFIX, sub_image, DOCKER_IMAGE_TAG)
 
     if DOCKER_IMAGE_TAG != "latest":
-        print(f"Using {docker_image}")
+        print(colored(f"Using {docker_image}", 'red'))
     docker_run(argv, docker_image)
 
 
