@@ -1,7 +1,7 @@
 from io import open
 from setuptools import find_packages, setup
 
-from qurator.ocrd_galley.cli import sub_images
+from qurator.ocrd_galley.sub_images import sub_images
 console_scripts = ["%s=qurator.ocrd_galley.cli:main" % command for command in sub_images.keys()]
 
 with open("requirements.txt") as fp:
