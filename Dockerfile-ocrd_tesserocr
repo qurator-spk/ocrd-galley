@@ -3,7 +3,7 @@ FROM quratorspk/ocrd-galley-core:$GIT_COMMIT
 
 ARG PIP_INSTALL="pip install --no-cache-dir"
 ARG TESSDATA_BEST_VERSION="4.0.0"
-ARG OCRD_TESSEROCR_VERSION="0.16.0"
+#XXX ARG OCRD_TESSEROCR_VERSION="0.16.0"
 ENV TESSDATA_PREFIX /usr/local/share/tessdata
 
 
@@ -19,8 +19,9 @@ RUN add-apt-repository ppa:alex-p/tesseract-ocr && \
 
 # Build pip installable stuff
 RUN ${PIP_INSTALL} \
-    "ocrd_tesserocr == ${OCRD_TESSEROCR_VERSION}"
-
+#    "ocrd_tesserocr == ${OCRD_TESSEROCR_VERSION}"
+#    XXX use official release again
+    git+https://github.com/OCR-D/ocrd_tesserocr.git@refs/pull/191/merge
 
 # Check pip dependencies
 RUN pip check
