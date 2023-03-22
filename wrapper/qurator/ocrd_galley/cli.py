@@ -16,6 +16,8 @@ LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")
 XDG_CONFIG_HOME = os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config")
 XDG_DATA_HOME = os.environ.get("XDG_DATA_HOME", Path.home() / ".local" / "share")
 
+# ocrd_tesserocr
+TESSDATA_PREFIX = XDG_DATA_HOME / "ocrd-resources" / "ocrd-tesserocr-recognize"
 
 def main():
     colorama.init()
@@ -51,12 +53,17 @@ def docker_run(argv, docker_image):
     docker_run_options.extend(["-e", "LOG_LEVEL=%s" % LOG_LEVEL])
     docker_run_options.extend(["-e", "_OCRD_COMPLETE"])
 
+    # .config
     docker_run_options.extend(["-e", "XDG_CONFIG_HOME=%s" % XDG_CONFIG_HOME])
     docker_run_options.extend(["--mount", "type=bind,src=%s,target=%s" %
         (XDG_CONFIG_HOME, XDG_CONFIG_HOME)])
+    # .local/share
     docker_run_options.extend(["-e", "XDG_DATA_HOME=%s" % XDG_DATA_HOME])
     docker_run_options.extend(["--mount", "type=bind,src=%s,target=%s" %
         (XDG_DATA_HOME, XDG_DATA_HOME)])
+
+    # ocrd_tesserocr
+    docker_run_options.extend(["-e", "TESSDATA_PREFIX=%s" % TESSDATA_PREFIX])
 
     # JAVA_TOOL_OPTIONS is used for Java proxy settings
     if os.environ.get("JAVA_TOOL_OPTIONS"):
