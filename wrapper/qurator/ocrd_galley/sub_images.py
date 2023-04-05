@@ -33,6 +33,7 @@ sub_images = {
         "ocrd-eynollah-segment": "eynollah",
         "ocrd-anybaseocr-crop": "ocrd_anybaseocr",
         "ocrd-anybaseocr-deskew": "ocrd_anybaseocr",
+        "ocrd-trocr-recognize": "ocrd_trocr",
 
         # non OCR-D CLI
         "ocr-transform": "ocrd_fileformat",

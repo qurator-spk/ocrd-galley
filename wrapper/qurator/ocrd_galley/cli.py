@@ -15,6 +15,7 @@ LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")
 # to just roll it on our own.
 XDG_CONFIG_HOME = os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config")
 XDG_DATA_HOME = os.environ.get("XDG_DATA_HOME", Path.home() / ".local" / "share")
+XDG_CACHE_HOME = os.environ.get("XDG_CACHE_HOME", Path.home() / ".cache")
 
 # ocrd_tesserocr
 TESSDATA_PREFIX = XDG_DATA_HOME / "ocrd-resources" / "ocrd-tesserocr-recognize"
@@ -53,6 +54,9 @@ def docker_run(argv, docker_image):
     docker_run_options.extend(["-e", "LOG_LEVEL=%s" % LOG_LEVEL])
     docker_run_options.extend(["-e", "_OCRD_COMPLETE"])
 
+    # home directory
+    docker_run_options.extend(["-e", "HOME=%s" % Path.home()])
+
     # .config
     docker_run_options.extend(["-e", "XDG_CONFIG_HOME=%s" % XDG_CONFIG_HOME])
     docker_run_options.extend(["--mount", "type=bind,src=%s,target=%s" %
@@ -61,6 +65,14 @@ def docker_run(argv, docker_image):
     docker_run_options.extend(["-e", "XDG_DATA_HOME=%s" % XDG_DATA_HOME])
     docker_run_options.extend(["--mount", "type=bind,src=%s,target=%s" %
         (XDG_DATA_HOME, XDG_DATA_HOME)])
+    # .cache
+    docker_run_options.extend(["-e", "XDG_CACHE_HOME=%s" % XDG_CACHE_HOME])
+    docker_run_options.extend(["--mount", "type=bind,src=%s,target=%s" %
+        (XDG_CACHE_HOME, XDG_CACHE_HOME)])
+    # .huggingface
+    os.makedirs(Path.home() / ".huggingface", exist_ok=True)
+    docker_run_options.extend(["--mount", "type=bind,src=%s,target=%s" %
+        (Path.home() / ".huggingface", Path("/root") / ".huggingface")])
 
     # ocrd_tesserocr
     docker_run_options.extend(["-e", "TESSDATA_PREFIX=%s" % TESSDATA_PREFIX])
