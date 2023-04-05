@@ -3,7 +3,6 @@ How to add a processor
 * Add model download to `build` (if necessary)
 * Add a Dockerfile
 * Add commands to `wrapper/qurator/ocrd_galley/cli.py`
-* Add to `.drone.star`
 
 Releasing
 ---------
