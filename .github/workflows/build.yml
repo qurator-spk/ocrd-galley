@@ -34,6 +34,7 @@ jobs:
   build-core:
     needs: matrix
     strategy:
+      fail-fast: false
       matrix:
         subimage: ${{ fromJson(needs.matrix.outputs.core) }}
     uses: ./.github/workflows/build-subimage.yml
@@ -47,6 +48,7 @@ jobs:
   build-rest:
     needs: [matrix, build-core]
     strategy:
+      fail-fast: false
       matrix:
         subimage: ${{ fromJson(needs.matrix.outputs.rest) }}
     uses: ./.github/workflows/build-subimage.yml
