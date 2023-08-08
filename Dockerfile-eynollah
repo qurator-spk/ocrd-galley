@@ -1,5 +1,5 @@
 ARG GIT_COMMIT="latest"
-FROM quratorspk/ocrd-galley-core-cuda10.0:$GIT_COMMIT
+FROM quratorspk/ocrd-galley-core-cuda12.1:$GIT_COMMIT
 
 ARG PIP_INSTALL="pip install --no-cache-dir"
 ARG EYNOLLAH_VERSION="0.0.10"

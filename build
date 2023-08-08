@@ -24,9 +24,8 @@ echo
 
 # Update base images if we build a core image
 if echo "$sub_images" | grep -q core; then
-  docker pull ubuntu:18.04
-  docker pull nvidia/cuda:10.0-cudnn7-runtime-ubuntu18.04
-  docker pull nvidia/cuda:10.1-cudnn7-runtime-ubuntu18.04
+  docker pull ubuntu:22.04
+  docker pull nvidia/cuda:12.1.0-cudnn8-runtime-ubuntu22.04
 fi
 
 for sub_image in $sub_images; do
