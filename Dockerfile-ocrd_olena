@@ -23,6 +23,7 @@ RUN curl -sSL --retry 3 -o ocrd_olena.tar.gz https://github.com/OCR-D/ocrd_olena
    cd ocrd_olena && \
    sed -i 's/^install: deps$/install:/' Makefile && \
    ${PIP_INSTALL} ocrd && \
+   make deps-ubuntu && \
    make install PREFIX=/usr/local && \
    cd .. && rm -rf ocrd_olena ocrd_olena.tar.gz
 
