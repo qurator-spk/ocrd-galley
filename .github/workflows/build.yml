@@ -1,36 +1,104 @@
 name: build
 
 on:
+
   workflow_dispatch:
 
   push:
     branches:
       - 'master'
-      - 'test/github-actions'
+      - 'fix/*'
 
 jobs:
-  docker:
+  matrix:
     runs-on: ubuntu-latest
+    outputs:
+      core: ${{ steps.step1.outputs.core }}
+      rest: ${{ steps.step1.outputs.rest }}
+      all: ${{ steps.step1.outputs.all }}
     steps:
       -
         name: Checkout
         uses: actions/checkout@v3
-        # We are checking out explicitly, so build-push-action isn't trying
-        # to checkout the (unreachable) submodule. (Using "context" there.)
-
       -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        name: Generate outputs
+        id: step1
+        run: |
+          echo "core=$(./.github/list-subimages --core --json)" >>$GITHUB_OUTPUT
+          echo "rest=$(./.github/list-subimages --rest --json)" >>$GITHUB_OUTPUT
+          echo "all=$(./.github/list-subimages --json)" >>$GITHUB_OUTPUT
 
-      # TODO data
-      # TODO matrix for all Dockerfiles
+          echo "GITHUB_OUTPUT:"
+          cat $GITHUB_OUTPUT
 
+  build-core:
+    needs: matrix
+    strategy:
+      fail-fast: false
+      matrix:
+        subimage: ${{ fromJson(needs.matrix.outputs.core) }}
+    uses: ./.github/workflows/build-subimage.yml
+    with:
+      subimage: ${{ matrix.subimage }}
+      tags: |
+        type=sha,format=long
+      # Here: NOT the full tags, just the sha! (they get added below)
+    secrets: inherit
+
+  build-rest:
+    needs: [matrix, build-core]
+    strategy:
+      fail-fast: false
+      matrix:
+        subimage: ${{ fromJson(needs.matrix.outputs.rest) }}
+    uses: ./.github/workflows/build-subimage.yml
+    with:
+      subimage: ${{ matrix.subimage }}
+      tags: |
+        type=sha,format=long
+    secrets: inherit
+
+
+  test:
+    needs: build-rest
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_IMAGE_TAG: sha-${{ github.sha }}  # needed to run the correct version through the wrapper
+    steps:
       -
-        name: Build
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          file: Dockerfile-core
-          build-args:
-            DRONE_COMMIT=${{ github.sha }}
-          push: false
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: Install wrapper
+        run: |
+          sudo apt-get install -y python3-pip
+          cd wrapper && pip install .
+      -
+        name: Test
+        run: |
+          ocrd --version
+          ocrd-dinglehopper --version
+
+
+  # At this point, we have successfully built, uploaded and tested the images. We now just need to add
+  # tags. We do this by building again, but using the formerly built images to
+  # cache from.
+
+  push-with-tags:
+    needs: [matrix, test]
+    strategy:
+      matrix:
+        subimage: ${{ fromJson(needs.matrix.outputs.all) }}
+    uses: ./.github/workflows/build-subimage.yml
+    with:
+      subimage: ${{ matrix.subimage }}
+      tags: |
+        type=sha,format=long
+        type=edge,branch=master
+        type=ref,event=branch
+        type=semver,pattern={{version}}
+        # Here: full tags
+        # Note: Do NOT use event=tag here, unless re-configuring the "latest"
+        # behavior too as that triggers on event=tag by default. By default,
+        # "latest" triggers on type=semver here, too (which is wanted).
+    secrets: inherit

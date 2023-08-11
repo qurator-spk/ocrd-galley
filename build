@@ -22,38 +22,10 @@ echo "$sub_images"
 echo
 
 
-
-DATA_SUBDIR=data
-get_from_annex() {
-  annex_get 'calamari-models/GT4HistOCR/2019-07-22T15_49+0200/*.ckpt*'
-  annex_get 'calamari-models/GT4HistOCR/2019-12-11T11_10+0100/*.ckpt*'
-  annex_get 'calamari-models/GT4HistOCR/2019-12-18T17_24+0100*/*.ckpt*'
-  annex_get 'mirror/github.com/Calamari-OCR/calamari_models/gt4histocr/*.ckpt*'
-  annex_get 'tesseract-models/GT4HistOCR/*.traineddata'
-  annex_get 'textline_detection/*.h5'
-  annex_get 'mirror/github.com/tesseract-ocr/tessdata_best/archive/4.0.0-repacked.tar.gz'
-  annex_get 'sbb_binarization/2021-03-09/*.h5'
-  annex_get 'eynollah/*.h5'
-}
-get_from_web() {
-  download_to 'https://qurator-data.de/calamari-models/GT4HistOCR/model.tar.xz' 'calamari-models/GT4HistOCR/2019-07-22T15_49+0200'
-  download_to 'https://qurator-data.de/calamari-models/GT4HistOCR/2019-12-11T11_10+0100/model.tar.xz' 'calamari-models/GT4HistOCR/2019-12-11T11_10+0100'
-  download_to 'https://qurator-data.de/tesseract-models/GT4HistOCR/models.tar'  'tesseract-models/GT4HistOCR'
-  download_to 'https://qurator-data.de/sbb_textline_detector/models.tar.gz'     'textline_detection'
-  download_to --strip-components 1 'https://qurator-data.de/sbb_binarization/2021-03-09/models.tar.gz' 'sbb_binarization/2021-03-09'
-  download_to --no-unpack 'https://qurator-data.de/mirror/github.com/tesseract-ocr/tessdata_best/archive/4.0.0-repacked.tar.gz' 'mirror/github.com/tesseract-ocr/tessdata_best/archive/4.0.0-repacked.tar.gz'
-  download_to --strip-components 1 'https://qurator-data.de/eynollah/models_eynollah.tar.gz' 'eynollah'
-}
-. $self_dir/qurator_data_lib.sh
-handle_data
-
-
-
 # Update base images if we build a core image
 if echo "$sub_images" | grep -q core; then
-  docker pull ubuntu:18.04
-  docker pull nvidia/cuda:10.0-cudnn7-runtime-ubuntu18.04
-  docker pull nvidia/cuda:10.1-cudnn7-runtime-ubuntu18.04
+  docker pull ubuntu:22.04
+  docker pull nvidia/cuda:12.1.0-cudnn8-runtime-ubuntu22.04
 fi
 
 for sub_image in $sub_images; do

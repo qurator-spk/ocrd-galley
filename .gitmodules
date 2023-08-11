@@ -1,3 +1,0 @@
-[submodule "data"]
-	path = data
-	url = git@code.dev.sbb.berlin:qurator/qurator-data.git

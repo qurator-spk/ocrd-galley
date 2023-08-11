@@ -1,5 +1,5 @@
-ARG DRONE_COMMIT="latest"
-FROM quratorspk/ocrd-galley-core:$DRONE_COMMIT
+ARG GIT_COMMIT="latest"
+FROM quratorspk/ocrd-galley-core:$GIT_COMMIT
 
 ARG PIP_INSTALL="pip install --no-cache-dir"
 ARG OCRD_OLENA_VERSION="1.3.0"
@@ -26,6 +26,7 @@ RUN curl -sSL --retry 3 -o ocrd_olena.tar.gz https://github.com/OCR-D/ocrd_olena
    cd ocrd_olena && \
    sed -i 's/^install: deps$/install:/' Makefile && \
    ${PIP_INSTALL} ocrd && \
+   make deps-ubuntu && \
    make install PREFIX=/usr/local && \
    cd .. && rm -rf ocrd_olena ocrd_olena.tar.gz
 
