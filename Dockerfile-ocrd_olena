@@ -13,9 +13,9 @@ RUN apt-get update && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install olena from .deb
-RUN curl -sSL --retry 3 -O https://qurator-data.de/~mike.gerber/olena_2.1-0+ocrd-git/olena-bin_2.1-0+ocrd-git_amd64.deb && \
-    dpkg -i --force-depends olena-bin_2.1-0+ocrd-git_amd64.deb && \
-    rm -f olena-bin_2.1-0+ocrd-git_amd64.deb && \
+RUN curl -sSL --retry 3 -O https://qurator-data.de/~mike.gerber/olena_2.1.0+ocrd-git+2-ubuntu22.04/olena-bin_2.1.0+ocrd-git+2_amd64.deb && \
+    dpkg -i --force-depends olena-bin_2.1.0+ocrd-git+2_amd64.deb && \
+    rm -f olena-bin_2.1.0+ocrd-git+2_amd64.deb && \
     apt-get update && \
     apt-get -f install -y && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
