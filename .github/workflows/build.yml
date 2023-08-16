@@ -60,7 +60,11 @@ jobs:
 
 
   test:
-    needs: build-rest
+    needs: [matrix, build-rest]
+    strategy:
+      fail-fast: false
+      matrix:
+        subimage: ${{ fromJson(needs.matrix.outputs.all) }}
     runs-on: ubuntu-latest
     env:
       DOCKER_IMAGE_TAG: sha-${{ github.sha }}  # needed to run the correct version through the wrapper
@@ -76,8 +80,7 @@ jobs:
       -
         name: Test
         run: |
-          ocrd --version
-          ocrd-dinglehopper --version
+          ./test-${{ matrix.subimage }}.sh
 
 
   # At this point, we have successfully built, uploaded and tested the images. We now just need to add
