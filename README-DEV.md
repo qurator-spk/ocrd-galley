@@ -30,8 +30,21 @@ releases of qurator-spk releases.
 
 Test builds
 -----------
-XXX Review this
 ```
 GIT_COMMIT=test ./build Dockerfile-core Dockerfile-ocrd_tesserocr
 DOCKER_IMAGE_TAG=test ./test-ocrd_tesserocr.sh
+```
+
+To test the GitHub Action builds:
+
+```
+# by branch
+# Note that these only get tagged if *all* the builds succeeded and ran their
+# tests successfully
+export DOCKER_IMAGE_TAG=master
+
+# by git commit id
+# these work even if other processors did not succesfully build (or ran their
+# tests successfully)
+export DOCKER_IMAGE_TAG=sha-af6da489e24c9ba7828114b546610b0d70116ba4
 ```
