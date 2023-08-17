@@ -1,7 +1,8 @@
 #!/bin/sh
 set -ex
 
-cd `mktemp -d /tmp/test-ocrd_trocr-XXXXX`
+test_id=`basename $0`
+cd `mktemp -d /tmp/$test_id-XXXXX`
 
 # Prepare processors
 
